@@ -1,20 +1,15 @@
-## Estafette, resilient and scalable CI
+## Estafette - resilient and cloud native CI
 
-To support large number of concurrents builds without running many static or slow starting elastic agents when there's nothing to do Estafette leverages Kubernetes to run jobs for each build.
+The goals of Estafette CI are to...
+- support large number of concurrents builds without running many static or slow starting elastic agents when there's nothing to do Estafette leverages Kubernetes to run jobs for each build.
+- determine the exact dependencies for each application Estafette runs each step of your pipeline in any Docker container you like to use.
+- be able to run your jobs on cheap cloud vms that can be killed at any time Estafette provides resilience for pipelines that fail because of this.
+- have full traceability of changes to your CI configurations everything is version controlled.
+- do what it preaches - Continuous Delivery - Estafette can upgrade with zero downtime and no loss of running pipelines.
 
-To determine the exact dependencies for each application Estafette runs each step of your pipeline in any Docker container you like to use.
+### Usage in your application
 
-To be able to run your jobs on cheap cloud vms that can be killed at any time Estafette provides resilience for pipelines that fail because of this.
-
-To have full traceability of changes to your CI configurations everything is version controlled.
-
-To do what it preaches - Continuous Delivery - Estafette can upgrade with zero downtime and no loss of running pipelines.
-
-These are the goals that Estafette has to deliver in order to be a success.
-
-### Markdown
-
-To build your application with Estafette add a .estafette.yaml file to your application repository.
+To build your application with Estafette add a `.estafette.yaml` file to your application repository.
 
 ```yaml
 label:
