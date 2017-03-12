@@ -35,7 +35,6 @@ pipeline:
 
   dockerize:
     image: estafette/dockerizer:latest
-    directory: /publish
     repo: estafette/$LABEL_APP
     tags: [ latest, $VERSION ]
     when:
