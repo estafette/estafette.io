@@ -15,7 +15,7 @@ The goals of Estafette CI are to...
 To build your application with Estafette add an `.estafette.yaml` file to your application repository.
 
 ```yaml
-label:
+labels:
   app: estafette-ci
   team: estafette-team
   language: golang
@@ -47,16 +47,17 @@ pipeline:
 
       ENTRYPOINT ["/$LABEL_APP"]
 
-  git-build-status:
-    image: estafette/git-build-status:latest
+  github-notify:
+    image: estafette/github-nofity:latest
 
-  slack-build-status:
-    image: estafette/slack-build-status:latest
-    channel: estafette-team-build-status
+  slack-notify:
+    image: estafette/slack-nofity:latest
+    team: estafette
+    channel: build-status
     when:
       status: [ failure ]
 
-deployment:
+deployments:
   env:
     LIVENESS_ENDPOINT: /liveness
     READINESS_ENDPOINT: /readiness
@@ -70,6 +71,8 @@ deployment:
     namespace: estafette
     env:
       LOG_LEVEL: DEBUG
+    labels:
+      environment: staging
 
   production:
     image: estafette/gke-deploy:latest
@@ -79,4 +82,6 @@ deployment:
     env:
       LOG_LEVEL: INFO
       HPA_MAX_REPLICAS: 25
+    labels:
+      environment: production
 ```
