@@ -1,1 +1,6 @@
 theme: jekyll-theme-cayman
+name: Estafette CI
+description: Resilient and cloud native CI
+url: "https://estafette.io"
+markdown: kramdown
+highlighter: rouge
