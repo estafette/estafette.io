@@ -8,7 +8,7 @@ The goals of Estafette CI are to...
 - have full traceability by building every commit.
 - make deployments easy to roll back.
 - have zero downtime upgrades and easy rollbacks for Estafette itself.
-- give granular insight into build times, deployment times, failure rates and more.
+- give insight into build times, deployment times, failure rates and more.
 
 ### Usage in your application
 
