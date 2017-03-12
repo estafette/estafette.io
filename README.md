@@ -4,8 +4,8 @@ The goals of Estafette CI are to...
 
 - support many concurrent builds without keeping static agents around at all times.
 - control builds and deployments from one concise manifest file.
-- provide resilience against failure due to preemptible hardware.
-- have full traceability by not bundling multiple commits in a single pipeline run.
+- provide resilience against failure during pipeline execution.
+- have full traceability by building every commit.
 - have zero downtime upgrades and easy rollbacks for Estafette itself.
 
 ### Usage in your application
