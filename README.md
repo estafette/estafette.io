@@ -1,37 +1,85 @@
-## Welcome to GitHub Pages
+## Estafette, resilient and scalable CI
 
-You can use the [editor on GitHub](https://github.com/estafette/estafette.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+To support large number of concurrents builds without running many static or slow starting elastic agents when there's nothing to do Estafette leverages Kubernetes to run jobs for each build.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+To determine the exact dependencies for each application Estafette runs each step of your pipeline in any Docker container you like to use.
+
+To be able to run your jobs on cheap cloud vms that can be killed at any time Estafette provides resilience for pipelines that fail because of this.
+
+To have full traceability of changes to your CI configurations everything is version controlled.
+
+To do what it preaches - Continuous Delivery - Estafette can upgrade with zero downtime and no loss of running pipelines.
+
+These are the goals that Estafette has to deliver in order to be a success.
 
 ### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+To build your application with Estafette add a .estafette.yaml file to your application repository.
 
-```markdown
-Syntax highlighted code block
+```yaml
+label:
+  app: estafette-ci
+  team: estafette-team
+  language: golang
+  
+version:
+  semver:
+    major: 0
+    minor: 0
+    patch: $ESTAFETTE_BUILD_COUNTER
 
-# Header 1
-## Header 2
-### Header 3
+pipeline:
+  build:
+    image: golang:1.8.0-alpine
+    commands:
+    - go test -v ./...
+    - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ./publish/$LABEL_APP .
 
-- Bulleted
-- List
+  dockerize:
+    image: estafette/dockerizer:latest
+    directory: /publish
+    repo: estafette/$LABEL_APP
+    tags: [ latest, $VERSION ]
+    when:
+      branch: master
+    dockerfile: |-
+      FROM scratch
 
-1. Numbered
-2. List
+      COPY ca-certificates.crt /etc/ssl/certs/
+      COPY $LABEL_APP /
 
-**Bold** and _Italic_ and `Code` text
+      ENTRYPOINT ["/$LABEL_APP"]
 
-[Link](url) and ![Image](src)
+  git-build-status:
+    image: estafette/git-build-status:latest
+
+  slack-build-status:
+    image: estafette/slack-build-status:latest
+    channel: estafette-team-build-status
+    when:
+      status: [ failure ]
+
+deployment:
+  env:
+    LIVENESS_ENDPOINT: /liveness
+    READINESS_ENDPOINT: /readiness
+    REPLICAS: 3
+    HPA_MAX_REPLICAS: 10
+
+  staging:
+    image: estafette/gke-deploy:latest
+    project: estafette-staging
+    cluster: staging
+    namespace: estafette
+    env:
+      LOG_LEVEL: DEBUG
+
+  production:
+    image: estafette/gke-deploy:latest
+    project: estafette-production
+    cluster: production
+    namespace: estafette
+    env:
+      LOG_LEVEL: INFO
+      HPA_MAX_REPLICAS: 25
 ```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/estafette/estafette.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
