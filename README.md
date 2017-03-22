@@ -16,7 +16,7 @@ To build your application with Estafette add an `.estafette.yaml` file to your a
 
 ```yaml
 labels:
-  app: estafette-ci
+  app: estafette-ci-builder
   team: estafette-team
   language: golang
   
@@ -26,26 +26,21 @@ version:
     minor: 0
     patch: $ESTAFETTE_BUILD_COUNTER
 
-pipeline:
+pipelines:
   build:
     image: golang:1.8.0-alpine
+    workDir: /go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}
     commands:
-    - go test -v ./...
-    - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ./publish/$LABEL_APP .
+    - go test ./...
+    - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ./publish/${ESTAFETTE_LABEL_APP} .
 
-  dockerize:
-    image: estafette/dockerizer:latest
-    repo: estafette/$LABEL_APP
-    tags: [ latest, $VERSION ]
+  bake:
+    image: docker:17.03.0-ce
+    commands:
+    - cp Dockerfile ./publish
+    - docker build -t ${ESTAFETTE_LABEL_APP} ./publish
     when:
       branch: master
-    dockerfile: |-
-      FROM scratch
-
-      COPY ca-certificates.crt /etc/ssl/certs/
-      COPY $LABEL_APP /
-
-      ENTRYPOINT ["/$LABEL_APP"]
 
   github-notify:
     image: estafette/github-nofity:latest
