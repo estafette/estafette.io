@@ -1,4 +1,4 @@
-## Estafette - resilient and cloud native CI
+## Estafette - resilient and cloud native CI/CD
 
 The goals of Estafette CI are to...
 
@@ -31,14 +31,23 @@ pipelines:
     image: golang:1.8.0-alpine
     workDir: /go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}
     commands:
-    - go test ./...
+    - go test `go list ./... | grep -v /vendor/`
     - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o ./publish/${ESTAFETTE_LABEL_APP} .
 
   bake:
     image: docker:17.03.0-ce
     commands:
     - cp Dockerfile ./publish
-    - docker build -t ${ESTAFETTE_LABEL_APP} ./publish
+    - cp /etc/ssl/certs/ca-certificates.crt ./publish   
+    - docker build -t estafette/${ESTAFETTE_LABEL_APP}:${ESTAFETTE_BUILD_VERSION} ./publish
+    when:
+      branch: master
+      
+  push-to-docker-hub:
+    image: docker:17.03.0-ce
+    commands:
+    - docker login --username=${ESTAFETTE_DOCKER_HUB_USERNAME} --password='${ESTAFETTE_DOCKER_HUB_PASSWORD}'
+    - docker push estafette/${ESTAFETTE_LABEL_APP}:${ESTAFETTE_BUILD_VERSION}      
     when:
       branch: master
 
