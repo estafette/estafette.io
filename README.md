@@ -1,4 +1,4 @@
-## Estafette - resilient and cloud native CI/CD
+## Estafette - resilient and cloud-native CI/CD
 
 The goals of Estafette CI are to...
 
