@@ -1,0 +1,6 @@
+baseurl = "https://estafette.io/"
+title = "Estafette CI/CD"
+languageCode = "en-us"
+theme = "estafette"
+pygmentsUseClasses = true
+pygmentsCodefences = true
