@@ -4,4 +4,17 @@ languageCode = "en-us"
 theme = "estafette"
 pygmentsUseClasses = true
 pygmentsCodefences = true
-sectionPagesMenu = "main"
+
+[menu]
+
+  [[menu.main]]
+    identifier = "docs"
+    name = "Documentation"
+    url = "/docs/"
+    weight = -100
+
+  [[menu.main]]
+    identifier = "blog"
+    name = "Blog"
+    url = "/blog/"
+    weight = 50

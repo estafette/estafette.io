@@ -2,13 +2,12 @@
 title: "Getting Started"
 description: "With a few steps you'll be up and running with Estafette CI"
 date: 2018-06-18T15:35:58+02:00
+menu:
+  main:
+    parent: 'docs'
 ---
 
-### Installing Estafette CI
-
 Prerequisites:
-
-<!--more-->
 
 - install https://github.com/estafette/estafette-cloudflare-dns
 - install https://github.com/estafette/estafette-letsencrypt-certificate

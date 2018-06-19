@@ -1,13 +1,14 @@
+{{ define "title" }}
+  {{ .Title }} &ndash; {{ .Site.Title }}
+{{ end }}
 {{ define "main" }}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-3 mt-4 mb-4 border-right">
-                {{ partial "sidebar" . }}
-            </div>
-            <div class="col pl-5 pt-4">
+            {{ partial "sidebar" . }}
+            <div class="col pl-5 pt-4" style="overflow: hidden">
                 <article>
                     <header>
-                        <h1>{{.Title}}</h1>
+                        <h1 class="mb-4">{{ .Title }}</h1>
                     </header>
                     {{ .Content }}
                 </article>    
