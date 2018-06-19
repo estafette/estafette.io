@@ -2,6 +2,15 @@
   {{ .Title }} &ndash; {{ .Site.Title }}
 {{ end }}
 {{ define "main" }}
-  <h1>{{ .Title }}</h1>
-  {{ .Content }}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3 mt-4 mb-4 border-right">
+                {{ partial "sidebar" . }}
+            </div>
+            <div class="col p-5">
+                <h1>{{ .Title }}</h1>
+                {{ .Content }}
+             </div>
+        </div>
+    </div>
 {{ end }}

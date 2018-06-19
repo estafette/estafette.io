@@ -1,5 +1,5 @@
 ---
-title: "Estafette CI/CD"
+title: "Estafette CI"
 subtitle: "The resilient and cloud-native CI/CD"
 ---
 
