@@ -7,7 +7,7 @@ pipelines:
   statify:
     image: alpine:3.7
     commands:
-    - apk add hugo git openssh
+    - apk add --update --no-cache hugo git openssh
     - echo "Deleting old publication"
     - rm -rf public
     - mkdir public
