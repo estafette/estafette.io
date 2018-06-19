@@ -9,15 +9,11 @@
     <!-- <link rel="stylesheet" href="{{ .Site.BaseURL }}css/syntax.css"> -->
   </head>
   <body>
-    {{ partial "header" }}
-    <!-- Code that all your templates share, like a header -->
+    {{ block "header" . }}{{ partial "header" }}{{ end }}
     <div class="container">
         {{ block "main" . }}
-        <!-- The part of the page that begins to differ between templates -->
         {{ end }}
     </div>
-    {{ block "footer" . }}
-    <!-- More shared code, perhaps a footer but that can be overridden if need be in  -->
-    {{ end }}
+    {{ block "footer" . }}{{ partial "footer" }}{{ end }}
   </body>
 </html>

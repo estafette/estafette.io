@@ -1,26 +1,13 @@
 {{ define "main" }}
-    <header class="homepage-header mt-5 mb-5">
-        <h1>
-            {{.Title}}
-            {{ with .Params.subtitle }}
-            <br /><small class="text-muted">{{.}}</small>
-            {{ end }}
-        </h1>
+    <header class="homepage-header mt-5 mb-5 pt-5 pb-5 text-center">
+        <h1 class="display-2">{{.Title}}</h1>
+        <h2 class="display-4 text-black-50">{{ .Params.subtitle }}</h2>
     </header>
-    <div class="homepage-content">
+    <div class="homepage-content mt-5 mb-5 lead mx-auto text-center" style="max-width: 600px">
         <!-- Note that the content for index.html, as a sort of list page, will pull from content/_index.md -->
         {{.Content}}
     </div>
-    <div>
-
-    {{ range first 10 .Site.Sections }}
-        <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h5>
-            <p class="card-text">{{ .Description }}</p>
-        </div>
-        </div>
-    {{ end }}
-
+    <div class="homepage-call-to-action mt-5 mb-5 pt-5 pb-5 text-center">
+        <a class="btn btn-success btn-lg" href="/docs/getting-started" role="button">Get started</a>
     </div>
 {{ end }}
