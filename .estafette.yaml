@@ -13,6 +13,7 @@ pipelines:
     shallow: false
     commands:
     - env
+    - echo "${ESTAFETTE_EXTENSION_SHALLOW}"
 
   statify:
     image: alpine:3.7
