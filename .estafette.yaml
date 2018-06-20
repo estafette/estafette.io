@@ -11,15 +11,8 @@ pipelines:
     image: extensions/git-clone:dev
     shallow: false
 
-  print-env:
-    image: alpine:3.7
-    shallow: false
-    commands:
-    - env
-    - echo "${ESTAFETTE_EXTENSION_SHALLOW}"
-
   statify:
-    image: alpine:3.7
+    image: alpine:edge
     commands:
     - apk add --update --no-cache hugo git openssh
     - echo "Deleting old publication"
