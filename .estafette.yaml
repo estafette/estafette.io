@@ -8,6 +8,12 @@ pipelines:
     image: extensions/git-clone:dev
     shallow: false
 
+  print-env:
+    image: alpine:3.7
+    shallow: false
+    commands:
+    - env
+
   statify:
     image: alpine:3.7
     commands:
