@@ -4,6 +4,10 @@ labels:
   language: hugo
 
 pipelines:
+  git-clone:
+    image: extensions/git-clone:dev
+    shallow: false
+
   statify:
     image: alpine:3.7
     commands:
