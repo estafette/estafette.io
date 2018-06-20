@@ -19,6 +19,7 @@ pipelines:
     - rm -rf .git/worktrees/public/
     - echo "Checking out gh-pages branch into public"
     - git fetch origin
+    - git branch -A
     - git worktree add -B gh-pages public origin/gh-pages
     - echo "Removing existing files"
     - rm -rf public/*
