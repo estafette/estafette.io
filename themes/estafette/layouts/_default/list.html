@@ -12,6 +12,15 @@
                     </header>
                     {{ .Content }}
                 </article>    
+
+                <ul>
+                {{ range .Data.Pages }}
+                    <li>
+                        <a href="{{.URL}}">{{.Title}}</a>
+                    </li>
+                {{ end }}
+                </ul>
+        
             </div>
         </div>
     </div>

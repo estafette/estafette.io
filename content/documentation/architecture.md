@@ -4,7 +4,7 @@ description: "Learn how Estafette is decomposed into small service and how they 
 date: 2018-06-19T12:51:51+02:00
 menu:
   main:
-    parent: 'docs'
+    parent: 'documentation'
 ---
 
 The goals of Estafette CI are to...

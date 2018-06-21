@@ -1,11 +1,14 @@
 ---
-title: "Getting Started"
-description: "With a few steps you'll be up and running with Estafette CI"
-date: 2018-06-18T15:35:58+02:00
+title: "Installation"
+weight: 1
+description: "Get Estafette up and running on your Kubernetes cluster"
+date: 2018-06-19T12:51:31+02:00
 menu:
   main:
-    parent: 'docs'
+    parent: 'documentation'
 ---
+
+### Installing Estafette CI
 
 Prerequisites:
 
