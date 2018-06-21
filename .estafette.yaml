@@ -12,16 +12,14 @@ pipelines:
     shallow: false
 
   statify:
-    image: alpine:edge
+    image: estafette/hugo:0.42.1
     commands:
-    - apk add --update --no-cache hugo git openssh
     - echo "Deleting old publication"
     - rm -rf public
     - mkdir public
     - git worktree prune
     - rm -rf .git/worktrees/public/
     - echo "Checking out gh-pages branch into public"
-    - git branch -a
     - git worktree add -B gh-pages public origin/gh-pages
     - echo "Removing existing files"
     - rm -rf public/*
@@ -29,7 +27,8 @@ pipelines:
     - hugo version
     - hugo
     - echo "Updating gh-pages branch"
-    - cd public && git add --all && git commit -m "Publishing to gh-pages"
+    - cd public && git add --all && git commit -m "Publishing version ${ESTAFETTE_BUILD_VERSION}"
+    - git push origin gh-pages
     when:
       status == 'succeeded' &&
       branch == 'master'
