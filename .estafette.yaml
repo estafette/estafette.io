@@ -43,8 +43,8 @@ pipelines:
 
   jekyllify:
     image: jekyll/jekyll:3.8.3
-    workDir: /srv/jekyll
     commands:
+    - chown -R jekyll:jekyll .
     - jekyll build
     when:
       status == 'succeeded' &&
