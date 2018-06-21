@@ -28,7 +28,7 @@ pipelines:
     - rm -rf public/*
     - echo "Generating site"
     - hugo version
-    - hugo
+    - hugo --enableGitInfo
     - echo "Updating gh-pages branch"
     - cp CNAME public/CNAME
     - cp .nojekyll public/.nojekyll
