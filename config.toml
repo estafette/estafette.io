@@ -6,3 +6,4 @@ pygmentsUseClasses = true
 pygmentsCodefences = true
 pygmentsStyle = "trac"
 sectionPagesMenu = "main"
+pluralizeListTitles = false
