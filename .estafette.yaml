@@ -42,7 +42,8 @@ pipelines:
       branch == 'master'
 
   jekyllify:
-    image: jekyll/builder:latest
+    image: jekyll/jekyll:3.8.3
+    workDir: /srv/jekyll
     commands:
     - jekyll build
     when:
