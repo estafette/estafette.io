@@ -9,8 +9,12 @@
     <link rel="stylesheet" href="{{ .Site.BaseURL }}css/estafette.css">
   </head>
   <body>
-    {{ block "header" . }}{{ partial "header" . }}{{ end }}
-    {{ block "main" . }}{{ end }}
+    <div id="header-and-main">
+      {{ block "header" . }}{{ partial "header" . }}{{ end }}
+      <div id="main">
+        {{ block "main" . }}{{ end }}
+      </div>
+    </div>
     {{ block "footer" . }}{{ partial "footer" . }}{{ end }}
   </body>
 </html>
