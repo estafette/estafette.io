@@ -6,7 +6,7 @@
   Usage &ndash; Estafette CI/CD
 </title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://estafette.io/css/estafette.css?1529665098">
+    <link rel="stylesheet" href="https://estafette.io/css/estafette.css?1529665733">
   </head>
   <body>
     <div id="header-and-main">
@@ -129,7 +129,29 @@
 </span><span class="sd">    - &#39;#build-status&#39;
 </span><span class="sd">    when:
 </span><span class="sd">      status == &#39;failed&#39;</span></code></pre></div>
-<h2 id="more-examples">More examples</h2>
+<h2 id="running-a-build">Running a build</h2>
+
+<p>The <strong>CI builder</strong> is the component that interprets the <code>.estafette.yaml</code> file and executes the pipelines specified in there.</p>
+
+<p>At this time the yaml file consist of two top-level sections, <em>labels</em> and <em>pipelines</em>.</p>
+
+<h2 id="labels">Labels</h2>
+
+<p><em>Labels</em> are not required, but are useful to keep pipelines slightly less application-specific by using the labels as variables. In the future labels will be the mechanism to easily filter application pipelines by label values.</p>
+
+<p>Any of the labels can be used in all the pipeline steps with the environment variable <code>ESTAFETTE_LABEL_&lt;LABEL NAME&gt;</code> in snake-casing.</p>
+
+<h2 id="pipelines">Pipelines</h2>
+
+<p>The <em>pipelines</em> section allows you to define multiple steps to run within public Docker containers. Within each step you specify the public Docker image to use and the commands to execute within the Docker container. Your cloned repository is mounted within the docker container at <code>/estafette-work</code> by default, but you can override it with the <code>workDir</code> setting in case you need your code to live in a certain directory structure like with certain golang projects.</p>
+
+<p>All files in the working directory are passed from step to step. Any files stored outside the working directory are not passed on. This means that - for example - when fetching NuGet packages with .NET core you specify the packages directory to be stored within the working directory, so it&rsquo;s available in the following steps.</p>
+
+<p>For each step you can use a different Docker image, but it&rsquo;s best practice to minimize the number of different images / versions in order to save time on downloading all the Docker images.</p>
+
+<p>Pipeline steps run in sequence. With the <code>when</code> property you can specify a logical expression - in golang format - to determine whether the step should run or be skipped. This is useful to, for example, only push docker containers to a registry for certain branches. Or to fire a notification if any of the previous steps has failed. The default <code>when</code> condition is <code>status == 'succeeded'</code>.</p>
+
+<h2 id="examples">Examples</h2>
 
 <h3 id="golang">golang</h3>
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml">labels<span class="p">:</span><span class="w">
