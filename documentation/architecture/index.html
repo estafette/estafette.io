@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>
+  Architecture &ndash; Estafette CI/CD
+</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://estafette.io/css/estafette.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">Estafette CI</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            
+            
+                <a class="nav-item nav-link active" href="/documentation/">Documentation</a>
+            
+                <a class="nav-item nav-link " href="/blog/">Blog</a>
+            
+        </div>
+    </div>
+</nav>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col mt-4 mb-4 border-right" style="min-width: 200px; max-width: 200px">
+    <ul class="list-unstyled p-1 mt-1 mb-1">
+        
+        
+        <li class="mt-4 mb-4"><a class="text-dark active" href="/documentation/"><strong>Documentation</strong></a>
+                
+            <ul class="list-unstyled mt-2">
+                
+                <li><a class="" href="/documentation/installation/">Installation</a></li>
+                
+                <li><a class="" href="/documentation/usage/">Usage</a></li>
+                
+                <li><a class="active" href="/documentation/architecture/">Architecture</a></li>
+                
+            </ul>
+            
+        </li>
+        
+        <li class="mt-4 mb-4"><a class="text-dark " href="/blog/"><strong>Blog</strong></a>
+            
+        </li>
+        
+    </ul>
+</div>
+
+
+            <div class="col pl-5 pt-4" style="overflow: hidden">
+                <h1 class="mb-4">Architecture</h1>
+                <p>The goals of Estafette CI are to&hellip;</p>
+
+<ul>
+<li>control builds and deployments from one concise manifest file.</li>
+<li>move control over build dependencies to the manifest file.</li>
+<li>control builds and deployments via cli, slack and web interface.</li>
+<li>give insight into build times, deployment times, failure rates and more.</li>
+<li>allow development teams to build their own extensions.</li>
+<li>support many concurrent builds by leveraging kubernetes jobs.</li>
+<li>provide resilience against failure during job execution.</li>
+<li>dogfood its own components by providing different tracks for each (dev, beta, stable/latest).</li>
+<li>allow itself to upgrade without downtime.</li>
+</ul>
+
+             </div>
+        </div>
+    </div>
+
+    
+  </body>
+</html>

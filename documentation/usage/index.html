@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>
+  Usage &ndash; Estafette CI/CD
+</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://estafette.io/css/estafette.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">Estafette CI</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            
+            
+                <a class="nav-item nav-link active" href="/documentation/">Documentation</a>
+            
+                <a class="nav-item nav-link " href="/blog/">Blog</a>
+            
+        </div>
+    </div>
+</nav>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col mt-4 mb-4 border-right" style="min-width: 200px; max-width: 200px">
+    <ul class="list-unstyled p-1 mt-1 mb-1">
+        
+        
+        <li class="mt-4 mb-4"><a class="text-dark active" href="/documentation/"><strong>Documentation</strong></a>
+                
+            <ul class="list-unstyled mt-2">
+                
+                <li><a class="" href="/documentation/installation/">Installation</a></li>
+                
+                <li><a class="active" href="/documentation/usage/">Usage</a></li>
+                
+                <li><a class="" href="/documentation/architecture/">Architecture</a></li>
+                
+            </ul>
+            
+        </li>
+        
+        <li class="mt-4 mb-4"><a class="text-dark " href="/blog/"><strong>Blog</strong></a>
+            
+        </li>
+        
+    </ul>
+</div>
+
+
+            <div class="col pl-5 pt-4" style="overflow: hidden">
+                <h1 class="mb-4">Usage</h1>
+                
+
+<h3 id="usage-in-your-application">Usage in your application</h3>
+
+<p>To build your application with Estafette add an <code>.estafette.yaml</code> file to your application repository.</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="c"># these labels turn into ESTAFETTE_LABEL_... envvars, automatically injected into all pipeline steps</span><span class="w">
+</span><span class="w"></span>labels<span class="p">:</span><span class="w">
+</span><span class="w">  </span>app<span class="p">:</span><span class="w"> </span>estafette-ci-builder<span class="w">
+</span><span class="w">  </span>team<span class="p">:</span><span class="w"> </span>estafette-team<span class="w">
+</span><span class="w">  </span>language<span class="p">:</span><span class="w"> </span>golang<span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># semver version generates a 0.0.x version (or 0.0.x-&lt;branch&gt; for other branches than the release branch)</span><span class="w">
+</span><span class="w"></span><span class="c"># made available as ESTAFETTE_BUILD_VERSION envvar, automatically injected into all pipeline steps</span><span class="w">
+</span><span class="w"></span>version<span class="p">:</span><span class="w">
+</span><span class="w">  </span>semver<span class="p">:</span><span class="w">
+</span><span class="w">    </span>major<span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
+</span><span class="w">    </span>minor<span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
+</span><span class="w">    </span>patch<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{auto}}&#39;</span><span class="w">
+</span><span class="w">    </span>labelTemplate<span class="p">:</span><span class="w"> </span><span class="s1">&#39;{{branch}}&#39;</span><span class="w">
+</span><span class="w">    </span>releaseBranch<span class="p">:</span><span class="w"> </span>master<span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># global environments variables that are automatically injected into all pipeline steps and can be</span><span class="w">
+</span><span class="w"></span><span class="c"># overridden by defining an envvar in a pipeline step with the same name</span><span class="w">
+</span><span class="w"></span>env<span class="p">:</span><span class="w">
+</span><span class="w">  </span>VAR1<span class="p">:</span><span class="w"> </span>somevalue<span class="w">
+</span><span class="w">  </span>VAR2<span class="p">:</span><span class="w"> </span>another<span class="w"> </span>value<span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="c"># pipeline steps are executed sequentially;</span><span class="w">
+</span><span class="w"></span><span class="c"># a step uses a public container to mount the working directory into and execute commands in;</span><span class="w">
+</span><span class="w"></span><span class="c"># extensions are containerized applications that execute based on injected environment variables or</span><span class="w">
+</span><span class="w"></span><span class="c"># custom properties injected as ESTAFETTE_EXTENSION_&lt;PROPERTY&gt; envvars</span><span class="w">
+</span><span class="w"></span><span class="c"># executing or skipping a step is controlled by the &#39;when&#39; property</span><span class="w">
+</span><span class="w"></span>pipelines<span class="p">:</span><span class="w">
+</span><span class="w">  </span>set-pending-build-status<span class="p">:</span><span class="w">
+</span><span class="w">    </span>image<span class="p">:</span><span class="w"> </span>extensions/github-status<span class="p">:</span>stable<span class="w">
+</span><span class="w">    </span>status<span class="p">:</span><span class="w"> </span>pending<span class="w">
+</span><span class="w">
+</span><span class="w">  </span>build<span class="p">:</span><span class="w">
+</span><span class="w">    </span>image<span class="p">:</span><span class="w"> </span>golang<span class="p">:</span><span class="m">1.9</span>.<span class="m">2</span>-alpine3.<span class="m">6</span><span class="w">
+</span><span class="w">    </span>workDir<span class="p">:</span><span class="w"> </span>/go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}<span class="w">
+</span><span class="w">    </span>commands<span class="p">:</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>apk<span class="w"> </span>--update<span class="w"> </span>add<span class="w"> </span>git<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>go<span class="w"> </span>test<span class="w"> </span>`go<span class="w"> </span>list<span class="w"> </span>./...<span class="w"> </span><span class="sd">| grep -v /vendor/`
+</span><span class="sd">    - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags &#34;-X main.version=${ESTAFETTE_BUILD_VERSION} -X main.revision=${ESTAFETTE_GIT_REVISION} -X main.branch=${ESTAFETTE_GIT_BRANCH} -X main.buildDate=${ESTAFETTE_BUILD_DATETIME}&#34; -o ./publish/${ESTAFETTE_LABEL_APP} .
+</span><span class="sd">
+</span><span class="sd">  bake-estafette:
+</span><span class="sd">    image: docker:17.09.0-ce
+</span><span class="sd">    commands:
+</span><span class="sd">    - cp Dockerfile ./publish
+</span><span class="sd">    - docker build -f ./publish/Dockerfile -t estafette/${ESTAFETTE_LABEL_APP}:${ESTAFETTE_BUILD_VERSION} ./publish
+</span><span class="sd">
+</span><span class="sd">  push-to-docker-hub:
+</span><span class="sd">    image: docker:17.09.0-ce
+</span><span class="sd">    env:
+</span><span class="sd">      DOCKER_HUB_USERNAME: estafette.secret(T2YbJ4sAMgJMpZ.YS4vLTh8kdNQ5cBrU2AGztThmzJ7aD8w5a5W_-xY1Cw==)
+</span><span class="sd">      DOCKER_HUB_PASSWORD: estafette.secret(_kZ8EraN784wEF.GZEpqauwaEb33PmV7_-_fYfszjbKBEhgEfxvdLvZUE9aXq63tB)
+</span><span class="sd">    commands:
+</span><span class="sd">    - docker login --username=${DOCKER_HUB_USERNAME} --password=&#34;${DOCKER_HUB_PASSWORD}&#34;
+</span><span class="sd">    - docker push estafette/${ESTAFETTE_LABEL_APP}:${ESTAFETTE_BUILD_VERSION}
+</span><span class="sd">
+</span><span class="sd">  set-build-status:
+</span><span class="sd">    image: extensions/github-status:stable
+</span><span class="sd">
+</span><span class="sd">  slack-notify:
+</span><span class="sd">    image: extensions/slack-build-status:stable
+</span><span class="sd">    webhook: estafette.secret(VQhyeydGURZSFLmh.LVhcvAuxx5EsgBqRJ9kvxXsvpZdSkP9pQ6AzUU5rrsFeKQAAAf8fGtQ6VhXL5qThw5m8hrsBASWQKaaYsGn5ZmC5jTUKpLfgg7YR)
+</span><span class="sd">    name: ${ESTAFETTE_LABEL_APP}
+</span><span class="sd">    channels:
+</span><span class="sd">    - &#39;#build-status&#39;
+</span><span class="sd">    when:
+</span><span class="sd">      status == &#39;failed&#39;</span></code></pre></div>
+             </div>
+        </div>
+    </div>
+
+    
+  </body>
+</html>
