@@ -25,7 +25,7 @@ pipelines:
     - echo "Checking out master branch into public"
     - git worktree add -B master public origin/master
     - echo "Removing existing files"
-    - rm -rf public/* public/.*
+    - rm -rf public/..?* public/.[!.]* public/*
     - echo "Generating site"
     - hugo version
     - hugo --enableGitInfo
