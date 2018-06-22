@@ -79,10 +79,31 @@ pipelines:
     - '#build-status'
     when:
       status == 'failed'
-
 ```
 
-## More examples
+## Running a build
+
+The **CI builder** is the component that interprets the `.estafette.yaml` file and executes the pipelines specified in there.
+
+At this time the yaml file consist of two top-level sections, _labels_ and _pipelines_.
+
+## Labels
+
+_Labels_ are not required, but are useful to keep pipelines slightly less application-specific by using the labels as variables. In the future labels will be the mechanism to easily filter application pipelines by label values.
+
+Any of the labels can be used in all the pipeline steps with the environment variable `ESTAFETTE_LABEL_<LABEL NAME>` in snake-casing.
+
+## Pipelines
+
+The _pipelines_ section allows you to define multiple steps to run within public Docker containers. Within each step you specify the public Docker image to use and the commands to execute within the Docker container. Your cloned repository is mounted within the docker container at `/estafette-work` by default, but you can override it with the `workDir` setting in case you need your code to live in a certain directory structure like with certain golang projects.
+
+All files in the working directory are passed from step to step. Any files stored outside the working directory are not passed on. This means that - for example - when fetching NuGet packages with .NET core you specify the packages directory to be stored within the working directory, so it's available in the following steps.
+
+For each step you can use a different Docker image, but it's best practice to minimize the number of different images / versions in order to save time on downloading all the Docker images.
+
+Pipeline steps run in sequence. With the `when` property you can specify a logical expression - in golang format - to determine whether the step should run or be skipped. This is useful to, for example, only push docker containers to a registry for certain branches. Or to fire a notification if any of the previous steps has failed. The default `when` condition is `status == 'succeeded'`.
+
+## Examples
 
 ### golang
 
