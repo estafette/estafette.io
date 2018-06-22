@@ -32,7 +32,7 @@ pipelines:
     - echo "Updating master branch"
     - cp CNAME public/CNAME
     - cp _config.yml public/_config.yml
-    - cp .estafette.yaml public/.estafette.yaml
+    # - cp .estafette.yaml public/.estafette.yaml
     - git config --global user.email "${GIT_USER_EMAIL}"
     - git config --global user.name "${GIT_USER_NAME}"
     - cd public && git add --all && git commit --allow-empty -m "Publishing version ${ESTAFETTE_BUILD_VERSION}"
