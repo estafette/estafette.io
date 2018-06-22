@@ -31,7 +31,7 @@ pipelines:
     - hugo --enableGitInfo
     - echo "Updating master branch"
     - cp CNAME public/CNAME
-    - cp .nojekyll public/.nojekyll
+    - cp _config.yml public/_config.yml
     - cp .estafette.yaml public/.estafette.yaml
     - git config --global user.email "${GIT_USER_EMAIL}"
     - git config --global user.name "${GIT_USER_NAME}"
