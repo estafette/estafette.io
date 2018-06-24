@@ -17,26 +17,35 @@ pipelines:
       GIT_USER_EMAIL: estafette.secret(0ZJRd1ti_4HlsYz6.ie7ynUsbOMTuDEkvBdvDAmB1UL9Hu0YmxTpEve2ARAE_wTonhpe65Ek=)
       GIT_USER_NAME: estafette.secret(nbg9Avv8R7CoZ1O4.GDU-1JwnPpzaBsDcjJhX4CyRhspe4amlBflh3OQoPQ==)
     commands:
+    - echo "Initializing ${ESTAFETTE_BUILD_VERSION} branch"
+    - git checkout --orphan ${ESTAFETTE_BUILD_VERSION}
+    - git reset --hard
+    - git commit --allow-empty -m "Initializing ${ESTAFETTE_BUILD_VERSION} branch"
+    - git push origin ${ESTAFETTE_BUILD_VERSION}
+    - git checkout source
+
     - echo "Deleting old publication"
     - rm -rf public
     - mkdir public
     - git worktree prune
     - rm -rf .git/worktrees/public/
-    - echo "Checking out master branch into public"
-    - git worktree add -B master public origin/master
+
+    - echo "Checking out ${ESTAFETTE_BUILD_VERSION} branch into public"
+    - git worktree add -B ${ESTAFETTE_BUILD_VERSION} public origin/${ESTAFETTE_BUILD_VERSION}
     - echo "Removing existing files"
     - rm -rf public/* public/.estafette.yaml
+
     - echo "Generating site"
     - hugo version
     - hugo --enableGitInfo
-    - echo "Updating master branch"
+
+    - echo "Updating ${ESTAFETTE_BUILD_VERSION} branch"
     - cp CNAME public/CNAME
-    - cp _config.yml public/_config.yml
-    # - cp .estafette.yaml public/.estafette.yaml
+    - cp .nojekyll public/.nojekyll
     - git config --global user.email "${GIT_USER_EMAIL}"
     - git config --global user.name "${GIT_USER_NAME}"
     - cd public && git add --all && git commit --allow-empty -m "Publishing version ${ESTAFETTE_BUILD_VERSION}"
-    - git push origin master
+    - git push origin ${ESTAFETTE_BUILD_VERSION}
     when:
       status == 'succeeded' &&
       branch == 'source'
