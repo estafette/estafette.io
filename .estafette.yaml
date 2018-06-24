@@ -48,7 +48,9 @@ pipelines:
     - git push origin ${ESTAFETTE_BUILD_VERSION}
 
     - echo "Creating pull request for ${ESTAFETTE_BUILD_VERSION} branch"
-    - 'curl -u ${ESTAFETTE_GIT_URL:8:58} -XPOST https://api.github.com/repos/estafette/estafette.io/pulls -d ''{"title": "Content version ${ESTAFETTE_BUILD_VERSION}", "head": "${ESTAFETTE_BUILD_VERSION}", "base": "master"}'''
+    - echo "${ESTAFETTE_GIT_URL}"
+    - echo "curl -u ${ESTAFETTE_GIT_URL:8:58} -XPOST https://api.github.com/repos/estafette/estafette.io/pulls -d \"{\"title\": \"Content version ${ESTAFETTE_BUILD_VERSION}\", \"head\": \"${ESTAFETTE_BUILD_VERSION}\", \"base\": \"master\"}\""
+    - 'curl -u ${ESTAFETTE_GIT_URL:8:58} -XPOST https://api.github.com/repos/estafette/estafette.io/pulls -d "{\"title\": \"Content version ${ESTAFETTE_BUILD_VERSION}\", \"head\": \"${ESTAFETTE_BUILD_VERSION}\", \"base\": \"master\"}"'
     when:
       status == 'succeeded' &&
       branch == 'source'
