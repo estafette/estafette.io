@@ -23,6 +23,8 @@ pipelines:
     - echo "Initializing ${ESTAFETTE_BUILD_VERSION} branch from origin/master"
     - git checkout -b ${ESTAFETTE_BUILD_VERSION} origin/master
     - git push origin ${ESTAFETTE_BUILD_VERSION}
+    - git checkout ${ESTAFETTE_GIT_BRANCH}
+    - git checkout ${ESTAFETTE_GIT_REVISION}
 
     - echo "Deleting old publication"
     - rm -rf public
