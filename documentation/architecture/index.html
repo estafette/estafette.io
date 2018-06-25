@@ -6,7 +6,7 @@
   Architecture &ndash; Estafette CI/CD
 </title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://estafette.io/css/estafette.css?1529833266">
+    <link rel="stylesheet" href="https://estafette.io/css/estafette.css?1529937691">
   </head>
   <body>
     <div id="header-and-main">
@@ -70,6 +70,15 @@
 <li>provide resilience against failure during job execution.</li>
 <li>dogfood its own components by providing different tracks for each (dev, beta, stable/latest).</li>
 <li>allow itself to upgrade without downtime.</li>
+</ul>
+
+<p>To do this Estafette CI is composed of the following applications:</p>
+
+<ul>
+<li>estafette-ci-api</li>
+<li>estafette-ci-web</li>
+<li>estafette-ci-builder</li>
+<li>estafette-ci-db-migrator</li>
 </ul>
 
              </div>
