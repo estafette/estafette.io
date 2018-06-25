@@ -18,3 +18,10 @@ The goals of Estafette CI are to...
 - provide resilience against failure during job execution.
 - dogfood its own components by providing different tracks for each (dev, beta, stable/latest).
 - allow itself to upgrade without downtime.
+
+To do this Estafette CI is composed of the following applications:
+
+- estafette-ci-api
+- estafette-ci-web
+- estafette-ci-builder
+- estafette-ci-db-migrator
