@@ -3,6 +3,7 @@ builder:
 
 labels:
   app: estafette-io
+  app-group: estafette-ci
   team: estafette-team
   language: hugo
 
