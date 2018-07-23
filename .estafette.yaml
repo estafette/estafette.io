@@ -13,7 +13,7 @@ pipelines:
     shallow: false
 
   hugoify:
-    image: estafette/hugo:0.42.1
+    image: estafette/hugo:0.45
     env:
       GIT_USER_EMAIL: estafette.secret(0ZJRd1ti_4HlsYz6.ie7ynUsbOMTuDEkvBdvDAmB1UL9Hu0YmxTpEve2ARAE_wTonhpe65Ek=)
       GIT_USER_NAME: estafette.secret(nbg9Avv8R7CoZ1O4.GDU-1JwnPpzaBsDcjJhX4CyRhspe4amlBflh3OQoPQ==)
@@ -53,12 +53,3 @@ pipelines:
     when:
       status == 'succeeded' &&
       branch == 'source'
-
-  jekyllify:
-    image: jekyll/jekyll:3.8.3
-    commands:
-    - chown -R jekyll:jekyll .
-    - jekyll build --safe
-    when:
-      status == 'succeeded' &&
-      branch == 'master'
