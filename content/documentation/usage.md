@@ -35,12 +35,12 @@ env:
   VAR1: somevalue
   VAR2: another value
 
-# pipeline steps are executed sequentially;
+# pipeline stages are executed sequentially;
 # a step uses a public container to mount the working directory into and execute commands in;
 # extensions are containerized applications that execute based on injected environment variables or
 # custom properties injected as ESTAFETTE_EXTENSION_<PROPERTY> envvars
 # executing or skipping a step is controlled by the 'when' property
-pipelines:
+stages:
   set-pending-build-status:
     image: extensions/github-status:stable
     status: pending
@@ -83,9 +83,9 @@ pipelines:
 
 ## Running a build
 
-The **CI builder** is the component that interprets the `.estafette.yaml` file and executes the pipelines specified in there.
+The **CI builder** is the component that interprets the `.estafette.yaml` file and executes the pipeline stages specified in there.
 
-At this time the yaml file consist of two top-level sections, _labels_ and _pipelines_.
+At this time the yaml file consist of two top-level sections, _labels_ and _stages_.
 
 ## Labels
 
@@ -93,9 +93,9 @@ _Labels_ are not required, but are useful to keep pipelines slightly less applic
 
 Any of the labels can be used in all the pipeline steps with the environment variable `ESTAFETTE_LABEL_<LABEL NAME>` in snake-casing.
 
-## Pipelines
+## Stages
 
-The _pipelines_ section allows you to define multiple steps to run within public Docker containers. Within each step you specify the public Docker image to use and the commands to execute within the Docker container. Your cloned repository is mounted within the docker container at `/estafette-work` by default, but you can override it with the `workDir` setting in case you need your code to live in a certain directory structure like with certain golang projects.
+The _stages_ section allows you to define multiple steps to run within public Docker containers. Within each step you specify the public Docker image to use and the commands to execute within the Docker container. Your cloned repository is mounted within the docker container at `/estafette-work` by default, but you can override it with the `workDir` setting in case you need your code to live in a certain directory structure like with certain golang projects.
 
 All files in the working directory are passed from step to step. Any files stored outside the working directory are not passed on. This means that - for example - when fetching NuGet packages with .NET core you specify the packages directory to be stored within the working directory, so it's available in the following steps.
 
@@ -112,7 +112,7 @@ labels:
   app: <APP NAME>
   language: golang
 
-pipelines:
+stages:
   build:
     image: golang:1.8.1-alpine
     workDir: /go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}
@@ -128,7 +128,7 @@ labels:
   app: <APP NAME>
   language: dotnet-core
 
-pipelines:
+stages:
   restore:
     image: microsoft/dotnet:1.1.1-sdk
     commands:
@@ -162,7 +162,7 @@ labels:
   app: <APP NAME>
   language: python
 
-pipelines:
+stages:
   build:
     image: python:3.4.6-alpine
     commands:
@@ -176,7 +176,7 @@ labels:
   app: <APP NAME>
   language: java
 
-pipelines:
+stages:
   build:
     image: maven:3.3.9-jdk-8-alpine
     commands:
@@ -190,7 +190,7 @@ labels:
   app: <APP NAME>
   language: nodejs
 
-pipelines:
+stages:
   build:
     image: node:7.8.0-alpine
     commands:
@@ -203,7 +203,7 @@ pipelines:
 labels:
   app: <APP NAME>
 
-pipelines:
+stages:
   bake:
     image: docker:17.04.0-ce
     commands:
@@ -226,7 +226,7 @@ pipelines:
 labels:
   app: <APP NAME>
 
-pipelines:
+stages:
   slack-notify:
     image: docker:17.04.0-ce
     commands:

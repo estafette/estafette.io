@@ -7,7 +7,7 @@ labels:
   team: estafette-team
   language: hugo
 
-pipelines:
+stages:
   git-clone:
     image: extensions/git-clone:dev
     shallow: false
