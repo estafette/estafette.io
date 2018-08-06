@@ -95,12 +95,12 @@
 </span><span class="w">  </span>VAR1<span class="p">:</span><span class="w"> </span>somevalue<span class="w">
 </span><span class="w">  </span>VAR2<span class="p">:</span><span class="w"> </span>another<span class="w"> </span>value<span class="w">
 </span><span class="w">
-</span><span class="w"></span><span class="c"># pipeline steps are executed sequentially;</span><span class="w">
+</span><span class="w"></span><span class="c"># pipeline stages are executed sequentially;</span><span class="w">
 </span><span class="w"></span><span class="c"># a step uses a public container to mount the working directory into and execute commands in;</span><span class="w">
 </span><span class="w"></span><span class="c"># extensions are containerized applications that execute based on injected environment variables or</span><span class="w">
 </span><span class="w"></span><span class="c"># custom properties injected as ESTAFETTE_EXTENSION_&lt;PROPERTY&gt; envvars</span><span class="w">
 </span><span class="w"></span><span class="c"># executing or skipping a step is controlled by the &#39;when&#39; property</span><span class="w">
-</span><span class="w"></span>pipelines<span class="p">:</span><span class="w">
+</span><span class="w"></span>stages<span class="p">:</span><span class="w">
 </span><span class="w">  </span>set-pending-build-status<span class="p">:</span><span class="w">
 </span><span class="w">    </span>image<span class="p">:</span><span class="w"> </span>extensions/github-status<span class="p">:</span>stable<span class="w">
 </span><span class="w">    </span>status<span class="p">:</span><span class="w"> </span>pending<span class="w">
@@ -141,9 +141,9 @@
 </span><span class="sd">      status == &#39;failed&#39;</span></code></pre></div>
 <h2 id="running-a-build">Running a build</h2>
 
-<p>The <strong>CI builder</strong> is the component that interprets the <code>.estafette.yaml</code> file and executes the pipelines specified in there.</p>
+<p>The <strong>CI builder</strong> is the component that interprets the <code>.estafette.yaml</code> file and executes the pipeline stages specified in there.</p>
 
-<p>At this time the yaml file consist of two top-level sections, <em>labels</em> and <em>pipelines</em>.</p>
+<p>At this time the yaml file consist of two top-level sections, <em>labels</em> and <em>stages</em>.</p>
 
 <h2 id="labels">Labels</h2>
 
@@ -151,9 +151,9 @@
 
 <p>Any of the labels can be used in all the pipeline steps with the environment variable <code>ESTAFETTE_LABEL_&lt;LABEL NAME&gt;</code> in snake-casing.</p>
 
-<h2 id="pipelines">Pipelines</h2>
+<h2 id="stages">Stages</h2>
 
-<p>The <em>pipelines</em> section allows you to define multiple steps to run within public Docker containers. Within each step you specify the public Docker image to use and the commands to execute within the Docker container. Your cloned repository is mounted within the docker container at <code>/estafette-work</code> by default, but you can override it with the <code>workDir</code> setting in case you need your code to live in a certain directory structure like with certain golang projects.</p>
+<p>The <em>stages</em> section allows you to define multiple steps to run within public Docker containers. Within each step you specify the public Docker image to use and the commands to execute within the Docker container. Your cloned repository is mounted within the docker container at <code>/estafette-work</code> by default, but you can override it with the <code>workDir</code> setting in case you need your code to live in a certain directory structure like with certain golang projects.</p>
 
 <p>All files in the working directory are passed from step to step. Any files stored outside the working directory are not passed on. This means that - for example - when fetching NuGet packages with .NET core you specify the packages directory to be stored within the working directory, so it&rsquo;s available in the following steps.</p>
 
@@ -168,7 +168,7 @@
 </span><span class="w">  </span>app<span class="p">:</span><span class="w"> </span>&lt;APP<span class="w"> </span>NAME<span class="sd">&gt;
 </span><span class="sd">  language: golang</span><span class="w">
 </span><span class="w">
-</span><span class="w"></span>pipelines<span class="p">:</span><span class="w">
+</span><span class="w"></span>stages<span class="p">:</span><span class="w">
 </span><span class="w">  </span>build<span class="p">:</span><span class="w">
 </span><span class="w">    </span>image<span class="p">:</span><span class="w"> </span>golang<span class="p">:</span><span class="m">1.8</span>.<span class="m">1</span>-alpine<span class="w">
 </span><span class="w">    </span>workDir<span class="p">:</span><span class="w"> </span>/go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}<span class="w">
@@ -180,7 +180,7 @@
 </span><span class="w">  </span>app<span class="p">:</span><span class="w"> </span>&lt;APP<span class="w"> </span>NAME<span class="sd">&gt;
 </span><span class="sd">  language: dotnet-core</span><span class="w">
 </span><span class="w">
-</span><span class="w"></span>pipelines<span class="p">:</span><span class="w">
+</span><span class="w"></span>stages<span class="p">:</span><span class="w">
 </span><span class="w">  </span>restore<span class="p">:</span><span class="w">
 </span><span class="w">    </span>image<span class="p">:</span><span class="w"> </span>microsoft/dotnet<span class="p">:</span><span class="m">1.1</span>.<span class="m">1</span>-sdk<span class="w">
 </span><span class="w">    </span>commands<span class="p">:</span><span class="w">
@@ -210,7 +210,7 @@
 </span><span class="w">  </span>app<span class="p">:</span><span class="w"> </span>&lt;APP<span class="w"> </span>NAME<span class="sd">&gt;
 </span><span class="sd">  language: python</span><span class="w">
 </span><span class="w">
-</span><span class="w"></span>pipelines<span class="p">:</span><span class="w">
+</span><span class="w"></span>stages<span class="p">:</span><span class="w">
 </span><span class="w">  </span>build<span class="p">:</span><span class="w">
 </span><span class="w">    </span>image<span class="p">:</span><span class="w"> </span>python<span class="p">:</span><span class="m">3.4</span>.<span class="m">6</span>-alpine<span class="w">
 </span><span class="w">    </span>commands<span class="p">:</span><span class="w">
@@ -220,7 +220,7 @@
 </span><span class="w">  </span>app<span class="p">:</span><span class="w"> </span>&lt;APP<span class="w"> </span>NAME<span class="sd">&gt;
 </span><span class="sd">  language: java</span><span class="w">
 </span><span class="w">
-</span><span class="w"></span>pipelines<span class="p">:</span><span class="w">
+</span><span class="w"></span>stages<span class="p">:</span><span class="w">
 </span><span class="w">  </span>build<span class="p">:</span><span class="w">
 </span><span class="w">    </span>image<span class="p">:</span><span class="w"> </span>maven<span class="p">:</span><span class="m">3.3</span>.<span class="m">9</span>-jdk-<span class="m">8</span>-alpine<span class="w">
 </span><span class="w">    </span>commands<span class="p">:</span><span class="w">
@@ -230,7 +230,7 @@
 </span><span class="w">  </span>app<span class="p">:</span><span class="w"> </span>&lt;APP<span class="w"> </span>NAME<span class="sd">&gt;
 </span><span class="sd">  language: nodejs</span><span class="w">
 </span><span class="w">
-</span><span class="w"></span>pipelines<span class="p">:</span><span class="w">
+</span><span class="w"></span>stages<span class="p">:</span><span class="w">
 </span><span class="w">  </span>build<span class="p">:</span><span class="w">
 </span><span class="w">    </span>image<span class="p">:</span><span class="w"> </span>node<span class="p">:</span><span class="m">7.8</span>.<span class="m">0</span>-alpine<span class="w">
 </span><span class="w">    </span>commands<span class="p">:</span><span class="w">
@@ -239,7 +239,7 @@
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml">labels<span class="p">:</span><span class="w">
 </span><span class="w">  </span>app<span class="p">:</span><span class="w"> </span>&lt;APP<span class="w"> </span>NAME<span class="sd">&gt;
 </span><span class="sd">
-</span><span class="sd">pipelines:</span><span class="w">
+</span><span class="sd">stages:</span><span class="w">
 </span><span class="w">  </span>bake<span class="p">:</span><span class="w">
 </span><span class="w">    </span>image<span class="p">:</span><span class="w"> </span>docker<span class="p">:</span><span class="m">17.04</span>.<span class="m">0</span>-ce<span class="w">
 </span><span class="w">    </span>commands<span class="p">:</span><span class="w">
@@ -258,7 +258,7 @@
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml">labels<span class="p">:</span><span class="w">
 </span><span class="w">  </span>app<span class="p">:</span><span class="w"> </span>&lt;APP<span class="w"> </span>NAME<span class="sd">&gt;
 </span><span class="sd">
-</span><span class="sd">pipelines:</span><span class="w">
+</span><span class="sd">stages:</span><span class="w">
 </span><span class="w">  </span>slack-notify<span class="p">:</span><span class="w">
 </span><span class="w">    </span>image<span class="p">:</span><span class="w"> </span>docker<span class="p">:</span><span class="m">17.04</span>.<span class="m">0</span>-ce<span class="w">
 </span><span class="w">    </span>commands<span class="p">:</span><span class="w">
