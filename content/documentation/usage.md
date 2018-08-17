@@ -103,6 +103,86 @@ For each step you can use a different Docker image, but it's best practice to mi
 
 Pipeline steps run in sequence. With the `when` property you can specify a logical expression - in golang format - to determine whether the step should run or be skipped. This is useful to, for example, only push docker containers to a registry for certain branches. Or to fire a notification if any of the previous steps has failed. The default `when` condition is `status == 'succeeded'`.
 
+## Releasing from Estafette CI
+
+In order to release your applications, whether it's a Maven package to push to a repository, a Docker container to push to a registry or a deployment to Kubernetes, you can do this with Estafette CI by defining release targets in the `.estafette.yaml` file:
+
+```yaml
+...
+
+releases:
+  latest:
+    stages:
+      tag-container-image-as-latest:
+        image: docker:18.03.1-ce
+        env:
+          DOCKER_HUB_USERNAME: estafette.secret(***)
+          DOCKER_HUB_PASSWORD: estafette.secret(***)
+        commands:
+        - docker login --username=${DOCKER_HUB_USERNAME} --password="${DOCKER_HUB_PASSWORD}"
+        - docker pull estafette/estafette-ci-api:${ESTAFETTE_BUILD_VERSION}
+        - docker tag estafette/estafette-ci-api:${ESTAFETTE_BUILD_VERSION} estafette/estafette-ci-api:latest
+        - docker push estafette/estafette-ci-api:${ESTAFETTE_BUILD_VERSION}
+```
+
+Currently these release targets can be triggered via the Slack integration; web gui and cli support will follow later. To trigger a release from Slack you use the following Slash command:
+
+```
+/estafette release <repo name> <release target> <version>
+```
+
+An example with the release sample as above would be:
+
+```
+/estafette release estafette-ci-api latest 0.0.21
+```
+
+If the repository name is not unique within your Estafette CI database you'll have to specificy the full repo path like:
+
+```
+/estafette release github.com/estafette/estafette-ci-api latest 0.0.21
+```
+
+### Use files from the git repository
+
+By default - to speed things up - the release targets do not clone the git repository. If you need to have access to the files in your git repository you can do so by using the `git-clone` extension as the first stage:
+
+
+```yaml
+...
+
+releases:
+  latest:
+    stages:
+      git-clone:
+        image: extensions/git-clone:dev
+
+      tag-container-image-as-latest:
+        ...
+```
+
+This brings in the last 50 revisions of the particular branch the version was built from.
+
+If you need to be able to release older versions you can do a full clone by specifying property `shallow: false` on the git-clone stage:
+
+```yaml
+...
+
+releases:
+  latest:
+    stages:
+      git-clone:
+        image: extensions/git-clone:dev
+        shallow: false
+
+      tag-container-image-as-latest:
+        ...
+```
+
+### Rolling back a release
+
+Currently there's no dedicated way to roll back a release except for just releasing the previous version again.
+
 ## Examples
 
 ### golang
@@ -114,7 +194,7 @@ labels:
 
 stages:
   build:
-    image: golang:1.8.1-alpine
+    image: golang:1.10.3-alpine3.8
     workDir: /go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}
     commands:
     - go test `go list ./... | grep -v /vendor/`
@@ -130,27 +210,27 @@ labels:
 
 stages:
   restore:
-    image: microsoft/dotnet:1.1.1-sdk
+    image: microsoft/dotnet:2.1-sdk
     commands:
     - dotnet restore --source https://www.nuget.org/api/v1 --source http://nuget-server.tooling/nuget --packages .nuget/packages
 
   build:
-    image: microsoft/dotnet:1.1.1-sdk
+    image: microsoft/dotnet:2.1-sdk
     commands:
     - dotnet build --configuration Release --version-suffix ${ESTAFETTE_BUILD_VERSION_PATCH}
 
   unit-tests:
-    image: microsoft/dotnet:1.1.1-sdk
+    image: microsoft/dotnet:2.1-sdk
     commands:
     - dotnet test --configuration Release --no-build test/<unit test project directory/<unit test project file>.csproj
 
   integration-tests:
-    image: microsoft/dotnet:1.1.1-sdk
+    image: microsoft/dotnet:2.1-sdk
     commands:
     - dotnet test --configuration Release --no-build test/<integration test project directory>/<integration test project file>.csproj
 
   publish:
-    image: microsoft/dotnet:1.1.1-sdk
+    image: microsoft/dotnet:2.1-sdk
     commands:
     - dotnet publish src/<publisheable project directory> --configuration Release --runtime debian.8-x64 --version-suffix ${ESTAFETTE_BUILD_VERSION_PATCH} --output ./publish
 ```
@@ -164,7 +244,7 @@ labels:
 
 stages:
   build:
-    image: python:3.4.6-alpine
+    image: python:3.7.0-alpine3.8
     commands:
     - python -m compileall
 ```
@@ -178,7 +258,7 @@ labels:
 
 stages:
   build:
-    image: maven:3.3.9-jdk-8-alpine
+    image: maven:3.5.4-jdk-10-slim
     commands:
     - mvn -B clean verify -Dmaven.repo.remote=https://<sonatype nexus server>/content/groups/public
 ```
@@ -192,7 +272,7 @@ labels:
 
 stages:
   build:
-    image: node:7.8.0-alpine
+    image: node:8.11.4-alpine
     commands:
     - npm install --verbose
 ```
@@ -205,13 +285,13 @@ labels:
 
 stages:
   bake:
-    image: docker:17.04.0-ce
+    image: docker:18.06.0-ce
     commands:
     - cp /etc/ssl/certs/ca-certificates.crt .
     - docker build -t estafette/${ESTAFETTE_LABEL_APP}:${ESTAFETTE_BUILD_VERSION} .
 
   push-to-docker-hub:
-    image: docker:17.04.0-ce
+    image: docker:18.06.0-ce
     commands:
     - docker login --username=${ESTAFETTE_DOCKER_HUB_USERNAME} --password="${ESTAFETTE_DOCKER_HUB_PASSWORD}"
     - docker push estafette/${ESTAFETTE_LABEL_APP}:${ESTAFETTE_BUILD_VERSION}
@@ -228,7 +308,7 @@ labels:
 
 stages:
   slack-notify:
-    image: docker:17.04.0-ce
+    image: docker:18.06.0-ce
     commands:
     - 'curl -X POST --data-urlencode ''payload={"channel": "#build-status", "username": "<DOCKER HUB USERNAME>", "text": "Build ''${ESTAFETTE_BUILD_VERSION}'' for ''${ESTAFETTE_LABEL_APP}'' has failed!"}'' ${ESTAFETTE_SLACK_WEBHOOK}'
     when:
