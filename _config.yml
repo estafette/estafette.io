@@ -1,4 +1,4 @@
-name: Estafette CI
-description: Resilient and cloud-native CI/CD
+name: Estafette CI/CD
+description: The resilient and cloud-native CI/CD
 url: "https://estafette.io"
 disableHugoGeneratorInject: true
