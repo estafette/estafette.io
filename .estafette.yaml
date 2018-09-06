@@ -40,7 +40,7 @@ stages:
 
     - echo "Generating site"
     - hugo version
-    - hugo --minify --config _config.yml
+    - hugo --minify
 
     - echo "Updating ${ESTAFETTE_BUILD_VERSION} branch"
     - cp CNAME public/CNAME

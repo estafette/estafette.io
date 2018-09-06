@@ -7,3 +7,4 @@ pygmentsCodefences = true
 pygmentsStyle = "trac"
 sectionPagesMenu = "main"
 pluralizeListTitles = false
+disableHugoGeneratorInject = true
