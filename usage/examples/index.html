@@ -1,95 +1,95 @@
 <!doctype html><html><head><script async src="https://www.googletagmanager.com/gtag/js?id=UA-464018-9"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8><title>Examples &ndash; Estafette CI/CD</title><link rel=stylesheet href=https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css integrity=sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB crossorigin=anonymous><link rel=stylesheet href=https://estafette.io/sass/estafette.min.bcceb2567d1f84d8e9c8efd153603c28f7ec531c6a287e25842ae26904734f41.css integrity="sha256-vM6yVn0fhNjpyO/RU2A8KPfsUxxqKH4lhCriaQRzT0E="></head><body><div id=header-and-main><nav class="navbar navbar-expand-lg navbar-dark bg-dark"><a class=navbar-brand href=/>Estafette CI</a>
+gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8><title>Examples &ndash; Estafette CI/CD</title><link rel=stylesheet href=https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css integrity=sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB crossorigin=anonymous><link rel=stylesheet href=https://estafette.io/sass/estafette.min.c775cfb8e6a18bb0dfbbf7a25ad309ac1982443ea0675a024d0ec0f4cc0327c9.css integrity="sha256-x3XPuOahi7Dfu/eiWtMJrBmCRD6gZ1oCTQ7A9MwDJ8k="></head><body><div id=header-and-main><nav class="navbar navbar-expand-lg navbar-dark bg-dark"><a class=navbar-brand href=/>Estafette CI</a>
 <button class=navbar-toggler type=button data-toggle=collapse data-target=#navbarNavAltMarkup aria-controls=navbarNavAltMarkup aria-expanded=false aria-label="Toggle navigation">
 <span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse" id=navbarNavAltMarkup><div class=navbar-nav><a class="nav-item nav-link" href=/getting-started/>Get started</a>
-<a class="nav-item nav-link active" href=/usage/>Usage</a>
+<a class="nav-item nav-link" href=/usage/>Usage</a>
 <a class="nav-item nav-link" href=/design/>Design</a>
-<a class="nav-item nav-link" href=/toplevel/>Top-level page</a></div></div></nav><div id=main><div class=container-fluid><div class=row><div class="col mt-4 mb-4 border-right sidebar"><ul><li class=section-item><a href=/getting-started/>Getting started</a><ul><li class=page-item><a href=/getting-started/installation/>Installation</a></li><li class=page-item><a href=/getting-started/configuration/>Configuration</a></li><li class=section-item><a href=/getting-started/subsection/>Subsection</a><ul><li class=page-item><a href=/getting-started/subsection/nested-page/>Nested page</a></li></ul></li></ul></li><li class=section-item><a href=/usage/>Usage</a><ul><li class=page-item><a href=/usage/manifest/>Manifest</a></li><li class=page-item><a href=/usage/extensions/>Extensions</a></li><li class=page-item><a href=/usage/examples/>Examples</a></li></ul></li><li class=section-item><a href=/design/>Design</a></li><li class=page-item><a href=/toplevel/>Top-level page</a></li></ul></div><div class="col pl-5 pt-4" style=overflow:hidden><h1 class=mb-4>Examples</h1><h3 id=golang>golang</h3><div class=highlight><pre class=chroma><code class=language-yaml data-lang=yaml>labels<span class=p>:</span><span class=w>
-</span><span class=w>  </span>app<span class=p>:</span><span class=w> </span>&lt;APP<span class=w> </span>NAME<span class=sd>&gt;
-</span><span class=sd>  language: golang</span><span class=w>
-</span><span class=w>
-</span><span class=w></span>stages<span class=p>:</span><span class=w>
-</span><span class=w>  </span>build<span class=p>:</span><span class=w>
-</span><span class=w>    </span>image<span class=p>:</span><span class=w> </span>golang<span class=p>:</span><span class=m>1.10</span>.<span class=m>3</span>-alpine3.<span class=m>8</span><span class=w>
-</span><span class=w>    </span>workDir<span class=p>:</span><span class=w> </span>/go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}<span class=w>
-</span><span class=w>    </span>commands<span class=p>:</span><span class=w>
-</span><span class=w>    </span>-<span class=w> </span>go<span class=w> </span>test<span class=w> </span>`go<span class=w> </span>list<span class=w> </span>./...<span class=w> </span><span class=sd>| grep -v /vendor/`
-</span><span class=sd>    - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags &#34;-X main.version=${ESTAFETTE_BUILD_VERSION} -X main.revision=${ESTAFETTE_GIT_REVISION} -X main.branch=${ESTAFETTE_GIT_BRANCH} -X main.buildDate=${ESTAFETTE_BUILD_DATETIME}&#34; -o ./publish/${ESTAFETTE_LABEL_APP} .</span></code></pre></div><h3 id=csharp-net-core>csharp .net core</h3><div class=highlight><pre class=chroma><code class=language-yaml data-lang=yaml>labels<span class=p>:</span><span class=w>
-</span><span class=w>  </span>app<span class=p>:</span><span class=w> </span>&lt;APP<span class=w> </span>NAME<span class=sd>&gt;
-</span><span class=sd>  language: dotnet-core</span><span class=w>
-</span><span class=w>
-</span><span class=w></span>stages<span class=p>:</span><span class=w>
-</span><span class=w>  </span>restore<span class=p>:</span><span class=w>
-</span><span class=w>    </span>image<span class=p>:</span><span class=w> </span>microsoft/dotnet<span class=p>:</span><span class=m>2.1</span>-sdk<span class=w>
-</span><span class=w>    </span>commands<span class=p>:</span><span class=w>
-</span><span class=w>    </span>-<span class=w> </span>dotnet<span class=w> </span>restore<span class=w> </span>--source<span class=w> </span>https<span class=p>:</span>//www.nuget.org/api/v1<span class=w> </span>--source<span class=w> </span>http<span class=p>:</span>//nuget-server.tooling/nuget<span class=w> </span>--packages<span class=w> </span>.nuget/packages<span class=w>
-</span><span class=w>
-</span><span class=w>  </span>build<span class=p>:</span><span class=w>
-</span><span class=w>    </span>image<span class=p>:</span><span class=w> </span>microsoft/dotnet<span class=p>:</span><span class=m>2.1</span>-sdk<span class=w>
-</span><span class=w>    </span>commands<span class=p>:</span><span class=w>
-</span><span class=w>    </span>-<span class=w> </span>dotnet<span class=w> </span>build<span class=w> </span>--configuration<span class=w> </span>Release<span class=w> </span>--version-suffix<span class=w> </span>${ESTAFETTE_BUILD_VERSION_PATCH}<span class=w>
-</span><span class=w>
-</span><span class=w>  </span>unit-tests<span class=p>:</span><span class=w>
-</span><span class=w>    </span>image<span class=p>:</span><span class=w> </span>microsoft/dotnet<span class=p>:</span><span class=m>2.1</span>-sdk<span class=w>
-</span><span class=w>    </span>commands<span class=p>:</span><span class=w>
-</span><span class=w>    </span>-<span class=w> </span>dotnet<span class=w> </span>test<span class=w> </span>--configuration<span class=w> </span>Release<span class=w> </span>--no-build<span class=w> </span>test/&lt;unit<span class=w> </span>test<span class=w> </span>project<span class=w> </span>directory/&lt;unit<span class=w> </span>test<span class=w> </span>project<span class=w> </span>file&gt;.csproj<span class=w>
-</span><span class=w>
-</span><span class=w>  </span>integration-tests<span class=p>:</span><span class=w>
-</span><span class=w>    </span>image<span class=p>:</span><span class=w> </span>microsoft/dotnet<span class=p>:</span><span class=m>2.1</span>-sdk<span class=w>
-</span><span class=w>    </span>commands<span class=p>:</span><span class=w>
-</span><span class=w>    </span>-<span class=w> </span>dotnet<span class=w> </span>test<span class=w> </span>--configuration<span class=w> </span>Release<span class=w> </span>--no-build<span class=w> </span>test/&lt;integration<span class=w> </span>test<span class=w> </span>project<span class=w> </span>directory&gt;/&lt;integration<span class=w> </span>test<span class=w> </span>project<span class=w> </span>file&gt;.csproj<span class=w>
-</span><span class=w>
-</span><span class=w>  </span>publish<span class=p>:</span><span class=w>
-</span><span class=w>    </span>image<span class=p>:</span><span class=w> </span>microsoft/dotnet<span class=p>:</span><span class=m>2.1</span>-sdk<span class=w>
-</span><span class=w>    </span>commands<span class=p>:</span><span class=w>
-</span><span class=w>    </span>-<span class=w> </span>dotnet<span class=w> </span>publish<span class=w> </span>src/&lt;publisheable<span class=w> </span>project<span class=w> </span>directory<span class=sd>&gt; --configuration Release --runtime debian.8-x64 --version-suffix ${ESTAFETTE_BUILD_VERSION_PATCH} --output ./publish</span></code></pre></div><h3 id=python>python</h3><div class=highlight><pre class=chroma><code class=language-yaml data-lang=yaml>labels<span class=p>:</span><span class=w>
-</span><span class=w>  </span>app<span class=p>:</span><span class=w> </span>&lt;APP<span class=w> </span>NAME<span class=sd>&gt;
-</span><span class=sd>  language: python</span><span class=w>
-</span><span class=w>
-</span><span class=w></span>stages<span class=p>:</span><span class=w>
-</span><span class=w>  </span>build<span class=p>:</span><span class=w>
-</span><span class=w>    </span>image<span class=p>:</span><span class=w> </span>python<span class=p>:</span><span class=m>3.7</span>.<span class=m>0</span>-alpine3.<span class=m>8</span><span class=w>
-</span><span class=w>    </span>commands<span class=p>:</span><span class=w>
-</span><span class=w>    </span>-<span class=w> </span>python<span class=w> </span>-m<span class=w> </span>compileall</code></pre></div><h3 id=java-maven>java / maven</h3><div class=highlight><pre class=chroma><code class=language-yaml data-lang=yaml>labels<span class=p>:</span><span class=w>
-</span><span class=w>  </span>app<span class=p>:</span><span class=w> </span>&lt;APP<span class=w> </span>NAME<span class=sd>&gt;
-</span><span class=sd>  language: java</span><span class=w>
-</span><span class=w>
-</span><span class=w></span>stages<span class=p>:</span><span class=w>
-</span><span class=w>  </span>build<span class=p>:</span><span class=w>
-</span><span class=w>    </span>image<span class=p>:</span><span class=w> </span>maven<span class=p>:</span><span class=m>3.5</span>.<span class=m>4</span>-jdk-<span class=m>10</span>-slim<span class=w>
-</span><span class=w>    </span>commands<span class=p>:</span><span class=w>
-</span><span class=w>    </span>-<span class=w> </span>mvn<span class=w> </span>-B<span class=w> </span>clean<span class=w> </span>verify<span class=w> </span>-Dmaven.repo.remote=https<span class=p>:</span>//&lt;sonatype<span class=w> </span>nexus<span class=w> </span>server&gt;/content/groups/public</code></pre></div><h3 id=node-js>node js</h3><div class=highlight><pre class=chroma><code class=language-yaml data-lang=yaml>labels<span class=p>:</span><span class=w>
-</span><span class=w>  </span>app<span class=p>:</span><span class=w> </span>&lt;APP<span class=w> </span>NAME<span class=sd>&gt;
-</span><span class=sd>  language: nodejs</span><span class=w>
-</span><span class=w>
-</span><span class=w></span>stages<span class=p>:</span><span class=w>
-</span><span class=w>  </span>build<span class=p>:</span><span class=w>
-</span><span class=w>    </span>image<span class=p>:</span><span class=w> </span>node<span class=p>:</span><span class=m>8.11</span>.<span class=m>4</span>-alpine<span class=w>
-</span><span class=w>    </span>commands<span class=p>:</span><span class=w>
-</span><span class=w>    </span>-<span class=w> </span>npm<span class=w> </span>install<span class=w> </span>--verbose</code></pre></div><h3 id=dockerize-push-for-master-branch>dockerize &amp; push for master branch</h3><div class=highlight><pre class=chroma><code class=language-yaml data-lang=yaml>labels<span class=p>:</span><span class=w>
-</span><span class=w>  </span>app<span class=p>:</span><span class=w> </span>&lt;APP<span class=w> </span>NAME<span class=sd>&gt;
-</span><span class=sd>
-</span><span class=sd>stages:</span><span class=w>
-</span><span class=w>  </span>bake<span class=p>:</span><span class=w>
-</span><span class=w>    </span>image<span class=p>:</span><span class=w> </span>docker<span class=p>:</span><span class=m>18.06</span>.<span class=m>0</span>-ce<span class=w>
-</span><span class=w>    </span>commands<span class=p>:</span><span class=w>
-</span><span class=w>    </span>-<span class=w> </span>cp<span class=w> </span>/etc/ssl/certs/ca-certificates.crt<span class=w> </span>.<span class=w>
-</span><span class=w>    </span>-<span class=w> </span>docker<span class=w> </span>build<span class=w> </span>-t<span class=w> </span>estafette/${ESTAFETTE_LABEL_APP}<span class=p>:</span>${ESTAFETTE_BUILD_VERSION}<span class=w> </span>.<span class=w>
-</span><span class=w>
-</span><span class=w>  </span>push-to-docker-hub<span class=p>:</span><span class=w>
-</span><span class=w>    </span>image<span class=p>:</span><span class=w> </span>docker<span class=p>:</span><span class=m>18.06</span>.<span class=m>0</span>-ce<span class=w>
-</span><span class=w>    </span>commands<span class=p>:</span><span class=w>
-</span><span class=w>    </span>-<span class=w> </span>docker<span class=w> </span>login<span class=w> </span>--username=${ESTAFETTE_DOCKER_HUB_USERNAME}<span class=w> </span>--password=<span class=s2>&#34;${ESTAFETTE_DOCKER_HUB_PASSWORD}&#34;</span><span class=w>
-</span><span class=w>    </span>-<span class=w> </span>docker<span class=w> </span>push<span class=w> </span>estafette/${ESTAFETTE_LABEL_APP}<span class=p>:</span>${ESTAFETTE_BUILD_VERSION}<span class=w>
-</span><span class=w>    </span>when<span class=p>:</span><span class=w>
-</span><span class=w>      </span>status<span class=w> </span>==<span class=w> </span><span class=s1>&#39;succeeded&#39;</span><span class=w> </span><span class=cp>&amp;&amp;</span><span class=w>
-</span><span class=w>      </span>branch<span class=w> </span>==<span class=w> </span><span class=s1>&#39;master&#39;</span></code></pre></div><h3 id=notification-on-failure>notification on failure</h3><div class=highlight><pre class=chroma><code class=language-yaml data-lang=yaml>labels<span class=p>:</span><span class=w>
-</span><span class=w>  </span>app<span class=p>:</span><span class=w> </span>&lt;APP<span class=w> </span>NAME<span class=sd>&gt;
-</span><span class=sd>
-</span><span class=sd>stages:</span><span class=w>
-</span><span class=w>  </span>slack-notify<span class=p>:</span><span class=w>
-</span><span class=w>    </span>image<span class=p>:</span><span class=w> </span>docker<span class=p>:</span><span class=m>18.06</span>.<span class=m>0</span>-ce<span class=w>
-</span><span class=w>    </span>commands<span class=p>:</span><span class=w>
-</span><span class=w>    </span>-<span class=w> </span><span class=s1>&#39;curl -X POST --data-urlencode &#39;&#39;payload={&#34;channel&#34;: &#34;#build-status&#34;, &#34;username&#34;: &#34;&lt;DOCKER HUB USERNAME&gt;&#34;, &#34;text&#34;: &#34;Build &#39;&#39;${ESTAFETTE_BUILD_VERSION}&#39;&#39; for &#39;&#39;${ESTAFETTE_LABEL_APP}&#39;&#39; has failed!&#34;}&#39;&#39; ${ESTAFETTE_SLACK_WEBHOOK}&#39;</span><span class=w>
-</span><span class=w>    </span>when<span class=p>:</span><span class=w>
-</span><span class=w>      </span>status<span class=w> </span>==<span class=w> </span><span class=s1>&#39;failed&#39;</span></code></pre></div></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav></body></html>
+<a class="nav-item nav-link" href=/toplevel/>Top-level page</a></div></div></nav><div id=main><div class=container-fluid><div class=row><div class="col mt-4 mb-4 border-right sidebar"><ul><li class=section-item><a href=/getting-started/>Getting started</a><ul><li class=page-item><a href=/getting-started/installation/>Installation</a></li><li class=page-item><a href=/getting-started/configuration/>Configuration</a></li><li class=section-item><a href=/getting-started/subsection/>Subsection</a><ul><li class=page-item><a href=/getting-started/subsection/nested-page/>Nested page</a></li></ul></li></ul></li><li class=section-item><a href=/usage/>Usage</a><ul><li class=page-item><a href=/usage/manifest/>Manifest</a></li><li class=page-item><a href=/usage/extensions/>Extensions</a></li><li class=page-item><a href=/usage/examples/>Examples</a></li></ul></li><li class=section-item><a href=/design/>Design</a></li><li class=page-item><a href=/toplevel/>Top-level page</a></li></ul></div><div class="col pl-5 pt-4 content-block"><h1 class=mb-4>Examples</h1><h3 id=golang>golang</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
+  app: &lt;APP NAME<span style=color:#5a2>&gt;
+</span><span style=color:#5a2>  language: golang</span>
+
+stages:
+  build:
+    image: golang:<span style=color:#3af>1.10</span>.<span style=color:#3af>3</span>-alpine3.<span style=color:#3af>8</span>
+    workDir: /go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}
+    commands:
+    - go test `go list ./... <span style=color:#5a2>| grep -v /vendor/`
+</span><span style=color:#5a2>    - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags &#34;-X main.version=${ESTAFETTE_BUILD_VERSION} -X main.revision=${ESTAFETTE_GIT_REVISION} -X main.branch=${ESTAFETTE_GIT_BRANCH} -X main.buildDate=${ESTAFETTE_BUILD_DATETIME}&#34; -o ./publish/${ESTAFETTE_LABEL_APP} .</span></code></pre></div><h3 id=csharp-net-core>csharp .net core</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
+  app: &lt;APP NAME<span style=color:#5a2>&gt;
+</span><span style=color:#5a2>  language: dotnet-core</span>
+
+stages:
+  restore:
+    image: microsoft/dotnet:<span style=color:#3af>2.1</span>-sdk
+    commands:
+    - dotnet restore --source https://www.nuget.org/api/v1 --source http://nuget-server.tooling/nuget --packages .nuget/packages
+
+  build:
+    image: microsoft/dotnet:<span style=color:#3af>2.1</span>-sdk
+    commands:
+    - dotnet build --configuration Release --version-suffix ${ESTAFETTE_BUILD_VERSION_PATCH}
+
+  unit-tests:
+    image: microsoft/dotnet:<span style=color:#3af>2.1</span>-sdk
+    commands:
+    - dotnet test --configuration Release --no-build test/&lt;unit test project directory/&lt;unit test project file&gt;.csproj
+
+  integration-tests:
+    image: microsoft/dotnet:<span style=color:#3af>2.1</span>-sdk
+    commands:
+    - dotnet test --configuration Release --no-build test/&lt;integration test project directory&gt;/&lt;integration test project file&gt;.csproj
+
+  publish:
+    image: microsoft/dotnet:<span style=color:#3af>2.1</span>-sdk
+    commands:
+    - dotnet publish src/&lt;publisheable project directory<span style=color:#5a2>&gt; --configuration Release --runtime debian.8-x64 --version-suffix ${ESTAFETTE_BUILD_VERSION_PATCH} --output ./publish</span></code></pre></div><h3 id=python>python</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
+  app: &lt;APP NAME<span style=color:#5a2>&gt;
+</span><span style=color:#5a2>  language: python</span>
+
+stages:
+  build:
+    image: python:<span style=color:#3af>3.7</span>.<span style=color:#3af>0</span>-alpine3.<span style=color:#3af>8</span>
+    commands:
+    - python -m compileall</code></pre></div><h3 id=java-maven>java / maven</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
+  app: &lt;APP NAME<span style=color:#5a2>&gt;
+</span><span style=color:#5a2>  language: java</span>
+
+stages:
+  build:
+    image: maven:<span style=color:#3af>3.5</span>.<span style=color:#3af>4</span>-jdk-<span style=color:#3af>10</span>-slim
+    commands:
+    - mvn -B clean verify -Dmaven.repo.remote=https://&lt;sonatype nexus server&gt;/content/groups/public</code></pre></div><h3 id=node-js>node js</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
+  app: &lt;APP NAME<span style=color:#5a2>&gt;
+</span><span style=color:#5a2>  language: nodejs</span>
+
+stages:
+  build:
+    image: node:<span style=color:#3af>8.11</span>.<span style=color:#3af>4</span>-alpine
+    commands:
+    - npm install --verbose</code></pre></div><h3 id=dockerize-push-for-master-branch>dockerize &amp; push for master branch</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
+  app: &lt;APP NAME<span style=color:#5a2>&gt;
+</span><span style=color:#5a2>
+</span><span style=color:#5a2>stages:</span>
+  bake:
+    image: docker:<span style=color:#3af>18.06</span>.<span style=color:#3af>0</span>-ce
+    commands:
+    - cp /etc/ssl/certs/ca-certificates.crt .
+    - docker build -t estafette/${ESTAFETTE_LABEL_APP}:${ESTAFETTE_BUILD_VERSION} .
+
+  push-to-docker-hub:
+    image: docker:<span style=color:#3af>18.06</span>.<span style=color:#3af>0</span>-ce
+    commands:
+    - docker login --username=${ESTAFETTE_DOCKER_HUB_USERNAME} --password=<span style=color:#5a2>&#34;${ESTAFETTE_DOCKER_HUB_PASSWORD}&#34;</span>
+    - docker push estafette/${ESTAFETTE_LABEL_APP}:${ESTAFETTE_BUILD_VERSION}
+    when:
+      status == <span style=color:#5a2>&#39;succeeded&#39;</span> <span style=color:#888;font-style:italic>&amp;&amp;</span>
+      branch == <span style=color:#5a2>&#39;master&#39;</span></code></pre></div><h3 id=notification-on-failure>notification on failure</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
+  app: &lt;APP NAME<span style=color:#5a2>&gt;
+</span><span style=color:#5a2>
+</span><span style=color:#5a2>stages:</span>
+  slack-notify:
+    image: docker:<span style=color:#3af>18.06</span>.<span style=color:#3af>0</span>-ce
+    commands:
+    - <span style=color:#5a2>&#39;curl -X POST --data-urlencode &#39;&#39;payload={&#34;channel&#34;: &#34;#build-status&#34;, &#34;username&#34;: &#34;&lt;DOCKER HUB USERNAME&gt;&#34;, &#34;text&#34;: &#34;Build &#39;&#39;${ESTAFETTE_BUILD_VERSION}&#39;&#39; for &#39;&#39;${ESTAFETTE_LABEL_APP}&#39;&#39; has failed!&#34;}&#39;&#39; ${ESTAFETTE_SLACK_WEBHOOK}&#39;</span>
+    when:
+      status == <span style=color:#5a2>&#39;failed&#39;</span></code></pre></div></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav></body></html>
