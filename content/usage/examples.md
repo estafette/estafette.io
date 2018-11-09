@@ -123,3 +123,33 @@ stages:
     repositories:
     - estafette
 ```
+
+### deployment to kubernetes engine
+
+```yaml
+releases:
+  production:
+    stages:
+      deploy:
+        image: extensions/gke:stable
+        namespace: estafette
+        visibility: public
+        container:
+          repository: estafette
+          port: 8080
+          cpu:
+            request: 10m
+            limit: 200m
+          memory:
+            request: 15Mi
+            limit: 512Mi
+          liveness:
+            path: /robots.txt
+          readiness:
+            path: /robots.txt
+          metrics:
+            scrape: false
+        hosts:
+        - ci.estafette.io
+        chaosproof: true
+```
