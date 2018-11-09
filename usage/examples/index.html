@@ -86,4 +86,28 @@ stages:
     image: extensions/docker:stable
     action: push
     repositories:
-    - estafette</code></pre></div></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav></body></html>
+    - estafette</code></pre></div><h3 id=deployment-to-kubernetes-engine>deployment to kubernetes engine</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>releases:
+  production:
+    stages:
+      deploy:
+        image: extensions/gke:stable
+        namespace: estafette
+        visibility: public
+        container:
+          repository: estafette
+          port: <span style=color:#3af>8080</span>
+          cpu:
+            request: 10m
+            limit: 200m
+          memory:
+            request: 15Mi
+            limit: 512Mi
+          liveness:
+            path: /robots.txt
+          readiness:
+            path: /robots.txt
+          metrics:
+            scrape: <span style=color:#00f>false</span>
+        hosts:
+        - ci.estafette.io
+        chaosproof: <span style=color:#00f>true</span></code></pre></div></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav></body></html>
