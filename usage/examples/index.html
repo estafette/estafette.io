@@ -4,18 +4,21 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
 <span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse" id=navbarNavAltMarkup><div class=navbar-nav><a class="nav-item nav-link" href=/getting-started/>Get started</a>
 <a class="nav-item nav-link" href=/usage/>Usage</a>
 <a class="nav-item nav-link" href=/design/>Design</a></div></div></nav><div id=main><div class=container-fluid><div class=row><div class="col mt-4 mb-4 border-right sidebar"><ul><li class=section-item><a href=/getting-started/>Getting started</a><ul><li class=page-item><a href=/getting-started/installation/>Installation</a></li><li class=page-item><a href=/getting-started/configuration/>Configuration</a></li></ul></li><li class=section-item><a href=/usage/>Usage</a><ul><li class=page-item><a href=/usage/manifest/>Manifest</a></li><li class=page-item><a href=/usage/extensions/>Extensions</a></li><li class=page-item><a href=/usage/examples/>Examples</a></li></ul></li><li class=section-item><a href=/design/>Design</a></li></ul></div><div class="col pl-5 pt-4 content-block"><h1 class=mb-4>Examples</h1><h3 id=golang>golang</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
-  app: &lt;APP NAME<span style=color:#5a2>&gt;
-</span><span style=color:#5a2>  language: golang</span>
+  app: my-application
+  language: golang
 
 stages:
   build:
-    image: golang:<span style=color:#3af>1.10</span>.<span style=color:#3af>3</span>-alpine3.<span style=color:#3af>8</span>
+    image: golang:<span style=color:#3af>1.11</span>.<span style=color:#3af>2</span>-alpine3.<span style=color:#3af>8</span>
     workDir: /go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}
+    env:
+      CGO_ENABLED: <span style=color:#3af>0</span>
+      GOOS: linux
     commands:
     - go test `go list ./... <span style=color:#5a2>| grep -v /vendor/`
 </span><span style=color:#5a2>    - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags &#34;-X main.version=${ESTAFETTE_BUILD_VERSION} -X main.revision=${ESTAFETTE_GIT_REVISION} -X main.branch=${ESTAFETTE_GIT_BRANCH} -X main.buildDate=${ESTAFETTE_BUILD_DATETIME}&#34; -o ./publish/${ESTAFETTE_LABEL_APP} .</span></code></pre></div><h3 id=csharp-net-core>csharp .net core</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
-  app: &lt;APP NAME<span style=color:#5a2>&gt;
-</span><span style=color:#5a2>  language: dotnet-core</span>
+  app: my-application
+  language: dotnet-core
 
 stages:
   restore:
@@ -42,53 +45,45 @@ stages:
     image: microsoft/dotnet:<span style=color:#3af>2.1</span>-sdk
     commands:
     - dotnet publish src/&lt;publisheable project directory<span style=color:#5a2>&gt; --configuration Release --runtime debian.8-x64 --version-suffix ${ESTAFETTE_BUILD_VERSION_PATCH} --output ./publish</span></code></pre></div><h3 id=python>python</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
-  app: &lt;APP NAME<span style=color:#5a2>&gt;
-</span><span style=color:#5a2>  language: python</span>
+  app: my-application
+  language: python
 
 stages:
   build:
-    image: python:<span style=color:#3af>3.7</span>.<span style=color:#3af>0</span>-alpine3.<span style=color:#3af>8</span>
+    image: python:<span style=color:#3af>3.7</span>.<span style=color:#3af>1</span>-alpine3.<span style=color:#3af>8</span>
     commands:
     - python -m compileall</code></pre></div><h3 id=java-maven>java / maven</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
-  app: &lt;APP NAME<span style=color:#5a2>&gt;
-</span><span style=color:#5a2>  language: java</span>
+  app: my-application
+  language: java
 
 stages:
   build:
-    image: maven:<span style=color:#3af>3.5</span>.<span style=color:#3af>4</span>-jdk-<span style=color:#3af>10</span>-slim
+    image: maven:<span style=color:#3af>10.13</span>.<span style=color:#3af>0</span>-alpine
     commands:
-    - mvn -B clean verify -Dmaven.repo.remote=https://&lt;sonatype nexus server&gt;/content/groups/public</code></pre></div><h3 id=node-js>node js</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
-  app: &lt;APP NAME<span style=color:#5a2>&gt;
-</span><span style=color:#5a2>  language: nodejs</span>
+    - mvn -B clean verify</code></pre></div><h3 id=node-js>node js</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
+  app: my-application
+  language: nodejs
 
 stages:
   build:
-    image: node:<span style=color:#3af>8.11</span>.<span style=color:#3af>4</span>-alpine
+    image: node:<span style=color:#3af>10.13</span>.<span style=color:#3af>0</span>-alpine
     commands:
-    - npm install --verbose</code></pre></div><h3 id=dockerize-push-for-master-branch>dockerize &amp; push for master branch</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
-  app: &lt;APP NAME<span style=color:#5a2>&gt;
-</span><span style=color:#5a2>
-</span><span style=color:#5a2>stages:</span>
+    - npm install
+    - npm run build</code></pre></div><h3 id=dockerize-push>dockerize &amp; push</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
+  app: my-application
+  language: docker
+
+stages:
   bake:
-    image: docker:<span style=color:#3af>18.06</span>.<span style=color:#3af>0</span>-ce
-    commands:
-    - cp /etc/ssl/certs/ca-certificates.crt .
-    - docker build -t estafette/${ESTAFETTE_LABEL_APP}:${ESTAFETTE_BUILD_VERSION} .
+    image: extensions/docker:stable
+    action: build
+    repositories:
+    - estafette
+    copy:
+    - /etc/ssl/certs/ca-certificates.crt .
 
   push-to-docker-hub:
-    image: docker:<span style=color:#3af>18.06</span>.<span style=color:#3af>0</span>-ce
-    commands:
-    - docker login --username=${ESTAFETTE_DOCKER_HUB_USERNAME} --password=<span style=color:#5a2>&#34;${ESTAFETTE_DOCKER_HUB_PASSWORD}&#34;</span>
-    - docker push estafette/${ESTAFETTE_LABEL_APP}:${ESTAFETTE_BUILD_VERSION}
-    when:
-      status == <span style=color:#5a2>&#39;succeeded&#39;</span> <span style=color:#888;font-style:italic>&amp;&amp;</span>
-      branch == <span style=color:#5a2>&#39;master&#39;</span></code></pre></div><h3 id=notification-on-failure>notification on failure</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
-  app: &lt;APP NAME<span style=color:#5a2>&gt;
-</span><span style=color:#5a2>
-</span><span style=color:#5a2>stages:</span>
-  slack-notify:
-    image: docker:<span style=color:#3af>18.06</span>.<span style=color:#3af>0</span>-ce
-    commands:
-    - <span style=color:#5a2>&#39;curl -X POST --data-urlencode &#39;&#39;payload={&#34;channel&#34;: &#34;#build-status&#34;, &#34;username&#34;: &#34;&lt;DOCKER HUB USERNAME&gt;&#34;, &#34;text&#34;: &#34;Build &#39;&#39;${ESTAFETTE_BUILD_VERSION}&#39;&#39; for &#39;&#39;${ESTAFETTE_LABEL_APP}&#39;&#39; has failed!&#34;}&#39;&#39; ${ESTAFETTE_SLACK_WEBHOOK}&#39;</span>
-    when:
-      status == <span style=color:#5a2>&#39;failed&#39;</span></code></pre></div></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav></body></html>
+    image: extensions/docker:stable
+    action: push
+    repositories:
+    - estafette</code></pre></div></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav></body></html>
