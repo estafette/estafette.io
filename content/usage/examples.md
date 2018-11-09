@@ -9,13 +9,16 @@ weight: 3
 
 ```yaml
 labels:
-  app: <APP NAME>
+  app: my-application
   language: golang
 
 stages:
   build:
-    image: golang:1.10.3-alpine3.8
+    image: golang:1.11.2-alpine3.8
     workDir: /go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}
+    env:
+      CGO_ENABLED: 0
+      GOOS: linux
     commands:
     - go test `go list ./... | grep -v /vendor/`
     - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags "-X main.version=${ESTAFETTE_BUILD_VERSION} -X main.revision=${ESTAFETTE_GIT_REVISION} -X main.branch=${ESTAFETTE_GIT_BRANCH} -X main.buildDate=${ESTAFETTE_BUILD_DATETIME}" -o ./publish/${ESTAFETTE_LABEL_APP} .
@@ -25,7 +28,7 @@ stages:
 
 ```yaml
 labels:
-  app: <APP NAME>
+  app: my-application
   language: dotnet-core
 
 stages:
@@ -59,12 +62,12 @@ stages:
 
 ```yaml
 labels:
-  app: <APP NAME>
+  app: my-application
   language: python
 
 stages:
   build:
-    image: python:3.7.0-alpine3.8
+    image: python:3.7.1-alpine3.8
     commands:
     - python -m compileall
 ```
@@ -73,64 +76,50 @@ stages:
 
 ```yaml
 labels:
-  app: <APP NAME>
+  app: my-application
   language: java
 
 stages:
   build:
-    image: maven:3.5.4-jdk-10-slim
+    image: maven:10.13.0-alpine
     commands:
-    - mvn -B clean verify -Dmaven.repo.remote=https://<sonatype nexus server>/content/groups/public
+    - mvn -B clean verify
 ```
 
 ### node js
 
 ```yaml
 labels:
-  app: <APP NAME>
+  app: my-application
   language: nodejs
 
 stages:
   build:
-    image: node:8.11.4-alpine
+    image: node:10.13.0-alpine
     commands:
-    - npm install --verbose
+    - npm install
+    - npm run build
 ```
 
-### dockerize & push for master branch
+### dockerize & push
 
 ```yaml
 labels:
-  app: <APP NAME>
+  app: my-application
+  language: docker
 
 stages:
   bake:
-    image: docker:18.06.0-ce
-    commands:
-    - cp /etc/ssl/certs/ca-certificates.crt .
-    - docker build -t estafette/${ESTAFETTE_LABEL_APP}:${ESTAFETTE_BUILD_VERSION} .
+    image: extensions/docker:stable
+    action: build
+    repositories:
+    - estafette
+    copy:
+    - /etc/ssl/certs/ca-certificates.crt .
 
   push-to-docker-hub:
-    image: docker:18.06.0-ce
-    commands:
-    - docker login --username=${ESTAFETTE_DOCKER_HUB_USERNAME} --password="${ESTAFETTE_DOCKER_HUB_PASSWORD}"
-    - docker push estafette/${ESTAFETTE_LABEL_APP}:${ESTAFETTE_BUILD_VERSION}
-    when:
-      status == 'succeeded' &&
-      branch == 'master'
-```
-
-### notification on failure
-
-```yaml
-labels:
-  app: <APP NAME>
-
-stages:
-  slack-notify:
-    image: docker:18.06.0-ce
-    commands:
-    - 'curl -X POST --data-urlencode ''payload={"channel": "#build-status", "username": "<DOCKER HUB USERNAME>", "text": "Build ''${ESTAFETTE_BUILD_VERSION}'' for ''${ESTAFETTE_LABEL_APP}'' has failed!"}'' ${ESTAFETTE_SLACK_WEBHOOK}'
-    when:
-      status == 'failed'
+    image: extensions/docker:stable
+    action: push
+    repositories:
+    - estafette
 ```
