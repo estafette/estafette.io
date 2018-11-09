@@ -1,10 +1,7 @@
 ---
-title: "Architecture"
+title: "Design"
 description: "Learn how Estafette is decomposed into small service and how they interact"
-date: 2018-06-19T12:51:51+02:00
-menu:
-  main:
-    parent: 'documentation'
+weight: 3
 ---
 
 The goals of Estafette CI are to...

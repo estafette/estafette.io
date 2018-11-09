@@ -1,0 +1,12 @@
+<li class="section-item"><a href="{{ .URL }}">{{ .Name }}</a>
+  {{- if or (gt (len .Data.Pages) 0) (gt (len .Sections) 0) -}}
+  <ul>
+  {{- range .Data.Pages.ByWeight }}
+    {{ partial "page-menu-item.html" . }}
+  {{- end }}
+  {{- range .Sections.ByWeight }}
+    {{ partial "section-menu-item.html" . }}
+  {{- end }}
+  </ul>
+  {{- end }}
+</li>

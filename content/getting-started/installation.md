@@ -1,13 +1,8 @@
 ---
-title: "Installation"
+title: Installation
+description: Installing Estafette CI in your Kubernetes cluster
 weight: 1
-description: "Get Estafette up and running on your Kubernetes cluster"
-date: 2018-06-19T12:51:31+02:00
-menu:
-  main:
-    parent: 'documentation'
 ---
-
 ### Installing Estafette CI
 
 Prerequisites:
@@ -71,3 +66,4 @@ export AUTOSCALE_CPU_TARGET_PERCENTAGE=80
 
 cat kubernetes.yaml | envsubst | kubectl apply -f -
 ```
+

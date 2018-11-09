@@ -1,24 +1,19 @@
-<div class="col mt-4 mb-4 border-right" style="min-width: 200px; max-width: 200px">
-    <ul class="list-unstyled p-1 mt-1 mb-1">
-        {{ $currentPage := . }}
-        {{ range .Site.Menus.main }}
-        <li class="mt-4 mb-4"><a class="text-dark {{ if $currentPage.HasMenuCurrent "main" . }}active{{ end }}" href="{{ .URL }}"><strong>{{ .Name }}</strong></a>
-            {{ if .HasChildren }}    
-            <ul class="list-unstyled mt-2">
-                {{ range .Children }}
-                <li><a class="{{ if $currentPage.IsMenuCurrent "main" . }}active{{ end }}" href="{{ .URL }}">{{ .Name }}</a></li>
-                {{ end }}
-            </ul>
-            {{ end }}
-        </li>
-        {{ end }}
-    </ul>
-</div>
-
-<!-- <ul>
-{{ range .Data.Pages }}
-    <li>
-        <a href="{{.URL}}">{{.Title}}</a>
-    </li>
-{{ end }}
-</ul> -->
+<ul>
+    {{- $currentPage := . -}}
+    {{- range .Site.Sections.ByWeight -}}
+        {{- if .IsSection -}}
+            {{ partial "section-menu-item.html" . }}
+        {{- end -}}
+        {{- if .IsPage -}}
+            {{ partial "page-menu-item.html" . }}
+        {{- end -}}
+    {{- end -}}
+    {{- range (where .Site.Pages.ByWeight "Section" "") -}}
+        {{- if .IsSection -}}
+            {{ partial "section-menu-item.html" . }}
+        {{- end -}}
+        {{- if .IsPage -}}
+            {{ partial "page-menu-item.html" . }}
+        {{- end -}}
+    {{- end -}}
+</ul>

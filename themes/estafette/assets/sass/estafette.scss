@@ -32,3 +32,37 @@ html, body {
     clear:both;
     padding-top:20px;
 } 
+
+.sidebar {
+    min-width: 200px;
+    max-width: 200px;
+
+    & > ul {
+        margin-top: .25rem!important;
+        margin-bottom: .25rem!important;
+        padding-left: 0;
+        list-style: none;
+
+        & > li {
+            margin-top: 1.5rem!important;
+            margin-bottom: 1.5rem!important;
+
+            & > a {
+                color: #343a40!important;
+                font-weight: bold;
+            }
+
+            ul {
+                margin-top: .5rem!important;
+                margin-bottom: .5rem!important;
+                padding-left: 1rem!important;
+                list-style: none;
+            }
+
+            li {
+                margin-top: .5rem!important;
+                margin-bottom: .5rem!important;
+            }
+        }
+    }
+}
