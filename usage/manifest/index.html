@@ -1,108 +1,113 @@
 <!doctype html><html><head><script async src="https://www.googletagmanager.com/gtag/js?id=UA-464018-9"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8><title>Manifest &ndash; Estafette CI/CD</title><link rel=stylesheet href=https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css integrity=sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB crossorigin=anonymous><link rel=stylesheet href=https://estafette.io/sass/estafette.min.bcceb2567d1f84d8e9c8efd153603c28f7ec531c6a287e25842ae26904734f41.css integrity="sha256-vM6yVn0fhNjpyO/RU2A8KPfsUxxqKH4lhCriaQRzT0E="></head><body><div id=header-and-main><nav class="navbar navbar-expand-lg navbar-dark bg-dark"><a class=navbar-brand href=/>Estafette CI</a>
+gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8><title>Manifest &ndash; Estafette CI/CD</title><link rel=stylesheet href=https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css integrity=sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB crossorigin=anonymous><link rel=stylesheet href=https://estafette.io/sass/estafette.min.c775cfb8e6a18bb0dfbbf7a25ad309ac1982443ea0675a024d0ec0f4cc0327c9.css integrity="sha256-x3XPuOahi7Dfu/eiWtMJrBmCRD6gZ1oCTQ7A9MwDJ8k="></head><body><div id=header-and-main><nav class="navbar navbar-expand-lg navbar-dark bg-dark"><a class=navbar-brand href=/>Estafette CI</a>
 <button class=navbar-toggler type=button data-toggle=collapse data-target=#navbarNavAltMarkup aria-controls=navbarNavAltMarkup aria-expanded=false aria-label="Toggle navigation">
 <span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse" id=navbarNavAltMarkup><div class=navbar-nav><a class="nav-item nav-link" href=/getting-started/>Get started</a>
-<a class="nav-item nav-link active" href=/usage/>Usage</a>
+<a class="nav-item nav-link" href=/usage/>Usage</a>
 <a class="nav-item nav-link" href=/design/>Design</a>
-<a class="nav-item nav-link" href=/toplevel/>Top-level page</a></div></div></nav><div id=main><div class=container-fluid><div class=row><div class="col mt-4 mb-4 border-right sidebar"><ul><li class=section-item><a href=/getting-started/>Getting started</a><ul><li class=page-item><a href=/getting-started/installation/>Installation</a></li><li class=page-item><a href=/getting-started/configuration/>Configuration</a></li><li class=section-item><a href=/getting-started/subsection/>Subsection</a><ul><li class=page-item><a href=/getting-started/subsection/nested-page/>Nested page</a></li></ul></li></ul></li><li class=section-item><a href=/usage/>Usage</a><ul><li class=page-item><a href=/usage/manifest/>Manifest</a></li><li class=page-item><a href=/usage/extensions/>Extensions</a></li><li class=page-item><a href=/usage/examples/>Examples</a></li></ul></li><li class=section-item><a href=/design/>Design</a></li><li class=page-item><a href=/toplevel/>Top-level page</a></li></ul></div><div class="col pl-5 pt-4" style=overflow:hidden><h1 class=mb-4>Manifest</h1><h3 id=usage-in-your-application>Usage in your application</h3><p>To build your application with Estafette add an <code>.estafette.yaml</code> file to your application repository.</p><div class=highlight><pre class=chroma><code class=language-yaml data-lang=yaml><span class=c># these labels turn into ESTAFETTE_LABEL_... envvars, automatically injected into all pipeline steps</span><span class=w>
-</span><span class=w></span>labels<span class=p>:</span><span class=w>
-</span><span class=w>  </span>app<span class=p>:</span><span class=w> </span>estafette-ci-builder<span class=w>
-</span><span class=w>  </span>team<span class=p>:</span><span class=w> </span>estafette-team<span class=w>
-</span><span class=w>  </span>language<span class=p>:</span><span class=w> </span>golang<span class=w>
-</span><span class=w>
-</span><span class=w></span><span class=c># semver version generates a 0.0.x version (or 0.0.x-&lt;branch&gt; for other branches than the release branch)</span><span class=w>
-</span><span class=w></span><span class=c># made available as ESTAFETTE_BUILD_VERSION envvar, automatically injected into all pipeline steps</span><span class=w>
-</span><span class=w></span>version<span class=p>:</span><span class=w>
-</span><span class=w>  </span>semver<span class=p>:</span><span class=w>
-</span><span class=w>    </span>major<span class=p>:</span><span class=w> </span><span class=m>0</span><span class=w>
-</span><span class=w>    </span>minor<span class=p>:</span><span class=w> </span><span class=m>0</span><span class=w>
-</span><span class=w>    </span>patch<span class=p>:</span><span class=w> </span><span class=s1>&#39;{{auto}}&#39;</span><span class=w>
-</span><span class=w>    </span>labelTemplate<span class=p>:</span><span class=w> </span><span class=s1>&#39;{{branch}}&#39;</span><span class=w>
-</span><span class=w>    </span>releaseBranch<span class=p>:</span><span class=w> </span>master<span class=w>
-</span><span class=w>
-</span><span class=w></span><span class=c># global environments variables that are automatically injected into all pipeline steps and can be</span><span class=w>
-</span><span class=w></span><span class=c># overridden by defining an envvar in a pipeline step with the same name</span><span class=w>
-</span><span class=w></span>env<span class=p>:</span><span class=w>
-</span><span class=w>  </span>VAR1<span class=p>:</span><span class=w> </span>somevalue<span class=w>
-</span><span class=w>  </span>VAR2<span class=p>:</span><span class=w> </span>another<span class=w> </span>value<span class=w>
-</span><span class=w>
-</span><span class=w></span><span class=c># pipeline stages are executed sequentially;</span><span class=w>
-</span><span class=w></span><span class=c># a step uses a public container to mount the working directory into and execute commands in;</span><span class=w>
-</span><span class=w></span><span class=c># extensions are containerized applications that execute based on injected environment variables or</span><span class=w>
-</span><span class=w></span><span class=c># custom properties injected as ESTAFETTE_EXTENSION_&lt;PROPERTY&gt; envvars</span><span class=w>
-</span><span class=w></span><span class=c># executing or skipping a step is controlled by the &#39;when&#39; property</span><span class=w>
-</span><span class=w></span>stages<span class=p>:</span><span class=w>
-</span><span class=w>  </span>set-pending-build-status<span class=p>:</span><span class=w>
-</span><span class=w>    </span>image<span class=p>:</span><span class=w> </span>extensions/github-status<span class=p>:</span>stable<span class=w>
-</span><span class=w>    </span>status<span class=p>:</span><span class=w> </span>pending<span class=w>
-</span><span class=w>
-</span><span class=w>  </span>build<span class=p>:</span><span class=w>
-</span><span class=w>    </span>image<span class=p>:</span><span class=w> </span>golang<span class=p>:</span><span class=m>1.9</span>.<span class=m>2</span>-alpine3.<span class=m>6</span><span class=w>
-</span><span class=w>    </span>workDir<span class=p>:</span><span class=w> </span>/go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}<span class=w>
-</span><span class=w>    </span>commands<span class=p>:</span><span class=w>
-</span><span class=w>    </span>-<span class=w> </span>apk<span class=w> </span>--update<span class=w> </span>add<span class=w> </span>git<span class=w>
-</span><span class=w>    </span>-<span class=w> </span>go<span class=w> </span>test<span class=w> </span>`go<span class=w> </span>list<span class=w> </span>./...<span class=w> </span><span class=sd>| grep -v /vendor/`
-</span><span class=sd>    - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags &#34;-X main.version=${ESTAFETTE_BUILD_VERSION} -X main.revision=${ESTAFETTE_GIT_REVISION} -X main.branch=${ESTAFETTE_GIT_BRANCH} -X main.buildDate=${ESTAFETTE_BUILD_DATETIME}&#34; -o ./publish/${ESTAFETTE_LABEL_APP} .
-</span><span class=sd>
-</span><span class=sd>  bake-estafette:
-</span><span class=sd>    image: docker:17.09.0-ce
-</span><span class=sd>    commands:
-</span><span class=sd>    - cp Dockerfile ./publish
-</span><span class=sd>    - docker build -f ./publish/Dockerfile -t estafette/${ESTAFETTE_LABEL_APP}:${ESTAFETTE_BUILD_VERSION} ./publish
-</span><span class=sd>
-</span><span class=sd>  push-to-docker-hub:
-</span><span class=sd>    image: docker:17.09.0-ce
-</span><span class=sd>    env:
-</span><span class=sd>      DOCKER_HUB_USERNAME: estafette.secret(T2YbJ4sAMgJMpZ.YS4vLTh8kdNQ5cBrU2AGztThmzJ7aD8w5a5W_-xY1Cw==)
-</span><span class=sd>      DOCKER_HUB_PASSWORD: estafette.secret(_kZ8EraN784wEF.GZEpqauwaEb33PmV7_-_fYfszjbKBEhgEfxvdLvZUE9aXq63tB)
-</span><span class=sd>    commands:
-</span><span class=sd>    - docker login --username=${DOCKER_HUB_USERNAME} --password=&#34;${DOCKER_HUB_PASSWORD}&#34;
-</span><span class=sd>    - docker push estafette/${ESTAFETTE_LABEL_APP}:${ESTAFETTE_BUILD_VERSION}
-</span><span class=sd>
-</span><span class=sd>  set-build-status:
-</span><span class=sd>    image: extensions/github-status:stable
-</span><span class=sd>
-</span><span class=sd>  slack-notify:
-</span><span class=sd>    image: extensions/slack-build-status:stable
-</span><span class=sd>    webhook: estafette.secret(VQhyeydGURZSFLmh.LVhcvAuxx5EsgBqRJ9kvxXsvpZdSkP9pQ6AzUU5rrsFeKQAAAf8fGtQ6VhXL5qThw5m8hrsBASWQKaaYsGn5ZmC5jTUKpLfgg7YR)
-</span><span class=sd>    name: ${ESTAFETTE_LABEL_APP}
-</span><span class=sd>    channels:
-</span><span class=sd>    - &#39;#build-status&#39;
-</span><span class=sd>    when:
-</span><span class=sd>      status == &#39;failed&#39;</span></code></pre></div><h2 id=running-a-build>Running a build</h2><p>The <strong>CI builder</strong> is the component that interprets the <code>.estafette.yaml</code> file and executes the pipeline stages specified in there.</p><p>At this time the yaml file consist of two top-level sections, <em>labels</em> and <em>stages</em>.</p><h2 id=labels>Labels</h2><p><em>Labels</em> are not required, but are useful to keep pipelines slightly less application-specific by using the labels as variables. In the future labels will be the mechanism to easily filter application pipelines by label values.</p><p>Any of the labels can be used in all the pipeline steps with the environment variable <code>ESTAFETTE_LABEL_&lt;LABEL NAME&gt;</code> in snake-casing.</p><h2 id=stages>Stages</h2><p>The <em>stages</em> section allows you to define multiple steps to run within public Docker containers. Within each step you specify the public Docker image to use and the commands to execute within the Docker container. Your cloned repository is mounted within the docker container at <code>/estafette-work</code> by default, but you can override it with the <code>workDir</code> setting in case you need your code to live in a certain directory structure like with certain golang projects.</p><p>All files in the working directory are passed from step to step. Any files stored outside the working directory are not passed on. This means that - for example - when fetching NuGet packages with .NET core you specify the packages directory to be stored within the working directory, so it&rsquo;s available in the following steps.</p><p>For each step you can use a different Docker image, but it&rsquo;s best practice to minimize the number of different images / versions in order to save time on downloading all the Docker images.</p><p>Pipeline steps run in sequence. With the <code>when</code> property you can specify a logical expression - in golang format - to determine whether the step should run or be skipped. This is useful to, for example, only push docker containers to a registry for certain branches. Or to fire a notification if any of the previous steps has failed. The default <code>when</code> condition is <code>status == 'succeeded'</code>.</p><h2 id=releasing-from-estafette-ci>Releasing from Estafette CI</h2><p>In order to release your applications, whether it&rsquo;s a Maven package to push to a repository, a Docker container to push to a registry or a deployment to Kubernetes, you can do this with Estafette CI by defining release targets in the <code>.estafette.yaml</code> file:</p><div class=highlight><pre class=chroma><code class=language-yaml data-lang=yaml>...<span class=w>
-</span><span class=w>
-</span><span class=w></span>releases<span class=p>:</span><span class=w>
-</span><span class=w>  </span>latest<span class=p>:</span><span class=w>
-</span><span class=w>    </span>stages<span class=p>:</span><span class=w>
-</span><span class=w>      </span>tag-container-image-as-latest<span class=p>:</span><span class=w>
-</span><span class=w>        </span>image<span class=p>:</span><span class=w> </span>docker<span class=p>:</span><span class=m>18.03</span>.<span class=m>1</span>-ce<span class=w>
-</span><span class=w>        </span>env<span class=p>:</span><span class=w>
-</span><span class=w>          </span>DOCKER_HUB_USERNAME<span class=p>:</span><span class=w> </span>estafette.secret(<span class=cp>***)</span><span class=w>
-</span><span class=w>          </span>DOCKER_HUB_PASSWORD<span class=p>:</span><span class=w> </span>estafette.secret(<span class=cp>***)</span><span class=w>
-</span><span class=w>        </span>commands<span class=p>:</span><span class=w>
-</span><span class=w>        </span>-<span class=w> </span>docker<span class=w> </span>login<span class=w> </span>--username=${DOCKER_HUB_USERNAME}<span class=w> </span>--password=<span class=s2>&#34;${DOCKER_HUB_PASSWORD}&#34;</span><span class=w>
-</span><span class=w>        </span>-<span class=w> </span>docker<span class=w> </span>pull<span class=w> </span>estafette/estafette-ci-api<span class=p>:</span>${ESTAFETTE_BUILD_VERSION}<span class=w>
-</span><span class=w>        </span>-<span class=w> </span>docker<span class=w> </span>tag<span class=w> </span>estafette/estafette-ci-api<span class=p>:</span>${ESTAFETTE_BUILD_VERSION}<span class=w> </span>estafette/estafette-ci-api<span class=p>:</span>latest<span class=w>
-</span><span class=w>        </span>-<span class=w> </span>docker<span class=w> </span>push<span class=w> </span>estafette/estafette-ci-api<span class=p>:</span>${ESTAFETTE_BUILD_VERSION}</code></pre></div><p>Currently these release targets can be triggered via the Slack integration; web gui and cli support will follow later. To trigger a release from Slack you use the following Slash command:</p><pre><code>/estafette release &lt;repo name&gt; &lt;release target&gt; &lt;version&gt;
-</code></pre><p>An example with the release sample as above would be:</p><pre><code>/estafette release estafette-ci-api latest 0.0.21
-</code></pre><p>If the repository name is not unique within your Estafette CI database you&rsquo;ll have to specificy the full repo path like:</p><pre><code>/estafette release github.com/estafette/estafette-ci-api latest 0.0.21
-</code></pre><h3 id=use-files-from-the-git-repository>Use files from the git repository</h3><p>By default - to speed things up - the release targets do not clone the git repository. If you need to have access to the files in your git repository you can do so by using the <code>git-clone</code> extension as the first stage:</p><div class=highlight><pre class=chroma><code class=language-yaml data-lang=yaml>...<span class=w>
-</span><span class=w>
-</span><span class=w></span>releases<span class=p>:</span><span class=w>
-</span><span class=w>  </span>latest<span class=p>:</span><span class=w>
-</span><span class=w>    </span>stages<span class=p>:</span><span class=w>
-</span><span class=w>      </span>git-clone<span class=p>:</span><span class=w>
-</span><span class=w>        </span>image<span class=p>:</span><span class=w> </span>extensions/git-clone<span class=p>:</span>dev<span class=w>
-</span><span class=w>
-</span><span class=w>      </span>tag-container-image-as-latest<span class=p>:</span><span class=w>
-</span><span class=w>        </span>...</code></pre></div><p>This brings in the last 50 revisions of the particular branch the version was built from.</p><p>If you need to be able to release older versions you can do a full clone by specifying property <code>shallow: false</code> on the git-clone stage:</p><div class=highlight><pre class=chroma><code class=language-yaml data-lang=yaml>...<span class=w>
-</span><span class=w>
-</span><span class=w></span>releases<span class=p>:</span><span class=w>
-</span><span class=w>  </span>latest<span class=p>:</span><span class=w>
-</span><span class=w>    </span>stages<span class=p>:</span><span class=w>
-</span><span class=w>      </span>git-clone<span class=p>:</span><span class=w>
-</span><span class=w>        </span>image<span class=p>:</span><span class=w> </span>extensions/git-clone<span class=p>:</span>dev<span class=w>
-</span><span class=w>        </span>shallow<span class=p>:</span><span class=w> </span><span class=kc>false</span><span class=w>
-</span><span class=w>
-</span><span class=w>      </span>tag-container-image-as-latest<span class=p>:</span><span class=w>
-</span><span class=w>        </span>...</code></pre></div><h3 id=rolling-back-a-release>Rolling back a release</h3><p>Currently there&rsquo;s no dedicated way to roll back a release except for just releasing the previous version again.</p></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav></body></html>
+<a class="nav-item nav-link" href=/toplevel/>Top-level page</a></div></div></nav><div id=main><div class=container-fluid><div class=row><div class="col mt-4 mb-4 border-right sidebar"><ul><li class=section-item><a href=/getting-started/>Getting started</a><ul><li class=page-item><a href=/getting-started/installation/>Installation</a></li><li class=page-item><a href=/getting-started/configuration/>Configuration</a></li><li class=section-item><a href=/getting-started/subsection/>Subsection</a><ul><li class=page-item><a href=/getting-started/subsection/nested-page/>Nested page</a></li></ul></li></ul></li><li class=section-item><a href=/usage/>Usage</a><ul><li class=page-item><a href=/usage/manifest/>Manifest</a></li><li class=page-item><a href=/usage/extensions/>Extensions</a></li><li class=page-item><a href=/usage/examples/>Examples</a></li></ul></li><li class=section-item><a href=/design/>Design</a></li><li class=page-item><a href=/toplevel/>Top-level page</a></li></ul></div><div class="col pl-5 pt-4 content-block"><h1 class=mb-4>Manifest</h1><p>Estafette CI is manifest-controlled. That means each build and stage is controlled via the manifest. No more fiddling in a GUI to set up a pipeline.</p><h2 id=labels>Labels</h2><p>Your manifest usually starts with a set of labels; these labels are useful to quickly filter pipelines in the GUI or api, but it also helps for reusing the same application name in your build or release steps.</p><p>In the manifest labels can be specified within the <code>labels</code> section; you have full freedom to come up with additional keys for your labels:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
+  app: estafette-ci-builder
+  team: estafette-team
+  language: golang</code></pre></div><p>The labels are available as <code>ESTAFETTE_LABEL_&lt;UPPER_SNAKE_CASE_OF_LABEL_VALUE&gt;</code> in your build and release stages.</p><h2 id=build-stages>Build stages</h2><p>On every <code>git push</code> to repositories in associated hosted git services Estafette CI receives a signal that there&rsquo;s new commits and starts the build stages as defined in the <code>stages</code> section.</p><p>For each stage you can define a public container image to be used or when you&rsquo;ve configured private repositories in the Estafette CI server you can use images from those as well.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>stages:
+  restore:
+    image: node:<span style=color:#3af>10.9</span>.<span style=color:#3af>0</span>-alpine
+    commands:
+    - npm install
+
+  unit-test:
+    image: node:<span style=color:#3af>10.9</span>.<span style=color:#3af>0</span>-alpine
+    commands:
+    - npm run unit
+
+  build:
+    image: node:<span style=color:#3af>10.9</span>.<span style=color:#3af>0</span>-alpine
+    commands:
+    - npm run build
+
+  bake:
+    image: extensions/docker:stable
+    action: build
+    repositories:
+    - estafette
+    path: ./publish
+    copy:
+    - dist
+    - favicon.ico
+    - nginx.vh.default.conf
+
+  push-to-docker-hub:
+    image: extensions/docker:stable
+    action: push
+    repositories:
+    - estafette</code></pre></div><p>Notes:
+* Estafette CI automatically injects a stage to clone the git repository.
+* It&rsquo;s best practice to pin the versions of each image, instead of using <code>latest</code> to ensure your build still runs when you haven&rsquo;t touched in a long time.</p><h2 id=releases>Releases</h2><p>In Estafette CI release are triggered by a manual action via either the GUI or via Slack integration. Releases aren&rsquo;t just for deploying code, but can be used for any release action like pushing a Maven or Nuget package, tagging a docker container and more.</p><p>Within the <code>releases</code> section you can define one or multiple release targets - for example development, staging and production - within which you can define stages in a similar fashion as in the build <code>stages</code> section.</p><h6 id=a-release-to-trigger-a-deployment>A release to trigger a deployment</h6><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>releases:
+  tooling:
+    stages:
+      deploy:
+        image: extensions/gke:stable
+        namespace: estafette
+        visibility: public
+        container:
+          repository: estafette
+        hosts:
+        - ci.estafette.io</code></pre></div><h6 id=a-release-to-promote-a-docker-container-to-beta-or-stable>A release to promote a docker container to &lsquo;beta&rsquo; or &lsquo;stable&rsquo;</h6><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>releases:
+  beta:
+    stages:
+      tag-container-image:
+        image: extensions/docker:stable
+        action: tag
+        container: gke
+        repositories:
+        - extensions
+        tags:
+        - beta
+
+  stable:
+    stages:
+      tag-container-image:
+        image: extensions/docker:stable
+        action: tag
+        container: gke
+        repositories:
+        - extensions
+        tags:
+        - stable
+        - latest</code></pre></div><p>Notes:
+* Unlike the build stages git clone doesn&rsquo;t happen by default in order to speed releases that don&rsquo;t require it up</p><h2 id=a-stage-in-detail>A stage in detail</h2><p>The individual stages of a build or release share nothing except for the cloned repository mounted into each stage container. Passing on information can be done via this working directory.</p><h6 id=image>Image</h6><p>With the <code>image</code> tag you can define which Docker container is used to execute this stage. You can use any public container or if you define private registries in the Estafette CI server those are available to use as well.</p><p>Notes:
+* One of the goals of Estafette CI is to decouple individual application builds as much as possible by sharing nothing; no build agents with shared dependencies. So be cautious when creating builder images that are shared between many applications, because you might lose the advantage of being able to upgrade one application at a time to the latest and greatest version of your language of choice.</p><h6 id=shell>Shell</h6><p>By default the shell used to execute <code>commands</code> is <code>/bin/sh</code>. With the <code>shell</code> tag you can override this to for example <code>/bin/bash</code>.</p><h6 id=working-directory>Working directory</h6><p>The cloned git repository is mounted into the <code>/estafette-work</code> directory by default. In some cases you want to be able to override this. For example complex golang applications with nested packages need to be build within a certain directory structure.</p><p>You can set an override like this:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>workDir: /go/src/github.com/estafette/estafette-ci-api</code></pre></div><p>Or by reusing a possible <code>app</code> (or other) label you&rsquo;ve defined in the <code>labels</code> section this looks like:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>workDir: /go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}</code></pre></div><h6 id=commands>Commands</h6><p>Unless you make use of extensions it&rsquo;s likely that you&rsquo;ll pass <code>commands</code> to the stage image to execute certain behaviour. You can define one or more commands which are executed sequentially:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>restore:
+  image: microsoft/dotnet:<span style=color:#3af>2.1</span>-sdk
+  commands:
+  - dotnet restore --packages .nuget/packages
+
+build:
+  image: microsoft/dotnet:<span style=color:#3af>2.1</span>-sdk
+  commands:
+  - dotnet build --version-suffix ${ESTAFETTE_BUILD_VERSION_PATCH}</code></pre></div><p>You could also chose to combine these stages into a single stage like this:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>restore:
+  image: microsoft/dotnet:<span style=color:#3af>2.1</span>-sdk
+  commands:
+  - dotnet restore
+  - dotnet build --version-suffix ${ESTAFETTE_BUILD_VERSION_PATCH}</code></pre></div><p>A compelling reason to split things up into multiple stages is to get individual timings on the various stages which you can use to find the best opportunity to improve performance in your build pipeline.</p><h6 id=environment-variables>Environment variables</h6><p>To pass environment variables into a build/release stage you can use the <code>env</code> tag to specify one or more environment variables in the image.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>build:
+  image: golang:<span style=color:#3af>1.11</span>.<span style=color:#3af>1</span>-alpine3.<span style=color:#3af>8</span>
+  workDir: /go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}
+  env:
+    CGO_ENABLED: <span style=color:#3af>0</span>
+    GOOS: linux
+  commands:
+  - go test `go list ./... <span style=color:#5a2>| grep -v /vendor/`</span></code></pre></div><p>Note:
+* The globally set Estafette environment variables are automatically injected into each stage container, so you don&rsquo;t have to do that explicitly.</p><h6 id=when-clause>When clause</h6><p>To control execution of each individual step you can use complex conditions - in golang notation - to control whether the stage gets executed or not.</p><p>By default a stage only executes if all stages before it have been executed succesfully. The implicit value of the <code>when</code> tag looks like this:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>when:
+  status == <span style=color:#5a2>&#39;succeeded&#39;</span></code></pre></div><p>To ensure that for example you only push Docker containers for a specific branch you can use the following condition:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>when:
+  status == <span style=color:#5a2>&#39;succeeded&#39;</span> <span style=color:#888;font-style:italic>&amp;&amp;</span>
+  branch == <span style=color:#5a2>&#39;master&#39;</span></code></pre></div><p>Do note that you have to repeat the <code>status == 'succeeded'</code>; we don&rsquo;t prepend this by default to your when clause so you can actually trigger stages on failure as well; very useful for notifications in case of failure.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>when:
+  status == <span style=color:#5a2>&#39;failed&#39;</span></code></pre></div><h6 id=retries>Retries</h6><p>If you have flaky stages you obviously want to improve what happens in that stage to be more reliable; but a quick stop-gap to at least retry the full stage in case of failure can be to set a number of retries before it&rsquo;s seen as a real failure with the <code>retries</code> tag.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>retries: <span style=color:#3af>3</span></code></pre></div><h6 id=custom-properties>Custom properties</h6><p>When you set unrecognized keywords - none of the above - in a stage Estafette automatically sees those as custom properties which are injected into the stages as environment variables; this is useful to create extensions with a friendlier set of parameters to control the behaviour.</p><p>In case a parameter is of type string, boolean, integer of an array of strings they are injected into the container as an environment variable with name <code>ESTAFETTE_EXTENSION_&lt;UPPER_SNAKE_CASE_OF_THE_TAG_NAME&gt;</code>.</p><p>All of the custom properties together are also json serialized and injected with environment variable name <code>ESTAFETTE_EXTENSION_CUSTOM_PROPERTIES</code>. This way you can use more complex and nested structures to deserialize within your extension.</p><h2 id=environment-variables-1>Environment variables</h2><p>Besides the environment variables defined at each individual stage you can also set global environment variables with top-level section <code>env</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>env:
+  VAR_A: Greetings
+  VAR_B: World</code></pre></div><p>These are also automatically injected into each individual stage container; if the same environment variable name is used at the stage level it overrides the global one.</p><h2 id=secret-values>Secret values</h2><p>In order to be able to use secret values in your various steps the Estafette CI server is configured with an AES key of 32 bytes in order to use AES-256 to encrypt secrets.</p><p>Currently values can be encrypted via the Slack integration with Slash command <code>/estafette encrypt &lt;your secret value&gt;</code>.</p><p>This returns a string of the form <code>estafette.secret(***)</code> which can be used as value for your environment variables or custom properties.</p><h2 id=versioning>Versioning</h2><p>By default Estafette CI uses semantic versioning with the following values:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>version:
+  semver:
+    major: <span style=color:#3af>0</span>
+    minor: <span style=color:#3af>0</span>
+    patch: <span style=color:#5a2>&#39;{{auto}}&#39;</span>
+    labelTemplate: <span style=color:#5a2>&#39;{{branch}}&#39;</span>
+    releaseBranch: master</code></pre></div><p>The <code>patch</code> value is generated from a constantly increasing integer per repository, which increments across all branches, not per branch. This ensures it&rsquo;s unique. When the actual branch is different from the one specified in the <code>releaseBranch</code> tag the <code>labelTemplate</code> is appended to the build counter resulting in a version number like <code>0.0.531-my-pr-branch</code>. For the release branch this will result in a version number like <code>0.0.532</code>.</p><h2 id=builder-parameters>Builder parameters</h2><p>In order to dogfood Estafette&rsquo;s own components before they&rsquo;re promoted to stable version there&rsquo;s the possibility to set the track to <code>dev</code>, <code>beta</code> or the default value of <code>stable</code>. This controls which version of the builder container is used to execute build steps.</p><pre><code>builder:
+  track: stable
+</code></pre><p>Notes:
+* It&rsquo;s advised to always stay on the stable branch to avoid flaky behaviour because a bad version made it into <code>dev</code>.</p><h2 id=global-estafette-environment-variables>Global Estafette environment variables</h2><p>The following Estafette specific global variables are injected automatically into all stage containers to be used at your own disposal:</p><table><thead><tr><th>Environment variable</th><th>Description</th></tr></thead><tbody><tr><td><code>ESTAFETTE_GIT_SOURCE</code></td><td>Indicates the hosted source code system; github.com or bitbucket.org</td></tr><tr><td><code>ESTAFETTE_GIT_OWNER</code></td><td>The owner of the repository; in github.com/estafette/estafette-ci-api the middle value <code>estafette</code> is the owner</td></tr><tr><td><code>ESTAFETTE_GIT_NAME</code></td><td>The name of the repository; in github.com/estafette/estafette-ci-api the last value <code>estafette-ci-api</code> is the name</td></tr><tr><td><code>ESTAFETTE_GIT_FULLNAME</code></td><td>The full name is the owner plus repository name, for example <code>estafette/estafette-ci-api</code></td></tr><tr><td><code>ESTAFETTE_GIT_REVISION</code></td><td>The git sha-1 hash for a commit; it&rsquo;s the hash for the latest commit within a push</td></tr><tr><td><code>ESTAFETTE_GIT_BRANCH</code></td><td>The git branch being built or released</td></tr><tr><td><code>ESTAFETTE_BUILD_DATETIME</code></td><td>This is the UTC time in RFC3339 format that the build started</td></tr><tr><td><code>ESTAFETTE_BUILD_VERSION</code></td><td>The full version number generated by Estafette and the <code>version</code> section in the manifest</td></tr><tr><td><code>ESTAFETTE_BUILD_VERSION_MAJOR</code></td><td>If semantic versioning is used this holds the major version</td></tr><tr><td><code>ESTAFETTE_BUILD_VERSION_MINOR</code></td><td>If semantic versioning is used this holds the minor version</td></tr><tr><td><code>ESTAFETTE_BUILD_VERSION_PATCH</code></td><td>If semantic versioning is used this has the patch version</td></tr><tr><td><code>ESTAFETTE_BUILD_STATUS</code></td><td>Starts out as <code>succeeded</code> but changes to <code>failed</code> as soon as a build/release stage fails</td></tr><tr><td><code>ESTAFETTE_LABEL_...</code></td><td>All items in the <code>labels</code> section are turned into an environment variable of this form; the label key is turned into upper snake case</td></tr><tr><td><code>ESTAFETTE_EXTENSION_...</code></td><td>All custom properties of type string, boolean, integer or array of strings are turned into an environment variable of this form; the tag is turned into upper snake case</td></tr><tr><td><code>ESTAFETTE_EXTENSION_CUSTOM_PROPERTIES</code></td><td>All custom properties of a stage are json serialized and injected into the stage container with this environment variable</td></tr></tbody></table><p>Notes:
+* Don&rsquo;t set any variables starting with <code>ESTAFETTE_</code> yourself, they will be wiped or skipped.</p><h2 id=other>Other</h2><p>To find out more about the Estafette extensions and how they can be used at the <a href=/usage/extensions/>extensions</a> documentation.</p></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav></body></html>
