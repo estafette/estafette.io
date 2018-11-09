@@ -7,7 +7,7 @@
             <div class="col mt-4 mb-4 border-right sidebar">
                 {{ partial "sidebar" . }}
             </div>
-            <div class="col mt-4 mb-4 pl-5 pt-4">
+            <div class="col mt-4 mb-4 pl-5 pt-4 content-block">
                 <div class="row">
                     <article class="col">
                         <header>
@@ -18,8 +18,8 @@
                 </div>
                 <div class="row">
                     {{- range .Data.Pages }}
-                    <div class="col-12 col-lg-6 col-xl-4">
-                        <div class="card mb-3">
+                    <div class="col-12 col-lg-6">
+                        <div class="card mb-3" style="min-height: 210px">
                             <div class="card-body">
                                 <h5 class="card-title">{{.Title}}</h5>
                                 <p class="card-text">{{.Description}}</p>
