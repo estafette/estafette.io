@@ -4,19 +4,266 @@ description: "At the heart of Estafette CI is the manifest for your application 
 weight: 1
 ---
 
-### Usage in your application
+Estafette CI is manifest-controlled. That means each build and stage is controlled via the manifest. No more fiddling in a GUI to set up a pipeline.
 
-To build your application with Estafette add an `.estafette.yaml` file to your application repository.
+## Labels
+
+Your manifest usually starts with a set of labels; these labels are useful to quickly filter pipelines in the GUI or api, but it also helps for reusing the same application name in your build or release steps.
+
+In the manifest labels can be specified within the `labels` section; you have full freedom to come up with additional keys for your labels:
 
 ```yaml
-# these labels turn into ESTAFETTE_LABEL_... envvars, automatically injected into all pipeline steps
 labels:
   app: estafette-ci-builder
   team: estafette-team
   language: golang
+```
 
-# semver version generates a 0.0.x version (or 0.0.x-<branch> for other branches than the release branch)
-# made available as ESTAFETTE_BUILD_VERSION envvar, automatically injected into all pipeline steps
+The labels are available as `ESTAFETTE_LABEL_<UPPER_SNAKE_CASE_OF_LABEL_VALUE>` in your build and release stages.
+
+## Build stages
+
+On every `git push` to repositories in associated hosted git services Estafette CI receives a signal that there's new commits and starts the build stages as defined in the `stages` section.
+
+For each stage you can define a public container image to be used or when you've configured private repositories in the Estafette CI server you can use images from those as well.
+
+```yaml
+stages:
+  restore:
+    image: node:10.9.0-alpine
+    commands:
+    - npm install
+
+  unit-test:
+    image: node:10.9.0-alpine
+    commands:
+    - npm run unit
+
+  build:
+    image: node:10.9.0-alpine
+    commands:
+    - npm run build
+
+  bake:
+    image: extensions/docker:stable
+    action: build
+    repositories:
+    - estafette
+    path: ./publish
+    copy:
+    - dist
+    - favicon.ico
+    - nginx.vh.default.conf
+
+  push-to-docker-hub:
+    image: extensions/docker:stable
+    action: push
+    repositories:
+    - estafette
+```
+
+Notes:
+* Estafette CI automatically injects a stage to clone the git repository.
+* It's best practice to pin the versions of each image, instead of using `latest` to ensure your build still runs when you haven't touched in a long time.
+
+## Releases
+
+In Estafette CI release are triggered by a manual action via either the GUI or via Slack integration. Releases aren't just for deploying code, but can be used for any release action like pushing a Maven or Nuget package, tagging a docker container and more.
+
+Within the `releases` section you can define one or multiple release targets - for example development, staging and production - within which you can define stages in a similar fashion as in the build `stages` section.
+
+###### A release to trigger a deployment
+
+```yaml
+releases:
+  tooling:
+    stages:
+      deploy:
+        image: extensions/gke:stable
+        namespace: estafette
+        visibility: public
+        container:
+          repository: estafette
+        hosts:
+        - ci.estafette.io
+```
+
+###### A release to promote a docker container to 'beta' or 'stable'
+
+```yaml
+releases:
+  beta:
+    stages:
+      tag-container-image:
+        image: extensions/docker:stable
+        action: tag
+        container: gke
+        repositories:
+        - extensions
+        tags:
+        - beta
+
+  stable:
+    stages:
+      tag-container-image:
+        image: extensions/docker:stable
+        action: tag
+        container: gke
+        repositories:
+        - extensions
+        tags:
+        - stable
+        - latest
+```
+
+Notes:
+* Unlike the build stages git clone doesn't happen by default in order to speed releases that don't require it up
+
+## A stage in detail
+
+The individual stages of a build or release share nothing except for the cloned repository mounted into each stage container. Passing on information can be done via this working directory.
+
+###### Image
+
+With the `image` tag you can define which Docker container is used to execute this stage. You can use any public container or if you define private registries in the Estafette CI server those are available to use as well.
+
+Notes:
+* One of the goals of Estafette CI is to decouple individual application builds as much as possible by sharing nothing; no build agents with shared dependencies. So be cautious when creating builder images that are shared between many applications, because you might lose the advantage of being able to upgrade one application at a time to the latest and greatest version of your language of choice.
+
+###### Shell
+
+By default the shell used to execute `commands` is `/bin/sh`. With the `shell` tag you can override this to for example `/bin/bash`.
+
+###### Working directory
+
+The cloned git repository is mounted into the `/estafette-work` directory by default. In some cases you want to be able to override this. For example complex golang applications with nested packages need to be build within a certain directory structure.
+
+You can set an override like this:
+
+```yaml
+workDir: /go/src/github.com/estafette/estafette-ci-api
+```
+
+Or by reusing a possible `app` (or other) label you've defined in the `labels` section this looks like:
+
+```yaml
+workDir: /go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}
+```
+
+###### Commands
+
+Unless you make use of extensions it's likely that you'll pass `commands` to the stage image to execute certain behaviour. You can define one or more commands which are executed sequentially:
+
+```yaml
+restore:
+  image: microsoft/dotnet:2.1-sdk
+  commands:
+  - dotnet restore --packages .nuget/packages
+
+build:
+  image: microsoft/dotnet:2.1-sdk
+  commands:
+  - dotnet build --version-suffix ${ESTAFETTE_BUILD_VERSION_PATCH}
+```
+
+You could also chose to combine these stages into a single stage like this:
+
+```yaml
+restore:
+  image: microsoft/dotnet:2.1-sdk
+  commands:
+  - dotnet restore
+  - dotnet build --version-suffix ${ESTAFETTE_BUILD_VERSION_PATCH}
+```
+
+A compelling reason to split things up into multiple stages is to get individual timings on the various stages which you can use to find the best opportunity to improve performance in your build pipeline.
+
+###### Environment variables
+
+To pass environment variables into a build/release stage you can use the `env` tag to specify one or more environment variables in the image. 
+
+```yaml
+build:
+  image: golang:1.11.1-alpine3.8
+  workDir: /go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}
+  env:
+    CGO_ENABLED: 0
+    GOOS: linux
+  commands:
+  - go test `go list ./... | grep -v /vendor/`
+```
+
+Note:
+* The globally set Estafette environment variables are automatically injected into each stage container, so you don't have to do that explicitly.
+
+###### When clause
+
+To control execution of each individual step you can use complex conditions - in golang notation - to control whether the stage gets executed or not.
+
+By default a stage only executes if all stages before it have been executed succesfully. The implicit value of the `when` tag looks like this:
+
+```yaml
+when:
+  status == 'succeeded'
+```
+
+To ensure that for example you only push Docker containers for a specific branch you can use the following condition:
+
+```yaml
+when:
+  status == 'succeeded' &&
+  branch == 'master'
+```
+
+
+Do note that you have to repeat the `status == 'succeeded'`; we don't prepend this by default to your when clause so you can actually trigger stages on failure as well; very useful for notifications in case of failure.
+
+```yaml
+when:
+  status == 'failed'
+```
+
+###### Retries
+
+If you have flaky stages you obviously want to improve what happens in that stage to be more reliable; but a quick stop-gap to at least retry the full stage in case of failure can be to set a number of retries before it's seen as a real failure with the `retries` tag.
+
+```yaml
+retries: 3
+```
+
+###### Custom properties
+
+When you set unrecognized keywords - none of the above - in a stage Estafette automatically sees those as custom properties which are injected into the stages as environment variables; this is useful to create extensions with a friendlier set of parameters to control the behaviour.
+
+In case a parameter is of type string, boolean, integer of an array of strings they are injected into the container as an environment variable with name `ESTAFETTE_EXTENSION_<UPPER_SNAKE_CASE_OF_THE_TAG_NAME>`.
+
+All of the custom properties together are also json serialized and injected with environment variable name `ESTAFETTE_EXTENSION_CUSTOM_PROPERTIES`. This way you can use more complex and nested structures to deserialize within your extension.
+
+## Environment variables
+
+Besides the environment variables defined at each individual stage you can also set global environment variables with top-level section `env`:
+
+```yaml
+env:
+  VAR_A: Greetings
+  VAR_B: World
+```
+
+These are also automatically injected into each individual stage container; if the same environment variable name is used at the stage level it overrides the global one.
+
+## Secret values
+
+In order to be able to use secret values in your various steps the Estafette CI server is configured with an AES key of 32 bytes in order to use AES-256 to encrypt secrets.
+
+Currently values can be encrypted via the Slack integration with Slash command `/estafette encrypt <your secret value>`.
+
+This returns a string of the form `estafette.secret(***)` which can be used as value for your environment variables or custom properties.
+
+## Versioning
+
+By default Estafette CI uses semantic versioning with the following values:
+
+```yaml
 version:
   semver:
     major: 0
@@ -24,157 +271,49 @@ version:
     patch: '{{auto}}'
     labelTemplate: '{{branch}}'
     releaseBranch: master
-
-# global environments variables that are automatically injected into all pipeline steps and can be
-# overridden by defining an envvar in a pipeline step with the same name
-env:
-  VAR1: somevalue
-  VAR2: another value
-
-# pipeline stages are executed sequentially;
-# a step uses a public container to mount the working directory into and execute commands in;
-# extensions are containerized applications that execute based on injected environment variables or
-# custom properties injected as ESTAFETTE_EXTENSION_<PROPERTY> envvars
-# executing or skipping a step is controlled by the 'when' property
-stages:
-  set-pending-build-status:
-    image: extensions/github-status:stable
-    status: pending
-
-  build:
-    image: golang:1.9.2-alpine3.6
-    workDir: /go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}
-    commands:
-    - apk --update add git
-    - go test `go list ./... | grep -v /vendor/`
-    - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags "-X main.version=${ESTAFETTE_BUILD_VERSION} -X main.revision=${ESTAFETTE_GIT_REVISION} -X main.branch=${ESTAFETTE_GIT_BRANCH} -X main.buildDate=${ESTAFETTE_BUILD_DATETIME}" -o ./publish/${ESTAFETTE_LABEL_APP} .
-
-  bake-estafette:
-    image: docker:17.09.0-ce
-    commands:
-    - cp Dockerfile ./publish
-    - docker build -f ./publish/Dockerfile -t estafette/${ESTAFETTE_LABEL_APP}:${ESTAFETTE_BUILD_VERSION} ./publish
-
-  push-to-docker-hub:
-    image: docker:17.09.0-ce
-    env:
-      DOCKER_HUB_USERNAME: estafette.secret(T2YbJ4sAMgJMpZ.YS4vLTh8kdNQ5cBrU2AGztThmzJ7aD8w5a5W_-xY1Cw==)
-      DOCKER_HUB_PASSWORD: estafette.secret(_kZ8EraN784wEF.GZEpqauwaEb33PmV7_-_fYfszjbKBEhgEfxvdLvZUE9aXq63tB)
-    commands:
-    - docker login --username=${DOCKER_HUB_USERNAME} --password="${DOCKER_HUB_PASSWORD}"
-    - docker push estafette/${ESTAFETTE_LABEL_APP}:${ESTAFETTE_BUILD_VERSION}
-
-  set-build-status:
-    image: extensions/github-status:stable
-
-  slack-notify:
-    image: extensions/slack-build-status:stable
-    webhook: estafette.secret(VQhyeydGURZSFLmh.LVhcvAuxx5EsgBqRJ9kvxXsvpZdSkP9pQ6AzUU5rrsFeKQAAAf8fGtQ6VhXL5qThw5m8hrsBASWQKaaYsGn5ZmC5jTUKpLfgg7YR)
-    name: ${ESTAFETTE_LABEL_APP}
-    channels:
-    - '#build-status'
-    when:
-      status == 'failed'
 ```
 
-## Running a build
+The `patch` value is generated from a constantly increasing integer per repository, which increments across all branches, not per branch. This ensures it's unique. When the actual branch is different from the one specified in the `releaseBranch` tag the `labelTemplate` is appended to the build counter resulting in a version number like `0.0.531-my-pr-branch`. For the release branch this will result in a version number like `0.0.532`.
 
-The **CI builder** is the component that interprets the `.estafette.yaml` file and executes the pipeline stages specified in there.
+## Builder parameters
 
-At this time the yaml file consist of two top-level sections, _labels_ and _stages_.
-
-## Labels
-
-_Labels_ are not required, but are useful to keep pipelines slightly less application-specific by using the labels as variables. In the future labels will be the mechanism to easily filter application pipelines by label values.
-
-Any of the labels can be used in all the pipeline steps with the environment variable `ESTAFETTE_LABEL_<LABEL NAME>` in snake-casing.
-
-## Stages
-
-The _stages_ section allows you to define multiple steps to run within public Docker containers. Within each step you specify the public Docker image to use and the commands to execute within the Docker container. Your cloned repository is mounted within the docker container at `/estafette-work` by default, but you can override it with the `workDir` setting in case you need your code to live in a certain directory structure like with certain golang projects.
-
-All files in the working directory are passed from step to step. Any files stored outside the working directory are not passed on. This means that - for example - when fetching NuGet packages with .NET core you specify the packages directory to be stored within the working directory, so it's available in the following steps.
-
-For each step you can use a different Docker image, but it's best practice to minimize the number of different images / versions in order to save time on downloading all the Docker images.
-
-Pipeline steps run in sequence. With the `when` property you can specify a logical expression - in golang format - to determine whether the step should run or be skipped. This is useful to, for example, only push docker containers to a registry for certain branches. Or to fire a notification if any of the previous steps has failed. The default `when` condition is `status == 'succeeded'`.
-
-## Releasing from Estafette CI
-
-In order to release your applications, whether it's a Maven package to push to a repository, a Docker container to push to a registry or a deployment to Kubernetes, you can do this with Estafette CI by defining release targets in the `.estafette.yaml` file:
-
-```yaml
-...
-
-releases:
-  latest:
-    stages:
-      tag-container-image-as-latest:
-        image: docker:18.03.1-ce
-        env:
-          DOCKER_HUB_USERNAME: estafette.secret(***)
-          DOCKER_HUB_PASSWORD: estafette.secret(***)
-        commands:
-        - docker login --username=${DOCKER_HUB_USERNAME} --password="${DOCKER_HUB_PASSWORD}"
-        - docker pull estafette/estafette-ci-api:${ESTAFETTE_BUILD_VERSION}
-        - docker tag estafette/estafette-ci-api:${ESTAFETTE_BUILD_VERSION} estafette/estafette-ci-api:latest
-        - docker push estafette/estafette-ci-api:${ESTAFETTE_BUILD_VERSION}
-```
-
-Currently these release targets can be triggered via the Slack integration; web gui and cli support will follow later. To trigger a release from Slack you use the following Slash command:
+In order to dogfood Estafette's own components before they're promoted to stable version there's the possibility to set the track to `dev`, `beta` or the default value of `stable`. This controls which version of the builder container is used to execute build steps.
 
 ```
-/estafette release <repo name> <release target> <version>
+builder:
+  track: stable
 ```
 
-An example with the release sample as above would be:
+Notes:
+* It's advised to always stay on the stable branch to avoid flaky behaviour because a bad version made it into `dev`.
 
-```
-/estafette release estafette-ci-api latest 0.0.21
-```
+## Global Estafette environment variables
 
-If the repository name is not unique within your Estafette CI database you'll have to specificy the full repo path like:
+The following Estafette specific global variables are injected automatically into all stage containers to be used at your own disposal:
 
-```
-/estafette release github.com/estafette/estafette-ci-api latest 0.0.21
-```
+| Environment variable                  | Description |
+|---------------------------------------|-------------|
+| `ESTAFETTE_GIT_SOURCE`                  | Indicates the hosted source code system; github.com or bitbucket.org |
+| `ESTAFETTE_GIT_OWNER`                   | The owner of the repository; in github.com/estafette/estafette-ci-api the middle value `estafette` is the owner |
+| `ESTAFETTE_GIT_NAME`                    | The name of the repository;  in github.com/estafette/estafette-ci-api the last value `estafette-ci-api` is the name |
+| `ESTAFETTE_GIT_FULLNAME`                | The full name is the owner plus repository name, for example `estafette/estafette-ci-api` |
+| `ESTAFETTE_GIT_REVISION`                | The git sha-1 hash for a commit; it's the hash for the latest commit within a push |
+| `ESTAFETTE_GIT_BRANCH`                  | The git branch being built or released |
+| `ESTAFETTE_BUILD_DATETIME`              | This is the UTC time in RFC3339 format that the build started |
+| `ESTAFETTE_BUILD_VERSION`               | The full version number generated by Estafette and the `version` section in the manifest |
+| `ESTAFETTE_BUILD_VERSION_MAJOR`         | If semantic versioning is used this holds the major version |
+| `ESTAFETTE_BUILD_VERSION_MINOR`         | If semantic versioning is used this holds the minor version |
+| `ESTAFETTE_BUILD_VERSION_PATCH`         | If semantic versioning is used this has the patch version |
+| `ESTAFETTE_BUILD_STATUS`                | Starts out as `succeeded` but changes to `failed` as soon as a build/release stage fails |
+| `ESTAFETTE_LABEL_...`                   | All items in the `labels` section are turned into an environment variable of this form; the label key is turned into upper snake case |
+| `ESTAFETTE_EXTENSION_...`               | All custom properties of type string, boolean, integer or array of strings are turned into an environment variable of this form; the tag is turned into upper snake case |
+| `ESTAFETTE_EXTENSION_CUSTOM_PROPERTIES` | All custom properties of a stage are json serialized and injected into the stage container with this environment variable |
 
-### Use files from the git repository
+Notes:
+* Don't set any variables starting with `ESTAFETTE_` yourself, they will be wiped or skipped.
 
-By default - to speed things up - the release targets do not clone the git repository. If you need to have access to the files in your git repository you can do so by using the `git-clone` extension as the first stage:
+## Other
 
+To find out more about the Estafette extensions and how they can be used at the [extensions][] documentation.
 
-```yaml
-...
-
-releases:
-  latest:
-    stages:
-      git-clone:
-        image: extensions/git-clone:dev
-
-      tag-container-image-as-latest:
-        ...
-```
-
-This brings in the last 50 revisions of the particular branch the version was built from.
-
-If you need to be able to release older versions you can do a full clone by specifying property `shallow: false` on the git-clone stage:
-
-```yaml
-...
-
-releases:
-  latest:
-    stages:
-      git-clone:
-        image: extensions/git-clone:dev
-        shallow: false
-
-      tag-container-image-as-latest:
-        ...
-```
-
-### Rolling back a release
-
-Currently there's no dedicated way to roll back a release except for just releasing the previous version again.
+[extensions]: /usage/extensions/

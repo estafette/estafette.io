@@ -2,6 +2,7 @@
 title: "Design"
 description: "Learn how Estafette is decomposed into small service and how they interact"
 weight: 3
+menu: "main"
 ---
 
 The goals of Estafette CI are to...
