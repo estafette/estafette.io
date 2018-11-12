@@ -49,7 +49,7 @@ bake:
 ##### push
 
 ```yaml
-bake:
+push:
   image: extensions/docker:stable
   action: push
   container: < string | ESTAFETTE_LABEL_APP >
@@ -63,7 +63,7 @@ bake:
 A minimal version when using all defaults looks like:
 
 ```yaml
-bake:
+push:
   image: extensions/docker:stable
   action: push
   repositories:
@@ -75,7 +75,7 @@ bake:
 To later on tag a specific version with another tag - for example to promote a dev version to stable you can use the `docker` extension to tag that version with other tags:
 
 ```yaml
-tag-container-image:
+tag:
   image: extensions/docker:dev
   action: tag
   container: < string | ESTAFETTE_LABEL_APP >
@@ -87,7 +87,7 @@ tag-container-image:
 ```
 
 ```yaml
-bake:
+tag:
   image: extensions/docker:stable
   action: tag
   repositories:
