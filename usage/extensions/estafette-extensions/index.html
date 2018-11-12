@@ -1,0 +1,38 @@
+<!doctype html><html><head><script async src="https://www.googletagmanager.com/gtag/js?id=UA-464018-9"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8><title>Estafette CI extensions &ndash; Estafette CI/CD</title><link rel=stylesheet href=https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css integrity=sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB crossorigin=anonymous><link rel=stylesheet href=https://estafette.io/sass/estafette.min.c3a982df893ef15fb3550e6a83f1c493d3744e6bdaccbdad80280c2687748851.css integrity="sha256-w6mC34k&#43;8V&#43;zVQ5qg/HEk9N0TmvazL2tgCgMJod0iFE="></head><body><div id=header-and-main><nav class="navbar navbar-expand-lg navbar-dark bg-dark"><a class=navbar-brand href=/>Estafette CI</a>
+<button class=navbar-toggler type=button data-toggle=collapse data-target=#navbarNavAltMarkup aria-controls=navbarNavAltMarkup aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse" id=navbarNavAltMarkup><div class=navbar-nav><a class="nav-item nav-link" href=/getting-started/>Getting started</a><a class="nav-item nav-link active" href=/usage/>Usage</a><a class="nav-item nav-link" href=/design/>Design</a></div></div></nav><div id=main><div class=container-fluid><div class=row><div class="col mt-4 mb-4 border-right sidebar"><ul><li class=section-item><a href=/getting-started/ class=section-item-link>Getting started</a></li><li class=section-item><a href=/usage/ class="section-item-link ancestor">Usage</a><ul><li class=page-item><a href=/usage/manifest/ class=page-item-link>Manifest</a></li><li class=section-item><a href=/usage/extensions/ class="section-item-link ancestor">Extensions</a><ul><li class=page-item><a href=/usage/extensions/estafette-extensions/ class="page-item-link active">Estafette CI extensions</a></li><li class=page-item><a href=/usage/extensions/build-an-extension/ class=page-item-link>Build an extension</a></li></ul></li><li class=page-item><a href=/usage/examples/ class=page-item-link>Examples</a></li></ul></li><li class=section-item><a href=/design/ class=section-item-link>Design</a></li></ul></div><div class="col pl-5 pt-4 content-block"><h1 class=mb-4>Estafette CI extensions</h1><h3 id=extensions-git-clone>extensions/git-clone</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>git-clone:
+  image: extensions/git-clone:stable
+  shallow: &lt; boolean <span style=color:#5a2>| true &gt;</span></code></pre></div><p>The <code>git-clone</code> stage is automatically injected if not present in your manifest for the build stages; in the release stages it&rsquo;s not injected. In case you don&rsquo;t need anything from your repository to release this speeds things up.</p><p>The shallow clone - enabled by default - checks out the latest 50 commits for the particular branch, then selects the correct revision. When rebuilding an older version or releasing an older version this might not be enough, in that case explicitly set <code>shallow: false</code>.</p><h3 id=extensions-github-status>extensions/github-status</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>set-build-status:
+  image: extensions/github-status:stable
+  status: &lt; string <span style=color:#5a2>| ESTAFETTE_BUILD_STATUS &gt;</span></code></pre></div><p>The <code>github-status</code> extension takes the build status from the <code>ESTAFETTE_BUILD_STATUS</code> environment variable, but this can be overridden with the <code>status</code> tag. Depending on the source of the git push - github or bitbucket - this extension is automatically injected at the beginning of the build stages and at the end in order to set the build status in the respective source code hosting system:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>set-pending-build-status:
+  image: extensions/github-status:stable
+  status: pending
+
+...
+
+set-build-status:
+  image: extensions/github-status:stable
+  when:
+    status == <span style=color:#5a2>&#39;succeeded&#39;</span> |<span style=color:#5a2>| 
+</span><span style=color:#5a2>    status == &#39;failed&#39;</span></code></pre></div><h3 id=extensions-bitbucket-status>extensions/bitbucket-status</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>set-build-status:
+  image: extensions/bitbucket-status:stable
+  status: &lt; string <span style=color:#5a2>| ESTAFETTE_BUILD_STATUS &gt;</span></code></pre></div><p>The <code>bitbucket-status</code> extension takes the build status from the <code>ESTAFETTE_BUILD_STATUS</code> environment variable, but this can be overridden with the <code>status</code> tag. Depending on the source of the git push - github or bitbucket - this extension is automatically injected at the beginning of the build stages and at the end in order to set the build status in the respective source code hosting system:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>set-pending-build-status:
+  image: extensions/bitbucket-status:stable
+  status: pending
+
+...
+
+set-build-status:
+  image: extensions/bitbucket-status:stable
+  when:
+    status == <span style=color:#5a2>&#39;succeeded&#39;</span> |<span style=color:#5a2>| 
+</span><span style=color:#5a2>    status == &#39;failed&#39;</span></code></pre></div><h3 id=extensions-slack-build-status>extensions/slack-build-status</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>slack-notify:
+  image: extensions/slack-build-status:stable
+  webhook: estafette.secret(<span style=color:#888;font-style:italic>***)</span>
+  channels:
+  - <span style=color:#5a2>&#39;#mychannel&#39;</span>
+  when:
+    status == <span style=color:#5a2>&#39;succeeded&#39;</span> |<span style=color:#5a2>| 
+</span><span style=color:#5a2>    status == &#39;failed&#39;</span></code></pre></div><p>In order to send build notifications to one or more Slack channels the <code>slack-build-status</code> extension automatically sends a messages depending on the build status into the <code>channels</code> passed to this extension. The <code>webhook</code> needs a Slack webhook url in order to send the message.</p><p>Notes:
+* This extension will be updated in the future to make use of the <em>credentials and trusted images</em> configuration in the Estafette CI server so there&rsquo;s no need to embed a webhook in the manifest.</p></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav></body></html>
