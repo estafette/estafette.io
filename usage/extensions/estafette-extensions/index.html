@@ -35,7 +35,47 @@ set-build-status:
   when:
     status == <span style=color:#5a2>&#39;succeeded&#39;</span> |<span style=color:#5a2>| 
 </span><span style=color:#5a2>    status == &#39;failed&#39;</span></code></pre></div><p>In order to send build notifications to one or more Slack channels the <code>slack-build-status</code> extension automatically sends a messages depending on the build status into the <code>channels</code> passed to this extension. The <code>webhook</code> needs a Slack webhook url in order to send the message.</p><p>Notes:
-* This extension will be updated in the future to make use of the <em>credentials and trusted images</em> configuration in the Estafette CI server so there&rsquo;s no need to embed a webhook in the manifest.</p><h3 id=extensions-gke>extensions/gke</h3><p>The <code>gke</code> extension is used to deploy an application to Kubernetes Engine. It generates a very opiniated deployment with a sidecar handling incoming traffic and forwarding requests; it asumes <em>horizontal pod autoscaling</em>, it injects secrets and configs in a standard way, and uses a lot of other sensible defaults to be able to use it with a minimum number of parameters specified.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>deploy:
+* This extension will be updated in the future to make use of the <em>credentials and trusted images</em> configuration in the Estafette CI server so there&rsquo;s no need to embed a webhook in the manifest.</p><h3 id=extensions-docker>extensions/docker</h3><p>The <code>docker</code> extension supports the following actions: <em>build</em>, <em>push</em>, <em>tag</em>. For pushing and tagging containers it uses the <em>credentials and trusted images</em> configuration in the Estafette CI server to get access to Docker registry credentials automatically.</p><h5 id=build>build</h5><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>bake:
+  image: extensions/docker:stable
+  action: build
+  container: &lt; string <span style=color:#5a2>| ESTAFETTE_LABEL_APP &gt;
+</span><span style=color:#5a2>  repositories:
+</span><span style=color:#5a2>  - estafette
+</span><span style=color:#5a2>  path: &lt; string | . &gt;
+</span><span style=color:#5a2>  dockerfile: &lt; string | Dockerfile &gt;
+</span><span style=color:#5a2>  copy:
+</span><span style=color:#5a2>  - &lt; string | copies Dockerfile by default &gt;
+</span><span style=color:#5a2>  - /etc/ssl/certs/ca-certificates.crt</span></code></pre></div><p>A minimal version when using all defaults looks like:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>bake:
+  image: extensions/docker:stable
+  action: build
+  repositories:
+  - estafette</code></pre></div><h5 id=push>push</h5><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>bake:
+  image: extensions/docker:stable
+  action: push
+  container: &lt; string <span style=color:#5a2>| ESTAFETTE_LABEL_APP &gt;
+</span><span style=color:#5a2>  repositories:
+</span><span style=color:#5a2>  - estafette
+</span><span style=color:#5a2>  tags:
+</span><span style=color:#5a2>  - &lt; string | tags with ESTAFETTE_BUILD_VERSION by default and is always pushed &gt;
+</span><span style=color:#5a2>  - dev</span></code></pre></div><p>A minimal version when using all defaults looks like:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>bake:
+  image: extensions/docker:stable
+  action: push
+  repositories:
+  - estafette</code></pre></div><h5 id=tag>tag</h5><p>To later on tag a specific version with another tag - for example to promote a dev version to stable you can use the <code>docker</code> extension to tag that version with other tags:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>tag-container-image:
+  image: extensions/docker:dev
+  action: tag
+  container: &lt; string <span style=color:#5a2>| ESTAFETTE_LABEL_APP &gt;
+</span><span style=color:#5a2>  repositories:
+</span><span style=color:#5a2>  - estafette
+</span><span style=color:#5a2>  tags:
+</span><span style=color:#5a2>  - stable
+</span><span style=color:#5a2>  - latest</span></code></pre></div><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>bake:
+  image: extensions/docker:stable
+  action: tag
+  repositories:
+  - estafette
+  tags:
+  - latest</code></pre></div><h3 id=extensions-gke>extensions/gke</h3><p>The <code>gke</code> extension is used to deploy an application to Kubernetes Engine. It generates a very opiniated deployment with a sidecar handling incoming traffic and forwarding requests; it asumes <em>horizontal pod autoscaling</em>, it injects secrets and configs in a standard way, and uses a lot of other sensible defaults to be able to use it with a minimum number of parameters specified.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>deploy:
   image: extensions/gke:stable
   credentials: &lt; string <span style=color:#5a2>| gke-ESTAFETTE_RELEASE_NAME &gt;
 </span><span style=color:#5a2>  app: &lt; string | ESTAFETTE_LABEL_APP &gt;
