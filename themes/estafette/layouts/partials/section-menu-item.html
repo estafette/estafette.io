@@ -1,11 +1,15 @@
-<li class="section-item"><a href="{{ .URL }}">{{ .Name }}</a>
-  {{- if or (gt (len .Data.Pages) 0) (gt (len .Sections) 0) -}}
+{{- $currentPage := .currentPage -}}
+<li class="section-item"><a href="{{ .section.URL }}" class="section-item-link{{ if .section.IsAncestor $currentPage }} ancestor{{ end }}{{ if eq .section $currentPage }} active{{ end }}">{{ .section.Name }}</a>
+  {{- $pagesAndSections := .section.Data.Pages | append .section.Sections -}}
+  {{- if and (.section.IsAncestor $currentPage) (gt (len $pagesAndSections) 0) -}}
   <ul>
-  {{- range .Data.Pages.ByWeight }}
-    {{ partial "page-menu-item.html" . }}
-  {{- end }}
-  {{- range .Sections.ByWeight }}
-    {{ partial "section-menu-item.html" . }}
+  {{- range sort $pagesAndSections "Weight" "asc" -}}
+    {{- if .IsSection -}}
+      {{ partial "section-menu-item.html" (dict "section" . "currentPage" $currentPage ) }}
+    {{- end -}}
+    {{- if .IsPage -}}
+      {{ partial "page-menu-item.html" (dict "page" . "currentPage" $currentPage ) }}
+    {{- end -}}  
   {{- end }}
   </ul>
   {{- end }}

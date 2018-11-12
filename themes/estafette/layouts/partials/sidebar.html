@@ -1,19 +1,12 @@
 <ul>
     {{- $currentPage := . -}}
-    {{- range .Site.Sections.ByWeight -}}
+    {{- $pagesAndSections := .Site.Sections.ByWeight | append (where (where .Site.Pages.ByWeight "Section" "") "IsHome" false) -}}
+    {{- range sort $pagesAndSections "Weight" "asc" -}}
         {{- if .IsSection -}}
-            {{ partial "section-menu-item.html" . }}
+            {{ partial "section-menu-item.html" (dict "section" . "currentPage" $currentPage ) }}
         {{- end -}}
         {{- if .IsPage -}}
-            {{ partial "page-menu-item.html" . }}
-        {{- end -}}
-    {{- end -}}
-    {{- range (where .Site.Pages.ByWeight "Section" "") -}}
-        {{- if .IsSection -}}
-            {{ partial "section-menu-item.html" . }}
-        {{- end -}}
-        {{- if .IsPage -}}
-            {{ partial "page-menu-item.html" . }}
+            {{ partial "page-menu-item.html" (dict "page" . "currentPage" $currentPage ) }}
         {{- end -}}
     {{- end -}}
 </ul>

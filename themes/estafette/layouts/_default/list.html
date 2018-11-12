@@ -17,7 +17,8 @@
                     </article>
                 </div>
                 <div class="row">
-                    {{- range .Data.Pages }}
+                    {{- $pagesAndSections := .Data.Pages | append .Sections -}}
+                    {{- range sort $pagesAndSections "Weight" "asc" -}}
                     <div class="col-12 col-lg-6">
                         <div class="card mb-3" style="min-height: 210px">
                             <div class="card-body">

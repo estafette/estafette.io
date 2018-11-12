@@ -1,1 +1,2 @@
-<li class="page-item"><a href="{{ .URL }}">{{ .Name }}</a></li>
+{{- $currentPage := .currentPage -}}
+<li class="page-item"><a href="{{ .page.URL }}" class="page-item-link{{ if eq .page $currentPage }} active{{ end }}">{{ .page.Name }}</a></li>

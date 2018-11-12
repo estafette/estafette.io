@@ -30,11 +30,6 @@ code {
     padding: .5rem .1rem .5rem .1rem;
 }
 
-table {
-    margin-top: 1.5rem!important;
-    margin-bottom: 1.5rem!important;
-}
-
 img{
     max-width: 100%;
     height: auto;
@@ -51,6 +46,43 @@ img{
 
 .content-block {
     max-width: 1024px;
+
+    pre {
+        margin-top: 1.5rem!important;
+        margin-bottom: 2.5rem!important;
+        max-width: 640px;
+        transition: all .5s;
+
+        &:hover {
+            max-width: 1024px;
+        }
+    }
+
+    p {
+        max-width: 640px;
+    }
+}
+
+table {
+    margin-top: 1.5rem!important;
+    margin-bottom: 2.5rem!important;
+    padding: .5rem!important;
+    border-collapse: separate;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;    
+}
+
+th {
+    padding: .5rem!important;
+}
+
+td {
+    vertical-align: top;
+    padding: .5rem!important;
+}
+
+td:first-child {
+    white-space: nowrap;
 }
 
 html, body {
@@ -75,8 +107,8 @@ html, body {
 } 
 
 .sidebar {
-    min-width: 200px;
-    max-width: 200px;
+    min-width: 250px;
+    max-width: 250px;
 
     & > ul {
         margin-top: .25rem!important;
@@ -85,8 +117,8 @@ html, body {
         list-style: none;
 
         & > li {
-            margin-top: 1.5rem!important;
-            margin-bottom: 1.5rem!important;
+            margin-top: 1rem!important;
+            margin-bottom: 1rem!important;
 
             & > a {
                 color: #343a40!important;
@@ -96,7 +128,7 @@ html, body {
             ul {
                 margin-top: .5rem!important;
                 margin-bottom: .5rem!important;
-                padding-left: 1rem!important;
+                padding-left: 1.3rem!important;
                 list-style: none;
             }
 
@@ -105,5 +137,41 @@ html, body {
                 margin-bottom: .5rem!important;
             }
         }
+    }
+
+    .section-item-link {
+
+        &::before {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            margin-left: .45em;
+            margin-right: .45em;
+            vertical-align: .1em;
+            content: "";
+            border-left: .3em solid;
+            border-top: .3em solid transparent;
+            border-right: 0;
+            border-bottom: .3em solid transparent;
+        }
+
+        &.ancestor::before {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            margin-left: .3em;
+            margin-right: .3em;
+            vertical-align: .255em;
+            content: "";
+            border-top: .3em solid;
+            border-right: .3em solid transparent;
+            border-bottom: 0;
+            border-left: .3em solid transparent;
+        }
+    }
+
+    .section-item-link.active,
+    .page-item-link.active {
+        color: #28a745!important;
     }
 }

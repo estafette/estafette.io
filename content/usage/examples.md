@@ -4,7 +4,6 @@ description: "A number of manifest examples for various popular languages"
 weight: 3
 ---
 
-
 ### golang
 
 ```yaml
