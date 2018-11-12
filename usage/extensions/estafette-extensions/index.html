@@ -35,4 +35,92 @@ set-build-status:
   when:
     status == <span style=color:#5a2>&#39;succeeded&#39;</span> |<span style=color:#5a2>| 
 </span><span style=color:#5a2>    status == &#39;failed&#39;</span></code></pre></div><p>In order to send build notifications to one or more Slack channels the <code>slack-build-status</code> extension automatically sends a messages depending on the build status into the <code>channels</code> passed to this extension. The <code>webhook</code> needs a Slack webhook url in order to send the message.</p><p>Notes:
-* This extension will be updated in the future to make use of the <em>credentials and trusted images</em> configuration in the Estafette CI server so there&rsquo;s no need to embed a webhook in the manifest.</p></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav></body></html>
+* This extension will be updated in the future to make use of the <em>credentials and trusted images</em> configuration in the Estafette CI server so there&rsquo;s no need to embed a webhook in the manifest.</p><h3 id=extensions-gke>extensions/gke</h3><p>The <code>gke</code> extension is used to deploy an application to Kubernetes Engine. It generates a very opiniated deployment with a sidecar handling incoming traffic and forwarding requests; it asumes <em>horizontal pod autoscaling</em>, it injects secrets and configs in a standard way, and uses a lot of other sensible defaults to be able to use it with a minimum number of parameters specified.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>deploy:
+  image: extensions/gke:stable
+  credentials: &lt; string <span style=color:#5a2>| gke-ESTAFETTE_RELEASE_NAME &gt;
+</span><span style=color:#5a2>  app: &lt; string | ESTAFETTE_LABEL_APP &gt;
+</span><span style=color:#5a2>  namespace: &lt; string | default namespace from credentials config &gt;
+</span><span style=color:#5a2>  visibility: &lt; string | private &gt;
+</span><span style=color:#5a2>  container:
+</span><span style=color:#5a2>    repository: &lt; string &gt;
+</span><span style=color:#5a2>    name: &lt; string | app &gt;
+</span><span style=color:#5a2>    tag: &lt; string | ESTAFETTE_BUILD_VERSION &gt;
+</span><span style=color:#5a2>    port: &lt; integer | 5000 &gt;
+</span><span style=color:#5a2>    env:
+</span><span style=color:#5a2>      MY_CUSTOM_ENV: value1
+</span><span style=color:#5a2>      MY_OTHER_CUSTOM_ENV: value2
+</span><span style=color:#5a2>    cpu:
+</span><span style=color:#5a2>      request: &lt; string | 100m &gt;
+</span><span style=color:#5a2>      limit: &lt; string | 125m &gt;
+</span><span style=color:#5a2>    memory:
+</span><span style=color:#5a2>      request: &lt; string | 128Mi &gt;
+</span><span style=color:#5a2>      limit: &lt; string | 128Mi &gt;
+</span><span style=color:#5a2>    liveness:
+</span><span style=color:#5a2>      path: &lt; string | /liveness &gt;
+</span><span style=color:#5a2>      delay: &lt; integer | 30 &gt;
+</span><span style=color:#5a2>      timeout: &lt; integer | 1 &gt;
+</span><span style=color:#5a2>    readiness:
+</span><span style=color:#5a2>      path: &lt; string | /readiness &gt;
+</span><span style=color:#5a2>      delay: &lt; integer | 0 &gt;
+</span><span style=color:#5a2>      timeout: &lt; integer | 1 &gt;
+</span><span style=color:#5a2>    metrics:
+</span><span style=color:#5a2>      scrape: &lt; boolean | true &gt;
+</span><span style=color:#5a2>      path: &lt; string | /metrics &gt;
+</span><span style=color:#5a2>      port: &lt; integer | .container.port &gt;
+</span><span style=color:#5a2>  sidecar:
+</span><span style=color:#5a2>    type: &lt; string | openresty &gt;
+</span><span style=color:#5a2>    image: &lt; string | estafette/openresty-sidecar:1.13.6.1-alpine &gt;
+</span><span style=color:#5a2>    env:
+</span><span style=color:#5a2>      CORS_ALLOWED_ORIGINS: &#34;*&#34;
+</span><span style=color:#5a2>      CORS_MAX_AGE: &#34;86400&#34;
+</span><span style=color:#5a2>    cpu:
+</span><span style=color:#5a2>      request: &lt; string | 10m &gt;
+</span><span style=color:#5a2>      limit: &lt; string | 50m &gt;
+</span><span style=color:#5a2>    memory:
+</span><span style=color:#5a2>      request: &lt; string | 10Mi &gt;
+</span><span style=color:#5a2>      limit: &lt; string | 50Mi &gt;
+</span><span style=color:#5a2>  autoscale:
+</span><span style=color:#5a2>    min: &lt; integer | 3 &gt;
+</span><span style=color:#5a2>    max: &lt; integer | 100 &gt;
+</span><span style=color:#5a2>    cpu: &lt; integer | 80 &gt;
+</span><span style=color:#5a2>  secrets:
+</span><span style=color:#5a2>    keys:
+</span><span style=color:#5a2>      secret-file-1.json: c29tZSBzZWNyZXQgdmFsdWU=
+</span><span style=color:#5a2>      secret-file-2.yaml: YW5vdGhlciBzZWNyZXQgdmFsdWU=
+</span><span style=color:#5a2>    mountpath: /secrets
+</span><span style=color:#5a2>  configs:
+</span><span style=color:#5a2>    files:
+</span><span style=color:#5a2>    - config/config.json
+</span><span style=color:#5a2>    - config/anotherconfig.yaml
+</span><span style=color:#5a2>    data:
+</span><span style=color:#5a2>      property1: value 1
+</span><span style=color:#5a2>      property2: value 2
+</span><span style=color:#5a2>    mountpath: /configs
+</span><span style=color:#5a2>  manifests:
+</span><span style=color:#5a2>    files:
+</span><span style=color:#5a2>    - override/service.yaml
+</span><span style=color:#5a2>    data:
+</span><span style=color:#5a2>      property3: value 3
+</span><span style=color:#5a2>  hosts:
+</span><span style=color:#5a2>  - gke.estafette.io
+</span><span style=color:#5a2>  - gke-deploy.estafette.io
+</span><span style=color:#5a2>  basepath: &lt; string | / &gt;
+</span><span style=color:#5a2>  enablePayloadLogging: &lt; boolean | false &gt;
+</span><span style=color:#5a2>  chaosproof: &lt; boolean | false &gt;
+</span><span style=color:#5a2>  rollingupdate:
+</span><span style=color:#5a2>    maxsurge: &lt; string | 25% &gt;
+</span><span style=color:#5a2>    maxunavailable: &lt; string | 25% &gt;
+</span><span style=color:#5a2>    timeout: &lt; string | 5m &gt;
+</span><span style=color:#5a2>  trustedips:
+</span><span style=color:#5a2>  - 103.21.244.0/22
+</span><span style=color:#5a2>  - 103.22.200.0/22
+</span><span style=color:#5a2>  - 103.31.4.0/22
+</span><span style=color:#5a2>  dryrun: &lt; boolean | false &gt;</span></code></pre></div><p>A very minimal version when using all the defaults looks like:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>production:
+  stages:
+    deploy:
+      image: extensions/gke:stable
+      visibility: public
+      container:
+        repository: estafette
+      hosts:
+      - ci.estafette.io</code></pre></div></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav></body></html>
