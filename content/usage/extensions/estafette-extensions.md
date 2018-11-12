@@ -81,3 +81,105 @@ In order to send build notifications to one or more Slack channels the `slack-bu
 
 Notes:
 * This extension will be updated in the future to make use of the _credentials and trusted images_ configuration in the Estafette CI server so there's no need to embed a webhook in the manifest.
+
+### extensions/gke
+
+The `gke` extension is used to deploy an application to Kubernetes Engine. It generates a very opiniated deployment with a sidecar handling incoming traffic and forwarding requests; it asumes _horizontal pod autoscaling_, it injects secrets and configs in a standard way, and uses a lot of other sensible defaults to be able to use it with a minimum number of parameters specified.
+
+```yaml
+deploy:
+  image: extensions/gke:stable
+  credentials: < string | gke-ESTAFETTE_RELEASE_NAME >
+  app: < string | ESTAFETTE_LABEL_APP >
+  namespace: < string | default namespace from credentials config >
+  visibility: < string | private >
+  container:
+    repository: < string >
+    name: < string | app >
+    tag: < string | ESTAFETTE_BUILD_VERSION >
+    port: < integer | 5000 >
+    env:
+      MY_CUSTOM_ENV: value1
+      MY_OTHER_CUSTOM_ENV: value2
+    cpu:
+      request: < string | 100m >
+      limit: < string | 125m >
+    memory:
+      request: < string | 128Mi >
+      limit: < string | 128Mi >
+    liveness:
+      path: < string | /liveness >
+      delay: < integer | 30 >
+      timeout: < integer | 1 >
+    readiness:
+      path: < string | /readiness >
+      delay: < integer | 0 >
+      timeout: < integer | 1 >
+    metrics:
+      scrape: < boolean | true >
+      path: < string | /metrics >
+      port: < integer | .container.port >
+  sidecar:
+    type: < string | openresty >
+    image: < string | estafette/openresty-sidecar:1.13.6.1-alpine >
+    env:
+      CORS_ALLOWED_ORIGINS: "*"
+      CORS_MAX_AGE: "86400"
+    cpu:
+      request: < string | 10m >
+      limit: < string | 50m >
+    memory:
+      request: < string | 10Mi >
+      limit: < string | 50Mi >
+  autoscale:
+    min: < integer | 3 >
+    max: < integer | 100 >
+    cpu: < integer | 80 >
+  secrets:
+    keys:
+      secret-file-1.json: c29tZSBzZWNyZXQgdmFsdWU=
+      secret-file-2.yaml: YW5vdGhlciBzZWNyZXQgdmFsdWU=
+    mountpath: /secrets
+  configs:
+    files:
+    - config/config.json
+    - config/anotherconfig.yaml
+    data:
+      property1: value 1
+      property2: value 2
+    mountpath: /configs
+  manifests:
+    files:
+    - override/service.yaml
+    data:
+      property3: value 3
+  hosts:
+  - gke.estafette.io
+  - gke-deploy.estafette.io
+  basepath: < string | / >
+  enablePayloadLogging: < boolean | false >
+  chaosproof: < boolean | false >
+  rollingupdate:
+    maxsurge: < string | 25% >
+    maxunavailable: < string | 25% >
+    timeout: < string | 5m >
+  trustedips:
+  - 103.21.244.0/22
+  - 103.22.200.0/22
+  - 103.31.4.0/22
+  dryrun: < boolean | false >
+```
+
+A very minimal version when using all the defaults looks like:
+
+```yaml
+production:
+  stages:
+    deploy:
+      image: extensions/gke:stable
+      visibility: public
+      container:
+        repository: estafette
+      hosts:
+      - ci.estafette.io
+```
