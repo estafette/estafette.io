@@ -82,6 +82,87 @@ In order to send build notifications to one or more Slack channels the `slack-bu
 Notes:
 * This extension will be updated in the future to make use of the _credentials and trusted images_ configuration in the Estafette CI server so there's no need to embed a webhook in the manifest.
 
+### extensions/docker
+
+The `docker` extension supports the following actions: *build*, *push*, *tag*. For pushing and tagging containers it uses the _credentials and trusted images_ configuration in the Estafette CI server to get access to Docker registry credentials automatically.
+
+##### build
+
+```yaml
+bake:
+  image: extensions/docker:stable
+  action: build
+  container: < string | ESTAFETTE_LABEL_APP >
+  repositories:
+  - estafette
+  path: < string | . >
+  dockerfile: < string | Dockerfile >
+  copy:
+  - < string | copies Dockerfile by default >
+  - /etc/ssl/certs/ca-certificates.crt
+```
+
+A minimal version when using all defaults looks like:
+
+```yaml
+bake:
+  image: extensions/docker:stable
+  action: build
+  repositories:
+  - estafette
+```
+
+##### push
+
+```yaml
+bake:
+  image: extensions/docker:stable
+  action: push
+  container: < string | ESTAFETTE_LABEL_APP >
+  repositories:
+  - estafette
+  tags:
+  - < string | tags with ESTAFETTE_BUILD_VERSION by default and is always pushed >
+  - dev
+```
+
+A minimal version when using all defaults looks like:
+
+```yaml
+bake:
+  image: extensions/docker:stable
+  action: push
+  repositories:
+  - estafette
+```
+
+##### tag
+
+To later on tag a specific version with another tag - for example to promote a dev version to stable you can use the `docker` extension to tag that version with other tags:
+
+```yaml
+tag-container-image:
+  image: extensions/docker:dev
+  action: tag
+  container: < string | ESTAFETTE_LABEL_APP >
+  repositories:
+  - estafette
+  tags:
+  - stable
+  - latest
+```
+
+```yaml
+bake:
+  image: extensions/docker:stable
+  action: tag
+  repositories:
+  - estafette
+  tags:
+  - latest
+```
+
+
 ### extensions/gke
 
 The `gke` extension is used to deploy an application to Kubernetes Engine. It generates a very opiniated deployment with a sidecar handling incoming traffic and forwarding requests; it asumes _horizontal pod autoscaling_, it injects secrets and configs in a standard way, and uses a lot of other sensible defaults to be able to use it with a minimum number of parameters specified.
