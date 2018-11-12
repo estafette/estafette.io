@@ -16,11 +16,11 @@
                         {{ .Content }}
                     </article>
                 </div>
-                <div class="row">
+                <div class="row" style="max-width: 1024px">
                     {{- $pagesAndSections := .Data.Pages | append .Sections -}}
                     {{- range sort $pagesAndSections "Weight" "asc" -}}
                     <div class="col-12 col-lg-6">
-                        <div class="card mb-3" style="min-height: 210px">
+                        <div class="card mb-3" style="min-height: 210px;">
                             <div class="card-body">
                                 <h5 class="card-title">{{.Title}}</h5>
                                 <p class="card-text">{{.Description}}</p>
