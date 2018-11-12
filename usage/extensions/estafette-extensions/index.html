@@ -17,7 +17,7 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
   image: extensions/docker:stable
   action: build
   repositories:
-  - estafette</code></pre></div><h5 id=push>push</h5><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>bake:
+  - estafette</code></pre></div><h5 id=push>push</h5><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>push:
   image: extensions/docker:stable
   action: push
   container: &lt; string <span style=color:#5a2>| ESTAFETTE_LABEL_APP &gt;
@@ -25,11 +25,11 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
 </span><span style=color:#5a2>  - estafette
 </span><span style=color:#5a2>  tags:
 </span><span style=color:#5a2>  - &lt; string | tags with ESTAFETTE_BUILD_VERSION by default and is always pushed &gt;
-</span><span style=color:#5a2>  - dev</span></code></pre></div><p>A minimal version when using all defaults looks like:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>bake:
+</span><span style=color:#5a2>  - dev</span></code></pre></div><p>A minimal version when using all defaults looks like:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>push:
   image: extensions/docker:stable
   action: push
   repositories:
-  - estafette</code></pre></div><h5 id=tag>tag</h5><p>To later on tag a specific version with another tag - for example to promote a dev version to stable you can use the <code>docker</code> extension to tag that version with other tags:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>tag-container-image:
+  - estafette</code></pre></div><h5 id=tag>tag</h5><p>To later on tag a specific version with another tag - for example to promote a dev version to stable you can use the <code>docker</code> extension to tag that version with other tags:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>tag:
   image: extensions/docker:dev
   action: tag
   container: &lt; string <span style=color:#5a2>| ESTAFETTE_LABEL_APP &gt;
@@ -37,7 +37,7 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
 </span><span style=color:#5a2>  - estafette
 </span><span style=color:#5a2>  tags:
 </span><span style=color:#5a2>  - stable
-</span><span style=color:#5a2>  - latest</span></code></pre></div><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>bake:
+</span><span style=color:#5a2>  - latest</span></code></pre></div><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>tag:
   image: extensions/docker:stable
   action: tag
   repositories:
