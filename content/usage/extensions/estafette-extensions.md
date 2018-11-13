@@ -251,7 +251,7 @@ set-build-status:
 ```yaml
 slack-notify:
   image: extensions/slack-build-status:stable
-  webhook: estafette.secret(***)
+  workspace: estafette
   channels:
   - '#mychannel'
   when:
@@ -259,7 +259,14 @@ slack-notify:
     status == 'failed'
 ```
 
-In order to send build notifications to one or more Slack channels the `slack-build-status` extension automatically sends a messages depending on the build status into the `channels` passed to this extension. The `webhook` needs a Slack webhook url in order to send the message.
+In order to send build notifications to one or more Slack channels the `slack-build-status` extension automatically sends a messages depending on the build status into the `channels` passed to this extension for the `workspace` you've set.
 
 Notes:
-* This extension will be updated in the future to make use of the _credentials and trusted images_ configuration in the Estafette CI server so there's no need to embed a webhook in the manifest.
+
+* This extension uses the _credentials and trusted images_ configuration in the Estafette CI server to gain access to the slack webhooks configured there.
+* If you only want to send a message on failure use
+
+```
+  when:
+    status == 'failed'
+```

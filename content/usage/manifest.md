@@ -63,6 +63,7 @@ stages:
 ```
 
 Notes:
+
 * Estafette CI automatically injects a stage to clone the git repository.
 * It's best practice to pin the versions of each image, instead of using `latest` to ensure your build still runs when you haven't touched in a long time.
 
@@ -117,6 +118,7 @@ releases:
 ```
 
 Notes:
+
 * Unlike the build stages git clone doesn't happen by default in order to speed releases that don't require it up
 
 ## A stage in detail
@@ -128,6 +130,7 @@ The individual stages of a build or release share nothing except for the cloned 
 With the `image` tag you can define which Docker container is used to execute this stage. You can use any public container or if you define private registries in the Estafette CI server those are available to use as well.
 
 Notes:
+
 * One of the goals of Estafette CI is to decouple individual application builds as much as possible by sharing nothing; no build agents with shared dependencies. So be cautious when creating builder images that are shared between many applications, because you might lose the advantage of being able to upgrade one application at a time to the latest and greatest version of your language of choice.
 
 ###### Shell
@@ -285,7 +288,8 @@ builder:
 ```
 
 Notes:
-* It's advised to always stay on the stable branch to avoid flaky behaviour because a bad version made it into `dev`.
+
+* It's advised to always stay on the stable track to avoid flaky behaviour because a bad version made it into `dev`.
 
 ## Global Estafette environment variables
 
@@ -310,6 +314,7 @@ The following Estafette specific global variables are injected automatically int
 | `ESTAFETTE_EXTENSION_CUSTOM_PROPERTIES` | All custom properties of a stage are json serialized and injected into the stage container with this environment variable |
 
 Notes:
+
 * Don't set any variables starting with `ESTAFETTE_` yourself, they will be wiped or skipped.
 
 ## Other
