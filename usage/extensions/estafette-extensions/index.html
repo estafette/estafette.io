@@ -157,10 +157,11 @@ set-build-status:
     status == <span style=color:#5a2>&#39;succeeded&#39;</span> |<span style=color:#5a2>| 
 </span><span style=color:#5a2>    status == &#39;failed&#39;</span></code></pre></div><h3 id=extensions-slack-build-status>extensions/slack-build-status</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>slack-notify:
   image: extensions/slack-build-status:stable
-  webhook: estafette.secret(<span style=color:#888;font-style:italic>***)</span>
+  workspace: estafette
   channels:
   - <span style=color:#5a2>&#39;#mychannel&#39;</span>
   when:
     status == <span style=color:#5a2>&#39;succeeded&#39;</span> |<span style=color:#5a2>| 
-</span><span style=color:#5a2>    status == &#39;failed&#39;</span></code></pre></div><p>In order to send build notifications to one or more Slack channels the <code>slack-build-status</code> extension automatically sends a messages depending on the build status into the <code>channels</code> passed to this extension. The <code>webhook</code> needs a Slack webhook url in order to send the message.</p><p>Notes:
-* This extension will be updated in the future to make use of the <em>credentials and trusted images</em> configuration in the Estafette CI server so there&rsquo;s no need to embed a webhook in the manifest.</p></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav></body></html>
+</span><span style=color:#5a2>    status == &#39;failed&#39;</span></code></pre></div><p>In order to send build notifications to one or more Slack channels the <code>slack-build-status</code> extension automatically sends a messages depending on the build status into the <code>channels</code> passed to this extension for the <code>workspace</code> you&rsquo;ve set.</p><p>Notes:</p><ul><li>This extension uses the <em>credentials and trusted images</em> configuration in the Estafette CI server to gain access to the slack webhooks configured there.</li><li>If you only want to send a message on failure use</li></ul><pre><code>  when:
+    status == 'failed'
+</code></pre></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav></body></html>
