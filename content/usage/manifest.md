@@ -121,6 +121,23 @@ Notes:
 
 * Unlike the build stages git clone doesn't happen by default in order to speed releases that don't require it up
 
+To have the git-clone stage get automatically injected set the `clone: true` property on the stage target:
+
+```yaml
+releases:
+  tooling:
+    clone: true
+    stages:
+      deploy:
+        image: extensions/gke:stable
+        namespace: estafette
+        visibility: public
+        container:
+          repository: estafette
+        hosts:
+        - ci.estafette.io
+```
+
 ## A stage in detail
 
 The individual stages of a build or release share nothing except for the cloned repository mounted into each stage container. Passing on information can be done via this working directory.
