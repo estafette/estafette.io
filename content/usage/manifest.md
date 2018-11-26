@@ -71,7 +71,7 @@ Notes:
 
 In Estafette CI release are triggered by a manual action via either the GUI or via Slack integration. Releases aren't just for deploying code, but can be used for any release action like pushing a Maven or Nuget package, tagging a docker container and more.
 
-Within the `releases` section you can define one or multiple release targets - for example development, staging and production - within which you can define stages in a similar fashion as in the build `stages` section.
+Within the `releases` section you can define one or multiple _release targets_ - for example development, staging and production - within which you can define stages in a similar fashion as in the build `stages` section.
 
 ###### A release to trigger a deployment
 
@@ -117,8 +117,25 @@ releases:
         - latest
 ```
 
+###### Release actions
+
+For a slightly more advanced workflow you can define _actions_ on a release target, which can be separately triggered from the GUI for that particular _release target_. The triggered action is passed down to the release stage containers as environment variable `ESTAFETTE_RELEASE_ACTION`. The Estafette CI server itself is unaware of the meaning of the action at this moment, but the `extensions/gke` image is one of the extension that makes use of the following actions and exhibits different behaviour dependening on what action is triggered.
+
+```yaml
+releases:
+  production:
+    actions:
+    - name: deploy-canary
+    - name: deploy-stable
+    - name: rollback-canary
+    stages:
+      deploy:
+        image: extensions/gke:stable
+```
+
 Notes:
 
+* There's currently no order in actions or dependencies between them so it's up to the user to trigger them in the correct order
 * Unlike the build stages git clone doesn't happen by default in order to speed releases that don't require it up
 
 To have the git-clone stage get automatically injected set the `clone: true` property on the stage target:
