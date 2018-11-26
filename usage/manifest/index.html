@@ -35,7 +35,7 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
     image: extensions/docker:stable
     action: push
     repositories:
-    - estafette</code></pre></div><p>Notes:</p><ul><li>Estafette CI automatically injects a stage to clone the git repository.</li><li>It&rsquo;s best practice to pin the versions of each image, instead of using <code>latest</code> to ensure your build still runs when you haven&rsquo;t touched in a long time.</li></ul><h2 id=releases>Releases</h2><p>In Estafette CI release are triggered by a manual action via either the GUI or via Slack integration. Releases aren&rsquo;t just for deploying code, but can be used for any release action like pushing a Maven or Nuget package, tagging a docker container and more.</p><p>Within the <code>releases</code> section you can define one or multiple release targets - for example development, staging and production - within which you can define stages in a similar fashion as in the build <code>stages</code> section.</p><h6 id=a-release-to-trigger-a-deployment>A release to trigger a deployment</h6><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>releases:
+    - estafette</code></pre></div><p>Notes:</p><ul><li>Estafette CI automatically injects a stage to clone the git repository.</li><li>It&rsquo;s best practice to pin the versions of each image, instead of using <code>latest</code> to ensure your build still runs when you haven&rsquo;t touched in a long time.</li></ul><h2 id=releases>Releases</h2><p>In Estafette CI release are triggered by a manual action via either the GUI or via Slack integration. Releases aren&rsquo;t just for deploying code, but can be used for any release action like pushing a Maven or Nuget package, tagging a docker container and more.</p><p>Within the <code>releases</code> section you can define one or multiple <em>release targets</em> - for example development, staging and production - within which you can define stages in a similar fashion as in the build <code>stages</code> section.</p><h6 id=a-release-to-trigger-a-deployment>A release to trigger a deployment</h6><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>releases:
   tooling:
     stages:
       deploy:
@@ -67,7 +67,15 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
         - extensions
         tags:
         - stable
-        - latest</code></pre></div><p>Notes:</p><ul><li>Unlike the build stages git clone doesn&rsquo;t happen by default in order to speed releases that don&rsquo;t require it up</li></ul><p>To have the git-clone stage get automatically injected set the <code>clone: true</code> property on the stage target:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>releases:
+        - latest</code></pre></div><h6 id=release-actions>Release actions</h6><p>For a slightly more advanced workflow you can define <em>actions</em> on a release target, which can be separately triggered from the GUI for that particular <em>release target</em>. The triggered action is passed down to the release stage containers as environment variable <code>ESTAFETTE_RELEASE_ACTION</code>. The Estafette CI server itself is unaware of the meaning of the action at this moment, but the <code>extensions/gke</code> image is one of the extension that makes use of the following actions and exhibits different behaviour dependening on what action is triggered.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>releases:
+  production:
+    actions:
+    - name: deploy-canary
+    - name: deploy-stable
+    - name: rollback-canary
+    stages:
+      deploy:
+        image: extensions/gke:stable</code></pre></div><p>Notes:</p><ul><li>There&rsquo;s currently no order in actions or dependencies between them so it&rsquo;s up to the user to trigger them in the correct order</li><li>Unlike the build stages git clone doesn&rsquo;t happen by default in order to speed releases that don&rsquo;t require it up</li></ul><p>To have the git-clone stage get automatically injected set the <code>clone: true</code> property on the stage target:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>releases:
   tooling:
     clone: <span style=color:#00f>true</span>
     stages:
