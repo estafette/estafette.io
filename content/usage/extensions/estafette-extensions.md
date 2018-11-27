@@ -16,6 +16,19 @@ The `git-clone` stage is automatically injected if not present in your manifest 
 
 The shallow clone - enabled by default - checks out the latest 50 commits for the particular branch, then selects the correct revision. When rebuilding an older version or releasing an older version this might not be enough, in that case explicitly set `shallow: false`.
 
+##### cloning another repository from the same owner
+
+You can use the `git-clone` extension to clone another repository as well, as long as it's from the same owner. In order to make use of it you need to specify the repository name (without owner), the branch you want to clone and the subdir to clone it into.
+
+```yaml
+git-clone:
+  image: extensions/git-clone:stable
+  shallow: < boolean | true >
+  repo: < string >
+  branch: < string >
+  subdir: < string >
+```
+
 ### extensions/docker
 
 The `docker` extension supports the following actions: *build*, *push*, *tag*. For pushing and tagging containers it uses the _credentials and trusted images_ configuration in the Estafette CI server to get access to Docker registry credentials automatically.
