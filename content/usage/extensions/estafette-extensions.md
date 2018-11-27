@@ -21,13 +21,17 @@ The shallow clone - enabled by default - checks out the latest 50 commits for th
 You can use the `git-clone` extension to clone another repository as well, as long as it's from the same owner. In order to make use of it you need to specify the repository name (without owner), and optionally the branch you want to clone (defaults to master) and the subdir to clone it into (defaults to the repository name).
 
 ```yaml
-git-clone:
+clone-another-repo:
   image: extensions/git-clone:stable
   shallow: < boolean | true >
   repo: < string >
   branch: < string | master >
   subdir: < string | repo >
 ```
+
+Notes:
+
+* Make sure to avoid the stage name `git-clone` if you're cloning another repository in one of your stages, because the regular repository will not be cloned automatically in that case.
 
 ### extensions/docker
 
