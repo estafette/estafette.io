@@ -18,7 +18,7 @@ The shallow clone - enabled by default - checks out the latest 50 commits for th
 
 ##### cloning another repository from the same owner
 
-You can use the `git-clone` extension to clone another repository as well, as long as it's from the same owner. In order to make use of it you need to specify the repository name (without owner), the branch you want to clone and the subdir to clone it into.
+You can use the `git-clone` extension to clone another repository as well, as long as it's from the same owner. In order to make use of it you need to specify the repository name (without owner), and optionally the branch you want to clone (defaults to master) and the subdir to clone it into (defaults to the repository name).
 
 ```yaml
 git-clone:
