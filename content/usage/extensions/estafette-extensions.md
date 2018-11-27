@@ -25,8 +25,8 @@ git-clone:
   image: extensions/git-clone:stable
   shallow: < boolean | true >
   repo: < string >
-  branch: < string >
-  subdir: < string >
+  branch: < string | master >
+  subdir: < string | repo >
 ```
 
 ### extensions/docker
