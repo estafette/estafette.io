@@ -32,6 +32,8 @@ stages:
     image: golang:1.11.2-alpine3.8
 ```
 
+{{% /do %}}
+
 ### Use commands instead of build scripts
 
 One of the strengths of Estafette's manifest is that you can immediately see which commands have been issued and can try those on your own machine. This particularly comes in handy when your build breaks. If the actual commands are hidden in a build script you have to navigate from repository to repository to find which commands are actually executed and it means more work to fix things in that case.
@@ -56,6 +58,8 @@ stages:
     commands:
     - dotnet build --configuration Release /p:Version=${ESTAFETTE_BUILD_VERSION} --no-restore
 ```
+
+{{% /do %}}
 
 ### Share as little as possible between applications
 
@@ -83,3 +87,5 @@ stages:
     - gcloud commands install kubectl
     - ...
 ```
+
+{{% /do %}}
