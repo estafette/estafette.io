@@ -45,11 +45,12 @@ stages:
     - echo "Updating ${ESTAFETTE_BUILD_VERSION} branch"
     - cp CNAME public/CNAME
     - cp .nojekyll public/.nojekyll
-    - cd public && git add --all && git commit --allow-empty -m "Publishing version ${ESTAFETTE_BUILD_VERSION}"
+    - LOG_MESSAGE=$(git log --format=%B -n 1)
+    - cd public && git add --all && git commit --allow-empty -m "${ESTAFETTE_BUILD_VERSION} - ${LOG_MESSAGE}"
     - git push origin ${ESTAFETTE_BUILD_VERSION}
 
     - echo "Creating pull request for ${ESTAFETTE_BUILD_VERSION} branch"
-    - 'curl -u ${ESTAFETTE_GIT_URL:8:58} -XPOST https://api.github.com/repos/estafette/estafette.io/pulls -d "{\"title\": \"Content version ${ESTAFETTE_BUILD_VERSION}\", \"head\": \"${ESTAFETTE_BUILD_VERSION}\", \"base\": \"master\"}"'
+    - 'curl -u ${ESTAFETTE_GIT_URL:8:58} -XPOST https://api.github.com/repos/estafette/estafette.io/pulls -d "{\"title\": \"${ESTAFETTE_BUILD_VERSION} - ${LOG_MESSAGE}\", \"head\": \"${ESTAFETTE_BUILD_VERSION}\", \"base\": \"master\"}"'
     when:
       status == 'succeeded' &&
       branch == 'source'
