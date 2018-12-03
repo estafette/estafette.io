@@ -32,7 +32,7 @@ stages:
     image: golang:1.11.2-alpine3.8
 ```
 
-### Use commands from the manifest, instead of hiding them in build scripts
+### Use commands instead of build scripts
 
 One of the strengths of Estafette's manifest is that you can immediately see which commands have been issued and can try those on your own machine. This particularly comes in handy when your build breaks. If the actual commands are hidden in a build script you have to navigate from repository to repository to find which commands are actually executed and it means more work to fix things in that case.
 
@@ -57,7 +57,7 @@ stages:
     - dotnet build --configuration Release /p:Version=${ESTAFETTE_BUILD_VERSION} --no-restore
 ```
 
-### Share as little as possible
+### Share as little as possible between applications
 
 Although it's tempting to build your own fat _builder_ images to run your steps (particularly to improve speed), before you know it a dozen applications rely on this particular image. When you by accident break the image all the builds using it can no longer build. Or you remove an installed depedency because your particular build no longer use it, turns out a bunch of other applications actually do use it.
 
