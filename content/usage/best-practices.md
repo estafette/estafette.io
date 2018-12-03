@@ -4,9 +4,9 @@ description: "The best practices when using Estafette CI"
 weight: 3
 ---
 
-### Pin image versions
+### Pin image tags
 
-In order to keep your builds reproducible, even if you haven't touched them for a year it's best to pin the stage image versions as narrow as possible. This will ensure you're not wasting a day figuring out why your build is suddenly broken, when it turns out it's the latest image tag of one of the used images is actually a different image now.
+In order to keep your builds reproducible, even if you haven't touched them for a year it's best to pin the stage image tags as narrowly as possible (or at least major and minor to avoid adopting breaking changes). This will ensure you're not wasting a day figuring out why your build is suddenly broken, when it turns out it's the latest image tag of one of the used images is actually a different image now.
 
 {{% dont %}}
 
