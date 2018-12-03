@@ -17,7 +17,18 @@ pre {
     border: 1px solid #dee2e6;
     border-radius: .25rem;
 
+    .dont & {
+        background-color: #f8d7da!important;
+        border-color: #dc3545!important;
+    }
+
+    .do & {
+        background-color: #d4edda!important;
+        border-color: #28a745!important;
+    }
+
     code {
+        background-color: transparent!important;
         color: #212529;
         padding: 0;
     }    
