@@ -63,6 +63,24 @@ bake:
   - estafette
 ```
 
+If you'd like to avoid having a separate Dockerfile you can inline it as well. The benefit is that this automatically substitutes global or Estafette environment variables:
+
+```yaml
+  bake:
+    image: extensions/docker:stable
+    action: build
+    inline: |
+      FROM scratch
+      COPY ca-certificates.crt /etc/ssl/certs/
+      COPY ${ESTAFETTE_GIT_NAME} /
+      ENTRYPOINT ["/${ESTAFETTE_GIT_NAME}"]
+    repositories:
+    - estafette
+    path: ./publish
+    copy:
+    - /etc/ssl/certs/ca-certificates.crt
+```
+
 ##### push
 
 ```yaml
