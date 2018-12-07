@@ -89,3 +89,39 @@ stages:
 ```
 
 {{% /do %}}
+
+### Avoid using Estafette's dev or beta tags
+
+Estafette CI dogfoods it's own components, pushing new versions to the `dev` tag first. Once it's confirmed to be functional it gets promoted to beta, then to stable. Because the dev tag of any extension or the builder itself can be broken at any time avoid using it and use the `stable` tag instead.
+
+{{% dont %}}
+
+```yaml
+stages:
+  build:
+    image: extensions/docker:dev
+```
+
+```yaml
+builder:
+  track: dev
+```
+
+{{% /dont %}}
+
+{{% do %}}
+
+```yaml
+stages:
+  build:
+    image: extensions/docker:stable
+```
+
+```yaml
+builder:
+  track: stable
+```
+
+Or drop the `builder` section alltogether, it defaults to the stable track.
+
+{{% /do %}}
