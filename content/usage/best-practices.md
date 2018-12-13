@@ -92,7 +92,7 @@ stages:
 
 ### Avoid using Estafette's dev or beta tags
 
-Estafette CI dogfoods it's own components, pushing new versions to the `dev` tag first. Once it's confirmed to be functional it gets promoted to beta, then to stable. Because the dev tag of any extension or the builder itself can be broken at any time avoid using it and use the `stable` tag instead.
+Estafette CI dogfoods it's own components, pushing new versions to the `dev` tag first. Once it's confirmed to be functional it gets promoted to beta, then to stable. Because the dev tag of any extension can be broken at any time avoid using it and use the `stable` tag instead.
 
 {{% dont %}}
 
@@ -100,11 +100,6 @@ Estafette CI dogfoods it's own components, pushing new versions to the `dev` tag
 stages:
   build:
     image: extensions/docker:dev
-```
-
-```yaml
-builder:
-  track: dev
 ```
 
 {{% /dont %}}
@@ -116,6 +111,24 @@ stages:
   build:
     image: extensions/docker:stable
 ```
+
+{{% /do %}}
+
+
+### Avoid using Estafette's builder dev track
+
+Estafette CI dogfoods it's own components, pushing new versions to the `dev` track first. Once it's confirmed to be functional it gets promoted to beta, then to stable. Because the dev track of the builder itself can be broken at any time avoid using it and use the `stable` track instead.
+
+{{% dont %}}
+
+```yaml
+builder:
+  track: dev
+```
+
+{{% /dont %}}
+
+{{% do %}}
 
 ```yaml
 builder:
