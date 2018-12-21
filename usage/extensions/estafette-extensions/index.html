@@ -114,12 +114,20 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
 </span><span style=color:#5a2>      secret-file-2.yaml: YW5vdGhlciBzZWNyZXQgdmFsdWU=
 </span><span style=color:#5a2>    mountpath: /secrets
 </span><span style=color:#5a2>  configs:
+</span><span style=color:#5a2>    # these are local files with golang template style placeholders, replaced with the values specified in the data section;
+</span><span style=color:#5a2>    # set clone: true on the release target to ensure you have access to these files stored in your repository
 </span><span style=color:#5a2>    files:
 </span><span style=color:#5a2>    - config/config.json
 </span><span style=color:#5a2>    - config/anotherconfig.yaml
+</span><span style=color:#5a2>    # these are the values for the placeholders specified as {{.property1}} to be replaced in the config files
 </span><span style=color:#5a2>    data:
 </span><span style=color:#5a2>      property1: value 1
 </span><span style=color:#5a2>      property2: value 2
+</span><span style=color:#5a2>    # if you want to avoid cloning your repository and just need to pass a very short config you can inline full files here
+</span><span style=color:#5a2>    inline:
+</span><span style=color:#5a2>      inline-config.properties: |
+</span><span style=color:#5a2>        enemies=aliens
+</span><span style=color:#5a2>        lives=3
 </span><span style=color:#5a2>    mountpath: /configs
 </span><span style=color:#5a2>  manifests:
 </span><span style=color:#5a2>    files:
