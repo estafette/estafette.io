@@ -4,7 +4,6 @@ description: "See what Estafette CI's web interface looks like"
 weight: 4
 ---
 
-
 #### Pipeline overview
 
 ![Pipeline overview](/screenshots/20181212-estafette-ci-pipelines.png)
