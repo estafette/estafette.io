@@ -35,7 +35,7 @@ Notes:
 
 ### extensions/docker
 
-The `docker` extension supports the following actions: *build*, *push*, *tag*. For pushing and tagging containers it uses the _credentials and trusted images_ configuration in the Estafette CI server to get access to Docker registry credentials automatically.
+The `docker` extension supports the following actions: *build*, *push*, *tag*. For pushing and tagging containers it uses the _[credentials and trusted images]({{< relref "/getting-started/configuration.md#credentials" >}})_ configuration in the Estafette CI server to get access to Docker registry credentials automatically.
 
 ##### build
 
@@ -306,7 +306,7 @@ In order to send build notifications to one or more Slack channels the `slack-bu
 
 Notes:
 
-* This extension uses the _credentials and trusted images_ configuration in the Estafette CI server to gain access to the slack webhooks configured there.
+* This extension uses the _[credentials and trusted images]({{< relref "/getting-started/configuration.md#credentials" >}})_ configuration in the Estafette CI server to gain access to the slack webhooks configured there.
 * If you only want to send a message on failure use
 
 ```
