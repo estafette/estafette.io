@@ -1,0 +1,66 @@
+<!-- ignore empty links with + -->
+{{ $headers := findRE "<h[1-6].*?>(.|\n])+?</h[1-6]>" .Content }}
+
+<!-- at least one header to link to -->
+{{ $has_headers := ge (len $headers) 1 }}
+
+<!-- a post can explicitly disable Table of Contents with toc: false -->
+{{ $show_toc := (ne $.Params.toc false) }}
+
+{{ $heading_level := 1 }}
+{{ $prev_heading_level := 1 }}
+{{ $is_first_item := true }}
+
+{{ if and $has_headers $show_toc }}
+<ul>
+  <li class="section-item"><a class="section-item-link ancestor">Table of contents</a>
+    {{ range $headers }}
+      {{ $header := . }}
+
+      <!-- Extract the level of the heading (the variable $heading_level will have the number from <hx> as an int) -->
+      {{ $heading_level = int (index (findRE "[1-6]" (index (findRE "<h[1-6]" $header 1) 0) 1) 0) }}
+
+      <!-- Render the necessary <nav> and <ul> elements according to the heading level -->
+      {{ $heading_level_diff := sub $heading_level $prev_heading_level }}
+
+      <!-- If $heading_level_diff is positive, we have a more inner heading, we have to render opening tags, otherwise closing tags. -->
+      {{ if lt $heading_level_diff 0 }}
+        </ul>
+      {{ end }}
+
+      {{ if not $is_first_item }}
+        </li>
+      {{ end }}
+
+      {{ if gt $heading_level_diff 0 }}
+        <ul>
+      {{ end }}
+
+      {{ $base := ($.Page.File.LogicalName) }}
+      {{ $anchorId := ($header | plainify | htmlUnescape | anchorize) }}
+      {{ $href := delimit (slice $base $anchorId) "#" | string }}
+      {{ $title := $header | plainify | htmlUnescape }}
+
+      <li class="page-item">
+        <a href="{{ relref $.Page $href }}" title="{{ $title }}" class="page-item-link">
+          {{ $title }}
+        </a>
+      <!-- NOTE: We're not closing the <li> here, we do that in the beginning of the loop, after the closing nav and ul tags -->
+
+      {{ $prev_heading_level = $heading_level }}
+      {{ $is_first_item := false }}
+    {{ end }} <!-- range $headers-->
+
+    <!-- close last <li> -->
+    {{ if not $is_first_item }}
+      </li>
+    {{ end }}
+
+    <!-- Here we have to "fix" the closing ul and nav tags, if the TOC finished with an inner heading. -->
+    {{ $remaining_levels := sub $heading_level 1 }}
+    {{ if gt $remaining_levels 0 }}
+      </ul>
+    {{ end }}
+  </li>
+</ul>
+{{ end }} <!-- if -->

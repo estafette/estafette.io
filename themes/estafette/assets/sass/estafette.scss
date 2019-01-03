@@ -108,7 +108,7 @@ html, body {
 }
 
 #main {
-    overflow: auto;
+    // overflow: auto;
     padding-bottom: 56px; /* this needs to be bigger than footer height*/
 }
 
@@ -120,11 +120,13 @@ html, body {
     padding-top:20px;
 } 
 
-.sidebar {
+.sidebar,.toc {
     min-width: 280px;
     max-width: 280px;
     padding-top: 1.5rem!important;
     padding-bottom: 1.5rem!important;
+    height: 100%;
+    // height: calc(100vh - 3rem);
 
     & > ul {
         margin-top: .25rem!important;

@@ -3,14 +3,17 @@
 {{ end }}
 {{ define "main" }}
     <div class="container-fluid">
-        <div class="row">
-            <div class="col mt-4 mb-4 border-right sidebar">
+        <div class="row mt-4 mb-4">
+            <div class="col border-right sidebar sticky-top">
                 {{ partial "sidebar" . }}
             </div>
-            <div class="col mt-4 mb-4 pl-5 pr-5 pt-4 content-block">
+            <div class="col pl-5 pr-5 pt-4 content-block">
                 <h1 class="mb-4">{{ .Title }}</h1>
                 {{ .Content }}
-             </div>
+            </div>
+            <div class="col border-left toc sticky-top">
+                {{ partial "toc" . }}
+            </div>
         </div>
     </div>
 {{ end }}

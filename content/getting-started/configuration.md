@@ -4,7 +4,7 @@ description: Configure Estafette CI to tune it to your needs
 weight: 2
 ---
 
-## Configuration of Estafette CI via config.yaml
+## Config.yaml
 
 While Estafette's goal is to keep as much control as possible with the individual application in the `.estafette.yaml` manifest, unavoidably there's some configuration that needs to be done centrally. This configuration is stored in the `config.yaml` file. Below is a description of the various configuration sections.
 
