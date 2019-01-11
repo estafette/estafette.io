@@ -152,7 +152,7 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
   stages:
     deploy:
       image: extensions/gke:stable
-      visibility: public
+      visibility: private
       container:
         repository: estafette
       hosts:
