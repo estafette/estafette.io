@@ -234,7 +234,7 @@ production:
   stages:
     deploy:
       image: extensions/gke:stable
-      visibility: public
+      visibility: private
       container:
         repository: estafette
       hosts:
