@@ -5,18 +5,18 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
   github:
     privateKeyPath: /secrets/private-key.pem
     appID: &lt;app id<span style=color:#5a2>&gt;
-</span><span style=color:#5a2>    clientID: &lt;client id&gt;
-</span><span style=color:#5a2>    clientSecret: estafette.secret(***)
-</span><span style=color:#5a2>    webhookSecret: estafette.secret(***)</span></code></pre></div><h4 id=bitbucket>Bitbucket</h4><p>Bitbucket integration is configured as a global webhook at account level, so any repository push event is forwarded to Estafette CI. In order to communicate with the Bitbucket API the following configuration values are required:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>integrations:
+</span><span style=color:#5a2>    clientID: &lt;client id&gt;</span>
+    clientSecret: estafette.secret(<span style=color:#888;font-style:italic>***)</span>
+    webhookSecret: estafette.secret(<span style=color:#888;font-style:italic>***)</span></code></pre></div><h4 id=bitbucket>Bitbucket</h4><p>Bitbucket integration is configured as a global webhook at account level, so any repository push event is forwarded to Estafette CI. In order to communicate with the Bitbucket API the following configuration values are required:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>integrations:
   bitbucket:
     apiKey: estafette.secret(<span style=color:#888;font-style:italic>***)</span>
     appOAuthKey: &lt;oauth key<span style=color:#5a2>&gt;
 </span><span style=color:#5a2>    appOAuthSecret: estafette.secret(***)</span></code></pre></div><h4 id=slack>Slack</h4><p>The Slack integration allows a Slash command to be configured in order to provide functionalities like encrypting a secret or triggering a release directly from Slack. For the Slash command to integrate with Estafette CI the following configuration section is needed:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>integrations:
   slack:
     clientID: &lt;client id<span style=color:#5a2>&gt;
-</span><span style=color:#5a2>    clientSecret: estafette.secret(***)
-</span><span style=color:#5a2>    appVerificationToken: estafette.secret(***)
-</span><span style=color:#5a2>    appOAuthAccessToken: estafette.secret(***)</span></code></pre></div><h3 id=api-server>API Server</h3><p>In order to set correct links for build status integration and provide correct communication between the builder jobs and the api there&rsquo;s some minimal configuration for the API itself:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>apiServer:
+</span><span style=color:#5a2>    clientSecret: estafette.secret(***)</span>
+    appVerificationToken: estafette.secret(<span style=color:#888;font-style:italic>***)</span>
+    appOAuthAccessToken: estafette.secret(<span style=color:#888;font-style:italic>***)</span></code></pre></div><h3 id=api-server>API Server</h3><p>In order to set correct links for build status integration and provide correct communication between the builder jobs and the api there&rsquo;s some minimal configuration for the API itself:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>apiServer:
   baseURL: https://ci.estafette.io/
   serviceURL: http://estafette-ci-api.estafette.svc.cluster.local/</code></pre></div><h3 id=authentication>Authentication</h3><p>Currently the only supported user authentication is by using Google&rsquo;s Identity Aware Proxy (IAP); all authenticated users are allowed to use all functions on all repositories until role-based access (RBAC) is implemented. Estafette CI can operate without IAP, but any manual actions will have to be triggered via Slack integration for now.</p><p>The API key is used to secure communication from the builder jobs to the API.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>auth:
   iap:
@@ -24,11 +24,11 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
     audience: &lt;identity aware proxy<span style=color:#5a2>&gt;
 </span><span style=color:#5a2>  apiKey: estafette.secret(***)</span></code></pre></div><h3 id=database>Database</h3><p>Estafette CI supports Postgresql; this allows it to use CockroachDB as it&rsquo;s database. Below is the required configuration to connect to the database.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>database:
   databaseName: &lt;db name<span style=color:#5a2>&gt;
-</span><span style=color:#5a2>  host: &lt;db host&gt;
-</span><span style=color:#5a2>  insecure: &lt;true|false&gt;
-</span><span style=color:#5a2>  certificateDir: &lt;directory with client-side certificates to secure communication with db&gt;
-</span><span style=color:#5a2>  port: 26257
-</span><span style=color:#5a2>  user: &lt;db user&gt;
+</span><span style=color:#5a2>  host: &lt;db host&gt;</span>
+  insecure: &lt;<span style=color:#00f>true</span>|<span style=color:#00f>false</span><span style=color:#5a2>&gt;
+</span><span style=color:#5a2>  certificateDir: &lt;directory with client-side certificates to secure communication with db&gt;</span>
+  port: <span style=color:#3af>26257</span>
+  user: &lt;db user<span style=color:#5a2>&gt;
 </span><span style=color:#5a2>  password: estafette.secret(***)</span></code></pre></div><h3 id=credentials>Credentials</h3><p>In order to centrally manage credentials used by various Estafette extensions or your own custom extensions. The only required fields are <code>name</code> and <code>type</code>, other fields are fully up to the consumer of the credentials. This allows Estafette CI to be easily extended with new types of credentials used by <em>trusted images</em> (see section below).</p><p>Types supported by Estafette CI&rsquo;s various official extensions are <code>container-registry</code>, <code>kubernetes-engine</code> and <code>slack-webhook</code> amongst others.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>credentials:
 - name: <span style=color:#5a2>&#39;container-registry-estafette&#39;</span>
   type: <span style=color:#5a2>&#39;container-registry&#39;</span>

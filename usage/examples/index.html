@@ -13,8 +13,8 @@ stages:
       CGO_ENABLED: <span style=color:#3af>0</span>
       GOOS: linux
     commands:
-    - go test `go list ./... <span style=color:#5a2>| grep -v /vendor/`
-</span><span style=color:#5a2>    - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags &#34;-X main.version=${ESTAFETTE_BUILD_VERSION} -X main.revision=${ESTAFETTE_GIT_REVISION} -X main.branch=${ESTAFETTE_GIT_BRANCH} -X main.buildDate=${ESTAFETTE_BUILD_DATETIME}&#34; -o ./publish/${ESTAFETTE_LABEL_APP} .</span></code></pre></div><h3 id=csharp-net-core>csharp .net core</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
+    - go test `go list ./... | grep -v /vendor/`
+    - CGO_ENABLED=<span style=color:#3af>0</span> GOOS=linux go build -a -installsuffix cgo -ldflags <span style=color:#5a2>&#34;-X main.version=${ESTAFETTE_BUILD_VERSION} -X main.revision=${ESTAFETTE_GIT_REVISION} -X main.branch=${ESTAFETTE_GIT_BRANCH} -X main.buildDate=${ESTAFETTE_BUILD_DATETIME}&#34;</span> -o ./publish/${ESTAFETTE_LABEL_APP} .</code></pre></div><h3 id=csharp-net-core>csharp .net core</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
   app: my-application
   language: dotnet-core
 
@@ -42,7 +42,7 @@ stages:
   publish:
     image: microsoft/dotnet:<span style=color:#3af>2.1</span>-sdk
     commands:
-    - dotnet publish src/&lt;publisheable project directory<span style=color:#5a2>&gt; --configuration Release --runtime debian.8-x64 --version-suffix ${ESTAFETTE_BUILD_VERSION_PATCH} --output ./publish</span></code></pre></div><h3 id=python>python</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
+    - dotnet publish src/&lt;publisheable project directory&gt; --configuration Release --runtime debian.<span style=color:#3af>8</span>-x64 --version-suffix ${ESTAFETTE_BUILD_VERSION_PATCH} --output ./publish</code></pre></div><h3 id=python>python</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
   app: my-application
   language: python
 
