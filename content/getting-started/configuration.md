@@ -1,6 +1,6 @@
 ---
 title: Configuration
-description: Configure Estafette CI to tune it to your needs
+description: Configure Estafette to tune it to your needs
 weight: 2
 ---
 
@@ -14,7 +14,7 @@ For integrations with 3rd party services the `integrations` section provides a p
 
 #### Github
 
-In order to receive Github push events Estafette CI is configured as a Github App and registered to receive push events for all repositories of a specific owner. Estafette CI needs a couple of values in order to validate the push event and to communicate with Github's API. The configuration section looks like follows:
+In order to receive Github push events Estafette is configured as a Github App and registered to receive push events for all repositories of a specific owner. Estafette needs a couple of values in order to validate the push event and to communicate with Github's API. The configuration section looks like follows:
 
 ```yaml
 integrations:
@@ -28,7 +28,7 @@ integrations:
 
 #### Bitbucket
 
-Bitbucket integration is configured as a global webhook at account level, so any repository push event is forwarded to Estafette CI. In order to communicate with the Bitbucket API the following configuration values are required:
+Bitbucket integration is configured as a global webhook at account level, so any repository push event is forwarded to Estafette. In order to communicate with the Bitbucket API the following configuration values are required:
 
 ```yaml
 integrations:
@@ -40,7 +40,7 @@ integrations:
 
 #### Slack
 
-The Slack integration allows a Slash command to be configured in order to provide functionalities like encrypting a secret or triggering a release directly from Slack. For the Slash command to integrate with Estafette CI the following configuration section is needed:
+The Slack integration allows a Slash command to be configured in order to provide functionalities like encrypting a secret or triggering a release directly from Slack. For the Slash command to integrate with Estafette the following configuration section is needed:
 
 ```yaml
 integrations:
@@ -63,7 +63,7 @@ apiServer:
 
 ### Authentication
 
-Currently the only supported user authentication is by using Google's Identity Aware Proxy (IAP); all authenticated users are allowed to use all functions on all repositories until role-based access (RBAC) is implemented. Estafette CI can operate without IAP, but any manual actions will have to be triggered via Slack integration for now.
+Currently the only supported user authentication is by using Google's Identity Aware Proxy (IAP); all authenticated users are allowed to use all functions on all repositories until role-based access (RBAC) is implemented. Estafette can operate without IAP, but any manual actions will have to be triggered via Slack integration for now.
 
 The API key is used to secure communication from the builder jobs to the API.
 
@@ -77,7 +77,7 @@ auth:
 
 ### Database
 
-Estafette CI supports Postgresql; this allows it to use CockroachDB as it's database. Below is the required configuration to connect to the database.
+Estafette supports Postgresql; this allows it to use CockroachDB as it's database. Below is the required configuration to connect to the database.
 
 ```yaml
 database:
@@ -92,9 +92,9 @@ database:
 
 ### Credentials
 
-In order to centrally manage credentials used by various Estafette extensions or your own custom extensions. The only required fields are `name` and `type`, other fields are fully up to the consumer of the credentials. This allows Estafette CI to be easily extended with new types of credentials used by _trusted images_ (see section below).
+In order to centrally manage credentials used by various Estafette extensions or your own custom extensions. The only required fields are `name` and `type`, other fields are fully up to the consumer of the credentials. This allows Estafette to be easily extended with new types of credentials used by _trusted images_ (see section below).
 
-Types supported by Estafette CI's various official extensions are `container-registry`, `kubernetes-engine` and `slack-webhook` amongst others.
+Types supported by Estafette's various official extensions are `container-registry`, `kubernetes-engine` and `slack-webhook` amongst others.
 
 ```yaml
 credentials:

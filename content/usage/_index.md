@@ -1,6 +1,6 @@
 ---
 title: "Usage"
-description: "Learn how to use Estafette CI once it's up and running"
+description: "Learn how to use Estafette once it's up and running"
 weight: 2
 ---
 

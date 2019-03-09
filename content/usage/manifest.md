@@ -1,10 +1,10 @@
 ---
 title: "Manifest"
-description: "At the heart of Estafette CI is the manifest for your application to define build stages and releases"
+description: "At the heart of Estafette is the manifest for your application to define build stages and releases"
 weight: 1
 ---
 
-Estafette CI is manifest-controlled. That means each build and stage is controlled via the manifest. No more fiddling in a GUI to set up a pipeline.
+Estafette is manifest-controlled. That means each build and stage is controlled via the manifest. No more fiddling in a GUI to set up a pipeline.
 
 ## Labels
 
@@ -23,9 +23,9 @@ The labels are available as `ESTAFETTE_LABEL_<UPPER_SNAKE_CASE_OF_LABEL_VALUE>` 
 
 ## Build stages
 
-On every `git push` to repositories in associated hosted git services Estafette CI receives a signal that there's new commits and starts the build stages as defined in the `stages` section.
+On every `git push` to repositories in associated hosted git services Estafette receives a signal that there's new commits and starts the build stages as defined in the `stages` section.
 
-For each stage you can define a public container image to be used or when you've configured private repositories in the Estafette CI server you can use images from those as well.
+For each stage you can define a public container image to be used or when you've configured private repositories in the Estafette server you can use images from those as well.
 
 ```yaml
 stages:
@@ -64,12 +64,12 @@ stages:
 
 Notes:
 
-* Estafette CI automatically injects a stage to clone the git repository.
+* Estafette automatically injects a stage to clone the git repository.
 * It's best practice to pin the versions of each image, instead of using `latest` to ensure your build still runs when you haven't touched in a long time.
 
 ## Releases
 
-In Estafette CI release are triggered by a manual action via either the GUI or via Slack integration. Releases aren't just for deploying code, but can be used for any release action like pushing a Maven or Nuget package, tagging a docker container and more.
+In Estafette release are triggered by a manual action via either the GUI or via Slack integration. Releases aren't just for deploying code, but can be used for any release action like pushing a Maven or Nuget package, tagging a docker container and more.
 
 Within the `releases` section you can define one or multiple _release targets_ - for example development, staging and production - within which you can define stages in a similar fashion as in the build `stages` section.
 
@@ -119,7 +119,7 @@ releases:
 
 ###### Release actions
 
-For a slightly more advanced workflow you can define _actions_ on a release target, which can be separately triggered from the GUI for that particular _release target_. The triggered action is passed down to the release stage containers as environment variable `ESTAFETTE_RELEASE_ACTION`. The Estafette CI server itself is unaware of the meaning of the action at this moment, but the `extensions/gke` image is one of the extension that makes use of the following actions and exhibits different behaviour dependening on what action is triggered.
+For a slightly more advanced workflow you can define _actions_ on a release target, which can be separately triggered from the GUI for that particular _release target_. The triggered action is passed down to the release stage containers as environment variable `ESTAFETTE_RELEASE_ACTION`. The Estafette server itself is unaware of the meaning of the action at this moment, but the `extensions/gke` image is one of the extension that makes use of the following actions and exhibits different behaviour dependening on what action is triggered.
 
 ```yaml
 releases:
@@ -161,11 +161,11 @@ The individual stages of a build or release share nothing except for the cloned 
 
 ###### Image
 
-With the `image` tag you can define which Docker container is used to execute this stage. You can use any public container or if you define private registries in the Estafette CI server those are available to use as well.
+With the `image` tag you can define which Docker container is used to execute this stage. You can use any public container or if you define private registries in the Estafette server those are available to use as well.
 
 Notes:
 
-* One of the goals of Estafette CI is to decouple individual application builds as much as possible by sharing nothing; no build agents with shared dependencies. So be cautious when creating builder images that are shared between many applications, because you might lose the advantage of being able to upgrade one application at a time to the latest and greatest version of your language of choice.
+* One of the goals of Estafette is to decouple individual application builds as much as possible by sharing nothing; no build agents with shared dependencies. So be cautious when creating builder images that are shared between many applications, because you might lose the advantage of being able to upgrade one application at a time to the latest and greatest version of your language of choice.
 
 ###### Shell
 
@@ -290,7 +290,7 @@ These are also automatically injected into each individual stage container; if t
 
 ## Secret values
 
-In order to be able to use secret values in your various steps the Estafette CI server is configured with an AES key of 32 bytes in order to use AES-256 to encrypt secrets.
+In order to be able to use secret values in your various steps the Estafette server is configured with an AES key of 32 bytes in order to use AES-256 to encrypt secrets.
 
 Currently values can be encrypted via the Slack integration with Slash command `/estafette encrypt <your secret value>`.
 
@@ -298,7 +298,7 @@ This returns a string of the form `estafette.secret(***)` which can be used as v
 
 ## Versioning
 
-By default Estafette CI uses semantic versioning with the following values:
+By default Estafette uses semantic versioning with the following values:
 
 ```yaml
 version:

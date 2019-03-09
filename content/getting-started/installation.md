@@ -1,9 +1,9 @@
 ---
 title: Installation
-description: Installing Estafette CI in your Kubernetes cluster
+description: Installing Estafette in your Kubernetes cluster
 weight: 1
 ---
-### Installing Estafette CI
+### Installing Estafette
 
 Prerequisites:
 

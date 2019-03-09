@@ -1,10 +1,10 @@
 ---
 title: "Goals"
-description: "Overarching goals of the Estafette CI system"
+description: "Overarching goals of the Estafette system"
 weight: 1
 ---
 
-The goals of Estafette CI are to...
+The goals of Estafette are to...
 
 - control builds and deployments from one concise manifest file.
 - move control over build dependencies to the manifest file.

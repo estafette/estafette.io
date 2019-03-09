@@ -1,6 +1,6 @@
 ---
 title: "Best practices"
-description: "The best practices when using Estafette CI"
+description: "The best practices when using Estafette"
 weight: 3
 ---
 
@@ -92,7 +92,7 @@ stages:
 
 ### Avoid using Estafette's dev or beta tags
 
-Estafette CI dogfoods it's own components, pushing new versions to the `dev` tag first. Once it's confirmed to be functional it gets promoted to beta, then to stable. Because the dev tag of any extension can be broken at any time avoid using it and use the `stable` tag instead.
+Estafette dogfoods it's own components, pushing new versions to the `dev` tag first. Once it's confirmed to be functional it gets promoted to beta, then to stable. Because the dev tag of any extension can be broken at any time avoid using it and use the `stable` tag instead.
 
 {{% dont %}}
 
@@ -117,7 +117,7 @@ stages:
 
 ### Avoid using Estafette's builder dev track
 
-Estafette CI dogfoods it's own components, pushing new versions to the `dev` track first. Once it's confirmed to be functional it gets promoted to beta, then to stable. Because the dev track of the builder itself can be broken at any time avoid using it and use the `stable` track instead.
+Estafette dogfoods it's own components, pushing new versions to the `dev` track first. Once it's confirmed to be functional it gets promoted to beta, then to stable. Because the dev track of the builder itself can be broken at any time avoid using it and use the `stable` track instead.
 
 {{% dont %}}
 

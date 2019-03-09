@@ -1,6 +1,6 @@
 ---
 title: "Screenshots"
-description: "See what Estafette CI's web interface looks like"
+description: "See what Estafette's web interface looks like"
 weight: 4
 ---
 
