@@ -4,7 +4,7 @@ description: "To reuse complex logic in your build pipelines build your own exte
 weight: 2
 ---
 
-An Estafette extension is in essence just a containerized application. What's special is that it uses custom properties injected as environment variables to parameterize it's behaviour.
+An _Estafette_ extension is in essence just a containerized application. What's special is that it uses custom properties injected as environment variables to parameterize it's behaviour.
 
 In the example below all non-reserved _properties_ are automatically turned into a environment variable prefixed with `ESTAFETTE_EXTENSION_`.
 

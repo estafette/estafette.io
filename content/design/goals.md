@@ -4,7 +4,7 @@ description: "Overarching goals of the Estafette system"
 weight: 1
 ---
 
-The goals of Estafette are to...
+The goals of _Estafette_ are to...
 
 - control builds and deployments from one concise manifest file.
 - move control over build dependencies to the manifest file.

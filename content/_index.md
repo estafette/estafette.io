@@ -3,7 +3,7 @@ title: "Estafette"
 subtitle: "The resilient and cloud-native CI/CD platform"
 ---
 
-Estafette is the open source cloud-native CI/CD system built to practice what it preaches and continuously deliver.
+_Estafette_ is the open source cloud-native CI/CD system built to practice what it preaches and continuously deliver.
 
 {{< cta href="/getting-started" text="Get started">}}
 

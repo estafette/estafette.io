@@ -36,7 +36,7 @@ stages:
 
 ### Use commands instead of build scripts
 
-One of the strengths of Estafette's manifest is that you can immediately see which commands have been issued and can try those on your own machine. This particularly comes in handy when your build breaks. If the actual commands are hidden in a build script you have to navigate from repository to repository to find which commands are actually executed and it means more work to fix things in that case.
+One of the strengths of _Estafette_'s manifest is that you can immediately see which commands have been issued and can try those on your own machine. This particularly comes in handy when your build breaks. If the actual commands are hidden in a build script you have to navigate from repository to repository to find which commands are actually executed and it means more work to fix things in that case.
 
 {{% dont %}}
 
@@ -92,7 +92,7 @@ stages:
 
 ### Avoid using Estafette's dev or beta tags
 
-Estafette dogfoods it's own components, pushing new versions to the `dev` tag first. Once it's confirmed to be functional it gets promoted to beta, then to stable. Because the dev tag of any extension can be broken at any time avoid using it and use the `stable` tag instead.
+_Estafette_ dogfoods it's own components, pushing new versions to the `dev` tag first. Once it's confirmed to be functional it gets promoted to beta, then to stable. Because the dev tag of any extension can be broken at any time avoid using it and use the `stable` tag instead.
 
 {{% dont %}}
 
@@ -117,7 +117,7 @@ stages:
 
 ### Avoid using Estafette's builder dev track
 
-Estafette dogfoods it's own components, pushing new versions to the `dev` track first. Once it's confirmed to be functional it gets promoted to beta, then to stable. Because the dev track of the builder itself can be broken at any time avoid using it and use the `stable` track instead.
+_Estafette_ dogfoods it's own components, pushing new versions to the `dev` track first. Once it's confirmed to be functional it gets promoted to beta, then to stable. Because the dev track of the builder itself can be broken at any time avoid using it and use the `stable` track instead.
 
 {{% dont %}}
 
