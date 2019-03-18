@@ -172,7 +172,7 @@ deploy:
       port: < integer | .container.port >
   sidecars:
   - type: < string | openresty | cloudsqlproxy >
-    image: < string | estafette/openresty-sidecar:1.13.6.2-alpine | gcr.io/cloudsql-docker/gce-proxy:1.12 >
+    image: < string | estafette/openresty-sidecar:1.13.6.2-alpine | gcr.io/cloudsql-docker/gce-proxy:1.13 >
     env:
       CORS_ALLOWED_ORIGINS: "*"
       CORS_MAX_AGE: "86400"
@@ -187,7 +187,7 @@ deploy:
     sqlproxyport: 5043
   # Additional sidecars can be listed here.
   - type: < string | openresty | cloudsqlproxy >
-    image: < string | estafette/openresty-sidecar:1.13.6.2-alpine | gcr.io/cloudsql-docker/gce-proxy:1.12 >
+    image: < string | estafette/openresty-sidecar:1.13.6.2-alpine | gcr.io/cloudsql-docker/gce-proxy:1.13 >
     ...
   autoscale:
     min: < integer | 3 >
