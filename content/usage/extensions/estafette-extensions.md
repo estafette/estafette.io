@@ -133,7 +133,9 @@ tag:
 
 ### extensions/gke
 
-The `gke` extension is used to deploy an application to Kubernetes Engine. It generates a very opiniated deployment with a sidecar handling incoming traffic and forwarding requests; it asumes _horizontal pod autoscaling_, it injects secrets and configs in a standard way, and uses a lot of other sensible defaults to be able to use it with a minimum number of parameters specified.
+The `gke` extension is used to deploy an application to Kubernetes Engine. It generates a very opinionated deployment with a sidecar. It asumes _horizontal pod autoscaling_, it injects secrets and configs in a standard way, and uses a lot of other sensible defaults to be able to use it with a minimum number of parameters specified.
+
+By default it includes an [OpenResty](https://openresty.org/en/) sidecar handling incoming traffic and forwarding requests. The sidecar configuration can be adjusted, and additional sidecars can be included by customizing the `sidecars` field. (The only other type currently supported is the `cloudsqlproxy`, which adds the proxy implementing secure communication with Google Cloud SQL databases.)
 
 ```yaml
 deploy:
@@ -168,9 +170,9 @@ deploy:
       scrape: < boolean | true >
       path: < string | /metrics >
       port: < integer | .container.port >
-  sidecar:
-    type: < string | openresty >
-    image: < string | estafette/openresty-sidecar:1.13.6.1-alpine >
+  sidecars:
+  - type: < string | openresty | cloudsqlproxy >
+    image: < string | estafette/openresty-sidecar:1.13.6.2-alpine | gcr.io/cloudsql-docker/gce-proxy:1.12 >
     env:
       CORS_ALLOWED_ORIGINS: "*"
       CORS_MAX_AGE: "86400"
@@ -180,6 +182,13 @@ deploy:
     memory:
       request: < string | 10Mi >
       limit: < string | 50Mi >
+    # Only relevant for cloudsqlproxy
+    dbinstanceconnectionname: my-gcloud-project:europe-west1:my-database
+    sqlproxyport: 5043
+  # Additional sidecars can be listed here.
+  - type: < string | openresty | cloudsqlproxy >
+    image: < string | estafette/openresty-sidecar:1.13.6.2-alpine | gcr.io/cloudsql-docker/gce-proxy:1.12 >
+    ...
   autoscale:
     min: < integer | 3 >
     max: < integer | 100 >
