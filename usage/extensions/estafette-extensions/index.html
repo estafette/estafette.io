@@ -60,7 +60,7 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
   repositories:
   - estafette
   tags:
-  - latest</code></pre></div><h3 id=extensions-gke>extensions/gke</h3><p>The <code>gke</code> extension is used to deploy an application to Kubernetes Engine. It generates a very opiniated deployment with a sidecar handling incoming traffic and forwarding requests; it asumes <em>horizontal pod autoscaling</em>, it injects secrets and configs in a standard way, and uses a lot of other sensible defaults to be able to use it with a minimum number of parameters specified.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>deploy:
+  - latest</code></pre></div><h3 id=extensions-gke>extensions/gke</h3><p>The <code>gke</code> extension is used to deploy an application to Kubernetes Engine. It generates a very opinionated deployment with a sidecar. It asumes <em>horizontal pod autoscaling</em>, it injects secrets and configs in a standard way, and uses a lot of other sensible defaults to be able to use it with a minimum number of parameters specified.</p><p>By default it includes an <a href=https://openresty.org/en/>OpenResty</a> sidecar handling incoming traffic and forwarding requests. The sidecar configuration can be adjusted, and additional sidecars can be included by customizing the <code>sidecars</code> field. (The only other type currently supported is the <code>cloudsqlproxy</code>, which adds the proxy implementing secure communication with Google Cloud SQL databases.)</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>deploy:
   image: extensions/gke:stable
   credentials: &lt; string | gke-ESTAFETTE_RELEASE_NAME <span style=color:#5a2>&gt;
 </span><span style=color:#5a2>  app: &lt; string | ESTAFETTE_LABEL_APP &gt;</span>
@@ -92,9 +92,9 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
       scrape: &lt; boolean | <span style=color:#00f>true</span> <span style=color:#5a2>&gt;
 </span><span style=color:#5a2>      path: &lt; string | /metrics &gt;</span>
       port: &lt; integer | .container.port <span style=color:#5a2>&gt;
-</span><span style=color:#5a2>  sidecar:</span>
-    type: &lt; string | openresty <span style=color:#5a2>&gt;
-</span><span style=color:#5a2>    image: &lt; string | estafette/openresty-sidecar:1.13.6.1-alpine &gt;</span>
+</span><span style=color:#5a2>  sidecars:</span>
+  - type: &lt; string | openresty | cloudsqlproxy <span style=color:#5a2>&gt;
+</span><span style=color:#5a2>    image: &lt; string | estafette/openresty-sidecar:1.13.6.2-alpine | gcr.io/cloudsql-docker/gce-proxy:1.13 &gt;</span>
     env:
       CORS_ALLOWED_ORIGINS: <span style=color:#5a2>&#34;*&#34;</span>
       CORS_MAX_AGE: <span style=color:#5a2>&#34;86400&#34;</span>
@@ -104,6 +104,13 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
     memory:
       request: &lt; string | 10Mi <span style=color:#5a2>&gt;
 </span><span style=color:#5a2>      limit: &lt; string | 50Mi &gt;</span>
+    <span style=color:#888;font-style:italic># Only relevant for cloudsqlproxy</span>
+    dbinstanceconnectionname: my-gcloud-project:europe-west1:my-database
+    sqlproxyport: <span style=color:#3af>5043</span>
+  <span style=color:#888;font-style:italic># Additional sidecars can be listed here.</span>
+  - type: &lt; string | openresty | cloudsqlproxy <span style=color:#5a2>&gt;
+</span><span style=color:#5a2>    image: &lt; string | estafette/openresty-sidecar:1.13.6.2-alpine | gcr.io/cloudsql-docker/gce-proxy:1.13 &gt;</span>
+    ...
   autoscale:
     min: &lt; integer | <span style=color:#3af>3</span> <span style=color:#5a2>&gt;
 </span><span style=color:#5a2>    max: &lt; integer | 100 &gt;</span>
