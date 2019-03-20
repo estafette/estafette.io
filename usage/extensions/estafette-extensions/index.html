@@ -115,6 +115,12 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
     min: &lt; integer | <span style=color:#3af>3</span> <span style=color:#5a2>&gt;
 </span><span style=color:#5a2>    max: &lt; integer | 100 &gt;</span>
     cpu: &lt; integer | <span style=color:#3af>80</span> <span style=color:#5a2>&gt;
+</span><span style=color:#5a2>    safety:</span>
+      enabled: &lt; bool | <span style=color:#00f>false</span> <span style=color:#5a2>&gt;
+</span><span style=color:#5a2>      promquery: &lt; string | sum(rate(nginx_http_requests_total{app=&#39;app&#39;}[5m])) by (app) &gt;</span>
+      ratio: &lt; float | <span style=color:#3af>1.0</span> <span style=color:#5a2>&gt;
+</span><span style=color:#5a2>      delta: &lt; float | 0.0 &gt;</span>
+      scaledownratio: &lt; float | <span style=color:#3af>1.0</span> <span style=color:#5a2>&gt;
 </span><span style=color:#5a2>  secrets:</span>
     keys:
       secret-file-<span style=color:#3af>1.</span>json: c29tZSBzZWNyZXQgdmFsdWU=
