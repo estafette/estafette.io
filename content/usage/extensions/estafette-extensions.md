@@ -193,6 +193,12 @@ deploy:
     min: < integer | 3 >
     max: < integer | 100 >
     cpu: < integer | 80 >
+    safety:
+      enabled: < bool | false >
+      promquery: < string | sum(rate(nginx_http_requests_total{app='app'}[5m])) by (app) >
+      ratio: < float | 1.0 >
+      delta: < float | 0.0 >
+      scaledownratio: < float | 1.0 >
   secrets:
     keys:
       secret-file-1.json: c29tZSBzZWNyZXQgdmFsdWU=
