@@ -135,8 +135,8 @@ tag:
 
 The `gke` extension is used to deploy an application to Kubernetes Engine. It generates a very opinionated deployment with a sidecar. It asumes _horizontal pod autoscaling_, it injects secrets and configs in a standard way, and uses a lot of other sensible defaults to be able to use it with a minimum number of parameters specified.
 
-By default it includes an [OpenResty](https://openresty.org/en/) sidecar handling incoming traffic and forwarding requests. The sidecar configuration can be adjusted, and additional sidecars can be included by customizing the `sidecars` field. (The only other type currently supported is the `cloudsqlproxy`, which adds the proxy implementing secure communication with Google Cloud SQL databases.)  
-If we don't want to use the default sidecar, we should add the `injecthttpproxysidecar: false` field to the deployment, then it will not be injected during the development.
+By default it includes an [OpenResty](https://openresty.org/en/) sidecar handling incoming traffic and forwarding requests. ([This](https://github.com/estafette/openresty-sidecar) is the custom openresty image injected by default.) The sidecar configuration can be adjusted, and additional sidecars can be included by customizing the `sidecars` field. (The only other type currently supported is the `cloudsqlproxy`, which adds the proxy implementing secure communication with Google Cloud SQL databases.)  
+If you don't want to use the default sidecar, you should add the `injecthttpproxysidecar: false` field to the deployment, then it will not be injected during the development.
 
 ```yaml
 deploy:
