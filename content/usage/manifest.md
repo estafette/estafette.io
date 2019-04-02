@@ -349,6 +349,7 @@ The following Estafette specific global variables are injected automatically int
 
 Notes:
 
+* For each of the above environment variables there's also a `_DNS_SAFE` suffixed version that's safe to use as a DNS label (part between 2 dots), i.e. `ESTAFETTE_GIT_BRANCH_DNS_SAFE`.
 * Don't set any variables starting with `ESTAFETTE_` yourself, they will be wiped or skipped.
 
 ## Other
