@@ -296,6 +296,62 @@ Currently values can be encrypted via the Slack integration with Slash command `
 
 This returns a string of the form `estafette.secret(***)` which can be used as value for your environment variables or custom properties.
 
+## Triggers
+
+To connect pipelines to each other or trigger on other events you have both _build_ and _release_ triggers.
+
+A trigger consists of a filter specific to the type of trigger; currently `pipeline` and `release` are supported, possible future additions are `cron`, `docker`, `git` (for non-estafette repositories). The second part of a trigger indicates the action. In a _build_ trigger this is defined by the `builds` property, in a _release_ trigger this is defined by the `releases` property.
+
+### On pipeline event
+
+Build triggers are defined in a global `triggers` section. For example the following trigger would start a build using the latest revision from the master branch after pipeline `github.com/estafette/estafette-ci-manifest` has successfully completed a master branch build:
+
+```yaml
+triggers:
+- pipeline:
+    name: github.com/estafette/estafette-ci-manifest
+    branch: master
+  builds:
+    branch: master
+```
+
+Release triggers are are set on a release target and can specify which action to trigger, or the `releases` section on the trigger can be dropped if no actions are set.
+
+```yaml
+releases:
+  development:
+    actions:
+    - deploy-canary
+    - ...
+
+    triggers:
+    - pipeline:
+        name: github.com/estafette/estafette-ci-api
+        branch: master
+      releases:
+        action: deploy-canary
+
+    stages:
+      ...
+```
+
+### On release event
+
+If you want to trigger on another release finishing use:
+
+```yaml
+triggers:
+- release:
+    name: github.com/estafette/estafette-ci-api
+    target: development
+  builds:
+    branch: master
+```
+
+Notes:
+
+* The `branch` and `target` properties in the _filters_ accept golang regular expressions. This for one means negative lookahead isn't supported. To negate a value, you can prefix your regular expression by one of the PromQL operators for regular expression comparison: `=~` or `!~`. The first one is the same as default, but with the second one you can negate the value, for example by setting `branch: '!~ master'` you can trigger on any non-master branch build finishing.
+
 ## Versioning
 
 By default Estafette uses semantic versioning with the following values:
