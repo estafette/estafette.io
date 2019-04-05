@@ -51,7 +51,8 @@ stages:
 
     - echo "Creating pull request for ${ESTAFETTE_BUILD_VERSION} branch"
     - ESTAFETTE_GIT_URL=$(git remote get-url origin)
-    - 'curl -u ${ESTAFETTE_GIT_URL:8:58} -XPOST https://api.github.com/repos/estafette/estafette.io/pulls -d "{\"title\": \"${ESTAFETTE_BUILD_VERSION} - ${LOG_MESSAGE}\", \"head\": \"${ESTAFETTE_BUILD_VERSION}\", \"base\": \"master\"}"'
+    - PR_TITLE=$(echo "${ESTAFETTE_BUILD_VERSION} - ${LOG_MESSAGE}" | tr '\n' ' ')
+    - 'curl -u ${ESTAFETTE_GIT_URL:8:58} -XPOST https://api.github.com/repos/estafette/estafette.io/pulls -d "{\"title\": \"${PR_TITLE}\", \"head\": \"${ESTAFETTE_BUILD_VERSION}\", \"base\": \"master\"}"'
     when:
       status == 'succeeded' &&
       branch == 'source'
