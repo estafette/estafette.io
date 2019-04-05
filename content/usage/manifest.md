@@ -348,6 +348,18 @@ triggers:
     branch: master
 ```
 
+### On cron schedule
+
+If you want to trigger a _build_ or _release_ on a schedule you can do so with
+
+```yaml
+triggers:
+- cron:
+    schedule: '*/15 * * * *'
+```
+
+The cron schedule is of the format `<minute> <hour> <day of the month> <month> <day of the week>`.
+
 Notes:
 
 * The `branch` and `target` properties in the _filters_ accept golang regular expressions. This for one means negative lookahead isn't supported. To negate a value, you can prefix your regular expression by one of the PromQL operators for regular expression comparison: `=~` or `!~`. The first one is the same as default, but with the second one you can negate the value, for example by setting `branch: '!~ master'` you can trigger on any non-master branch build finishing.
