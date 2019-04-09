@@ -11,7 +11,7 @@
             {{ $currentPage := . }}
             {{- $pagesAndSections := .Site.Sections.ByWeight | append (where (where .Site.Pages.ByWeight "Section" "") "IsHome" false) -}}
             {{- range sort $pagesAndSections "Weight" "asc" -}}
-                <a class="nav-item nav-link {{ if .IsAncestor $currentPage }}active{{ end }}" href="{{ .URL }}">{{ .Name }}</a>
+                <a class="nav-item nav-link {{ if .IsAncestor $currentPage }}active{{ end }}" href="{{ .RelPermalink }}">{{ .Name }}</a>
             {{- end -}}
         </div>
     </div>

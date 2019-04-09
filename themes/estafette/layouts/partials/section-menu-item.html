@@ -1,5 +1,5 @@
 {{- $currentPage := .currentPage -}}
-<li class="section-item"><a href="{{ .section.URL }}" class="section-item-link{{ if .section.IsAncestor $currentPage }} ancestor{{ end }}{{ if eq .section $currentPage }} active{{ end }}">{{ .section.Name }}</a>
+<li class="section-item"><a href="{{ .section.RelPermalink }}" class="section-item-link{{ if .section.IsAncestor $currentPage }} ancestor{{ end }}{{ if eq .section $currentPage }} active{{ end }}">{{ .section.Name }}</a>
   {{- $pagesAndSections := .section.Data.Pages | append .section.Sections -}}
   {{- if and (.section.IsAncestor $currentPage) (gt (len $pagesAndSections) 0) -}}
   <ul>
