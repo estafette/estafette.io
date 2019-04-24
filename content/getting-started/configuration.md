@@ -123,7 +123,7 @@ credentials:
       min: 3
       max: 500
     hosts:
-    - ${ESTAFETTE_LABEL_APP}.estafette.io
+    - ${ESTAFETTE_GIT_NAME}.estafette.io
 - name: slack-webhook-estafette
   type: slack-webhook
   workspace: estafette

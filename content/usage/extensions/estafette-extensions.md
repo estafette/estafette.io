@@ -43,7 +43,7 @@ The `docker` extension supports the following actions: *build*, *push*, *tag*. F
 bake:
   image: extensions/docker:stable
   action: build
-  container: < string | ESTAFETTE_LABEL_APP >
+  container: < string | ESTAFETTE_GIT_NAME >
   repositories:
   - estafette
   path: < string | . >
@@ -87,7 +87,7 @@ If you'd like to avoid having a separate Dockerfile you can inline it as well. T
 push:
   image: extensions/docker:stable
   action: push
-  container: < string | ESTAFETTE_LABEL_APP >
+  container: < string | ESTAFETTE_GIT_NAME >
   repositories:
   - estafette
   tags:
@@ -113,7 +113,7 @@ To later on tag a specific version with another tag - for example to promote a d
 tag:
   image: extensions/docker:dev
   action: tag
-  container: < string | ESTAFETTE_LABEL_APP >
+  container: < string | ESTAFETTE_GIT_NAME >
   repositories:
   - estafette
   tags:
@@ -142,7 +142,7 @@ If you don't want to use the default sidecar, you should add the `injecthttpprox
 deploy:
   image: extensions/gke:stable
   credentials: < string | gke-ESTAFETTE_RELEASE_NAME >
-  app: < string | ESTAFETTE_LABEL_APP >
+  app: < string | ESTAFETTE_GIT_NAME >
   namespace: < string | default namespace from credentials config >
   visibility: < string | private >
   container:

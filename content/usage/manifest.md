@@ -181,10 +181,10 @@ You can set an override like this:
 workDir: /go/src/github.com/estafette/estafette-ci-api
 ```
 
-Or by reusing a possible `app` (or other) label you've defined in the `labels` section this looks like:
+Or by using predefined estafette environment variables:
 
 ```yaml
-workDir: /go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}
+workDir: /go/src/${ESTAFETTE_GIT_SOURCE}/${ESTAFETTE_GIT_OWNER}/${ESTAFETTE_GIT_NAME}
 ```
 
 ###### Commands
@@ -222,7 +222,7 @@ To pass environment variables into a build/release stage you can use the `env` t
 ```yaml
 build:
   image: golang:1.11.1-alpine3.8
-  workDir: /go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}
+  workDir: /go/src/github.com/estafette/${ESTAFETTE_GIT_NAME}
   env:
     CGO_ENABLED: 0
     GOOS: linux
