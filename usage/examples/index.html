@@ -8,13 +8,13 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
 stages:
   build:
     image: golang:<span style=color:#3af>1.11</span>.<span style=color:#3af>2</span>-alpine3.<span style=color:#3af>8</span>
-    workDir: /go/src/github.com/estafette/${ESTAFETTE_LABEL_APP}
+    workDir: /go/src/github.com/estafette/${ESTAFETTE_GIT_NAME}
     env:
       CGO_ENABLED: <span style=color:#3af>0</span>
       GOOS: linux
     commands:
     - go test `go list ./... | grep -v /vendor/`
-    - CGO_ENABLED=<span style=color:#3af>0</span> GOOS=linux go build -a -installsuffix cgo -ldflags <span style=color:#5a2>&#34;-X main.version=${ESTAFETTE_BUILD_VERSION} -X main.revision=${ESTAFETTE_GIT_REVISION} -X main.branch=${ESTAFETTE_GIT_BRANCH} -X main.buildDate=${ESTAFETTE_BUILD_DATETIME}&#34;</span> -o ./publish/${ESTAFETTE_LABEL_APP} .</code></pre></div><h3 id=csharp-net-core>csharp .net core</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
+    - CGO_ENABLED=<span style=color:#3af>0</span> GOOS=linux go build -a -installsuffix cgo -ldflags <span style=color:#5a2>&#34;-X main.version=${ESTAFETTE_BUILD_VERSION} -X main.revision=${ESTAFETTE_GIT_REVISION} -X main.branch=${ESTAFETTE_GIT_BRANCH} -X main.buildDate=${ESTAFETTE_BUILD_DATETIME}&#34;</span> -o ./publish/${ESTAFETTE_GIT_NAME} .</code></pre></div><h3 id=csharp-net-core>csharp .net core</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>labels:
   app: my-application
   language: dotnet-core
 
