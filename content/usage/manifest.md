@@ -326,7 +326,7 @@ releases:
 
     triggers:
     - pipeline:
-        name: github.com/estafette/estafette-ci-api
+        name: self
         branch: master
       releases:
         action: deploy-canary
@@ -334,6 +334,10 @@ releases:
     stages:
       ...
 ```
+
+Notes:
+
+* Instead of using the full pipeline name you can use `self` if you want to trigger on events from the same pipeline. This applies to the release events below as well.
 
 ### On release event
 
