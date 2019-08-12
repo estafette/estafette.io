@@ -364,6 +364,22 @@ triggers:
 
 The cron schedule is of the format `<minute> <hour> <day of the month> <month> <day of the week>`.
 
+If you want a cron trigger on a release to re-release the same version as is already released use the following:
+
+```yaml
+releases:
+  development:
+    triggers:
+    - cron:
+        schedule: '*/15 * * * *'
+      releases:
+        version: current
+    stages:
+      ...
+```
+
+Supported values for the `version` parameter are `latest` (default), `current` or an explicit version number.
+
 Notes:
 
 * The `branch` and `target` properties in the _filters_ accept golang regular expressions. This for one means negative lookahead isn't supported. To negate a value, you can prefix your regular expression by one of the PromQL operators for regular expression comparison: `=~` or `!~`. The first one is the same as default, but with the second one you can negate the value, for example by setting `branch: '!~ master'` you can trigger on any non-master branch build finishing.
