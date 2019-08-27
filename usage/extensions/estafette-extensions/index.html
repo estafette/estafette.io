@@ -11,6 +11,8 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
 </span><span style=color:#5a2>  subdir: &lt; string | repo &gt;</span></code></pre></div><p>Notes:</p><ul><li>Make sure to avoid the stage name <code>git-clone</code> if you&rsquo;re cloning another repository in one of your stages, because the regular repository will not be cloned automatically in that case.</li></ul><h3 id=extensions-docker>extensions/docker</h3><p>The <code>docker</code> extension supports the following actions: <em>build</em>, <em>push</em>, <em>tag</em>. For pushing and tagging containers it uses the <em><a href=/getting-started/configuration/#credentials>credentials and trusted images</a></em> configuration in the Estafette server to get access to Docker registry credentials automatically.</p><h5 id=build>build</h5><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>bake:
   image: extensions/docker:stable
   action: build
+  no-cache: &lt; bool | <span style=color:#00f>false</span> <span style=color:#5a2>&gt;
+</span><span style=color:#5a2>  expand-variables: &lt; bool | true &gt;</span>
   container: &lt; string | ESTAFETTE_GIT_NAME <span style=color:#5a2>&gt;
 </span><span style=color:#5a2>  repositories:</span>
   - estafette
@@ -18,11 +20,11 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
 </span><span style=color:#5a2>  dockerfile: &lt; string | Dockerfile &gt;</span>
   copy:
   - &lt; string | copies Dockerfile by default <span style=color:#5a2>&gt;
-</span><span style=color:#5a2>  - /etc/ssl/certs/ca-certificates.crt</span></code></pre></div><p>A minimal version when using all defaults looks like:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>bake:
+</span><span style=color:#5a2>  - /etc/ssl/certs/ca-certificates.crt</span></code></pre></div><p>The <code>no-cache</code> options ensures that no previous container built for your branch gets used, but it absolutely uses the latest version of the image in your FROM statement.</p><p>The <code>expand-variables</code> option allows you to turn off variable expansion, in case you use <code>$PATH</code> or another frequently set variable in your Dockerfile.</p><p>A minimal version when using all defaults looks like:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>bake:
   image: extensions/docker:stable
   action: build
   repositories:
-  - estafette</code></pre></div><p>If you&rsquo;d like to avoid having a separate Dockerfile you can inline it as well. The benefit is that this automatically substitutes global or Estafette environment variables:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>  bake:
+  - estafette</code></pre></div><p>If you&rsquo;d like to avoid having a separate Dockerfile you can inline it as well.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>  bake:
     image: extensions/docker:stable
     action: build
     inline: <span style=color:#5a2>|
