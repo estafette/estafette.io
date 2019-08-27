@@ -43,6 +43,8 @@ The `docker` extension supports the following actions: *build*, *push*, *tag*. F
 bake:
   image: extensions/docker:stable
   action: build
+  no-cache: < bool | false >
+  expand-variables: < bool | true >
   container: < string | ESTAFETTE_GIT_NAME >
   repositories:
   - estafette
@@ -52,6 +54,10 @@ bake:
   - < string | copies Dockerfile by default >
   - /etc/ssl/certs/ca-certificates.crt
 ```
+
+The `no-cache` options ensures that no previous container built for your branch gets used, but it absolutely uses the latest version of the image in your FROM statement.
+
+The `expand-variables` option allows you to turn off variable expansion, in case you use `$PATH` or another frequently set variable in your Dockerfile.
 
 A minimal version when using all defaults looks like:
 
@@ -63,7 +69,7 @@ bake:
   - estafette
 ```
 
-If you'd like to avoid having a separate Dockerfile you can inline it as well. The benefit is that this automatically substitutes global or Estafette environment variables:
+If you'd like to avoid having a separate Dockerfile you can inline it as well.
 
 ```yaml
   bake:
