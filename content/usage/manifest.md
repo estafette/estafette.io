@@ -384,6 +384,40 @@ Notes:
 
 * The `branch` and `target` properties in the _filters_ accept golang regular expressions. This for one means negative lookahead isn't supported. To negate a value, you can prefix your regular expression by one of the PromQL operators for regular expression comparison: `=~` or `!~`. The first one is the same as default, but with the second one you can negate the value, for example by setting `branch: '!~ master'` you can trigger on any non-master branch build finishing.
 
+### On pub/sub event
+
+If you want to trigger a _build_ or _release_ on a pub/sub event coming into a topic use the following definition:
+
+```yaml
+triggers:
+- pubsub:
+    project: my-project-id
+    topic: topic-name
+```
+
+It doesn't inspect the contents of the message at this time, so it can listen to any pub/sub event.
+
+In order for the Estafette CI api to create a subscription to the topic and validate incoming events the following config sections needs to be added in the Estafette CI api `config.yaml`:
+
+```yaml
+integrations:
+  ...
+  pubsub:
+    defaultProject: my-project-id
+    endpoint: https://myestafette-ci.host.com/api/integrations/pubsub/events
+    audience: somerandomaudiencekey
+    serviceAccountEmail: estafette-ci-api@my-project-id.iam.gserviceaccount.com
+    subscriptionNameSuffix: ~estafette-ci-pubsub-trigger
+    subscriptionIdleExpirationDays: 365
+```
+
+And on all projects that have topics to subscribe to it estafette-ci-api's service account needs the following roles:
+
+```yaml
+- pubsub.subscriber
+- pubsub.editor
+```
+
 ## Versioning
 
 By default Estafette uses semantic versioning with the following values:
