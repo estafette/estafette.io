@@ -51,6 +51,29 @@ integrations:
     appOAuthAccessToken: estafette.secret(***)
 ```
 
+#### Pub/Sub
+
+In order for the Estafette CI api to create subscriptions to topics used in _pubsub_ triggers and validate incoming events the following config section needs to be added:
+
+```yaml
+integrations:
+  ...
+  pubsub:
+    defaultProject: <project id where estafette-ci-api runs>
+    endpoint: https://<public hostname for integrations>/api/integrations/pubsub/events
+    audience: somerandomaudiencekey
+    serviceAccountEmail: <email address for service account used by estafette-ci-api>
+    subscriptionNameSuffix: ~estafette-ci-pubsub-trigger
+    subscriptionIdleExpirationDays: 365
+```
+
+For all projects used in _pubsub_ triggers the _estafette-ci-api_ service account needs the following roles:
+
+```yaml
+- pubsub.subscriber
+- pubsub.editor
+```
+
 ### API Server
 
 In order to set correct links for build status integration and provide correct communication between the builder jobs and the api there's some minimal configuration for the API itself:
