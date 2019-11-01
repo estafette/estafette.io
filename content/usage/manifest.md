@@ -32,7 +32,7 @@ stages:
   restore:
     image: node:10.9.0-alpine
     commands:
-    - npm install
+    - npm ci
 
   unit-test:
     image: node:10.9.0-alpine
@@ -66,6 +66,43 @@ Notes:
 
 * Estafette automatically injects a stage to clone the git repository.
 * It's best practice to pin the versions of each image, instead of using `latest` to ensure your build still runs when you haven't touched in a long time.
+
+### Parallel stages
+
+To reduce the total run time of your pipeline you can run stages in parallel. This can be done by nesting stages inside an outer stage within the `parallelStages` parameter.
+
+```yaml
+stages:
+  prepare:
+    parallelStages:
+      audit:
+        image: node:10.9.0-alpine
+        commands:
+        - npm audit
+
+      restore:
+        image: node:10.9.0-alpine
+        commands:
+        - npm ci
+
+  build-and-test:
+    parallelStages:
+      unit-test:
+        image: node:10.9.0-alpine
+        commands:
+        - npm run unit
+
+      build:
+        image: node:10.9.0-alpine
+        commands:
+        - npm run build
+```
+
+Notes:
+
+* Only run stages in parallel that don't depend on the outcome of each other.
+* You can set the `when` clause either on the nested stages or on the outer stage.
+* When using `parallelStages` the parameters `image` and `commands` are disallowed on the outer stage. It essentially just becomes a wrapper of the stages running in parallel.
 
 ## Releases
 
