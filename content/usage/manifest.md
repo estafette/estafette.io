@@ -471,6 +471,27 @@ version:
 
 The `patch` value is generated from a constantly increasing integer per repository, which increments across all branches, not per branch. This ensures it's unique. When the actual branch is different from the one specified in the `releaseBranch` tag the `labelTemplate` is appended to the build counter resulting in a version number like `0.0.531-my-pr-branch`. For the release branch this will result in a version number like `0.0.532`.
 
+If you for example deploy to production from _stable master_ you can use a very minimal spec where the patch is an autoincrementing number and the label is dropped for the _master_ branch with the following snippet:
+
+```yaml
+version:
+  semver:
+    major: 1
+    minor: 0
+```
+
+If you have a public product with releases and want to set a fixed patch you can move the auto-incrementing build number in to the label and only skip the label for the actual release version branch with the following snippet:
+
+```yaml
+version:
+  semver:
+    major: 1
+    minor: 0
+    patch: 0
+    labelTemplate: '{{branch}}-{{auto}}'
+    releaseBranch: 1.0.0
+```
+
 ## Builder parameters
 
 In order to dogfood Estafette's own components before they're promoted to stable version there's the possibility to set the track to `dev`, `beta` or the default value of `stable`. This controls which version of the builder container is used to execute build steps.
