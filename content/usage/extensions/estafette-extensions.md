@@ -329,6 +329,20 @@ In order to send build notifications to one or more Slack channels the `slack-bu
 Notes:
 
 * This extension uses the _[credentials and trusted images]({{< relref "/getting-started/configuration.md#credentials" >}})_ configuration in the Estafette server to gain access to the slack webhooks configured there.
+* To provide a custom title, you can use `title` optional input. This will override the title usually composed by the extension.
+
+```yaml
+slack-notify:
+  image: extensions/slack-build-status:stable
+  workspace: estafette
+  channels:
+  - '#mychannel'
+  title: Releasing!
+  when:
+    status == 'succeeded' || 
+    status == 'failed'
+```
+
 * If you only want to send a message on failure use
 
 ```
