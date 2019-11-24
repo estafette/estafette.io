@@ -106,7 +106,7 @@ Notes:
 
 ### Service containers
 
-To run advanced integration tests service containers can run services in the background. You can think of running a database for testing your database migration scripts or queries in your code. Or to run your just baked application container as a service and run integration tests against it.
+To run advanced integration tests _service containers_ can be used to run services in the background. Think of running a database for testing your database migration scripts or queries in your code. Or running your just baked application container and run integration tests against it.
 
 To reduce the total run time of your pipeline you can run stages in parallel. This can be done by nesting stages inside an outer stage within the `parallelStages` parameter.
 
