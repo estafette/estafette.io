@@ -104,6 +104,65 @@ Notes:
 * You can set the `when` clause either on the nested stages or on the outer stage.
 * When using `parallelStages` the parameters `image` and `commands` are disallowed on the outer stage. It essentially just becomes a wrapper of the stages running in parallel.
 
+### Service containers
+
+To run advanced integration tests service containers can run services in the background. You can think of running a database for testing your database migration scripts or queries in your code. Or to run your just baked application container as a service and run integration tests against it.
+
+To reduce the total run time of your pipeline you can run stages in parallel. This can be done by nesting stages inside an outer stage within the `parallelStages` parameter.
+
+_An example with a database as service container:_
+
+```yaml
+stages:
+  integration-tests:
+    services:
+    # run cockroachdb database to test migration scripts against
+    - name: cockroachdb
+      image: cockroachdb/cockroach:v19.2.0
+      shell: /bin/bash
+      env:
+        COCKROACH_SKIP_ENABLING_DIAGNOSTIC_REPORTING: "true"
+      readiness:
+        path: /health?ready=1
+        port: 8080
+        timeoutSeconds: 120
+      commands:
+      - /cockroach/cockroach start-single-node --insecure --advertise-addr cockroachdb
+    # the main stage executing the just baked migration scripts container
+    image: estafette/estafette-ci-db-migrator:${ESTAFETTE_BUILD_VERSION}
+    env:
+      COCKROACH_CONNECTION_STRING: postgresql://root@cockroachdb:26257/defaultdb?sslmode=disable
+      ESTAFETTE_LOG_FORMAT: console
+```
+
+_An example with your freshly baked application image as a service:_
+
+```yaml
+stages:
+  integration-tests:
+    services:
+    # run cockroachdb database to test migration scripts against
+    - name: ci.estafette.io
+      image: estafette/estafette-ci-web:${ESTAFETTE_BUILD_VERSION}
+      readiness:
+        path: /readiness
+        port: 5000
+    # the main stage executing your e2e tests
+    image: node:12.2.0-alpine
+    env:
+      E2E_HOSTNAME: ci.estafette.io
+    commands:
+    - npm run e2e
+```
+
+Notes:
+
+* The name of the service can be reached from the main stage (or parallel stages) by it's name
+* The service name can be set to a full hostname, like `ci.estafette.io` hiding the actual site and allowing you to run your tests like you run them against your production environment
+* You can set the `when` clause either on the service containers or on the outer stage.
+* Service containers can be used in combination with `parallelStages`
+* To wait for the service container to be ready before starting the main stage specify the `readiness` property with at least the `path` and `port`. The default timeout is 60 seconds.
+
 ## Releases
 
 In Estafette release are triggered by a manual action via either the GUI or via Slack integration. Releases aren't just for deploying code, but can be used for any release action like pushing a Maven or Nuget package, tagging a docker container and more.
