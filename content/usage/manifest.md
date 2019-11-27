@@ -108,7 +108,7 @@ Notes:
 
 To run advanced integration tests _service containers_ can be used to run services in the background. Think of running a database for testing your database migration scripts or queries in your code. Or running your just baked application container and run integration tests against it.
 
-To reduce the total run time of your pipeline you can run stages in parallel. This can be done by nesting stages inside an outer stage within the `parallelStages` parameter.
+#### Single-stage services
 
 _An example with a database as service container:_
 
@@ -155,11 +155,34 @@ stages:
     - npm run e2e
 ```
 
+#### Multi-stage services
+
+When defining both services and an image for the outer stage the services terminate after the stage has finished. If you want services to run for multiple stages you can start them in a stage with only services defined. Then they'll continue to run until the pipeline finishes.
+
+```yaml
+stages:
+  start-services:
+    services:
+    - name: postgres
+      image: postgres:12.1-alpine
+
+  migrate-postgres-schema:
+    image: estafette/estafette-ci-db-migrator:${ESTAFETTE_BUILD_VERSION}
+    env:
+      COCKROACH_CONNECTION_STRING: postgresql://postgres@postgres:5432/postgres?sslmode=disable
+
+  fill-postgres-with-test-data:
+    image: ...
+
+  integration-test-queries-against-postgres:
+    image: ...
+```
+
 Notes:
 
 * The name of the service can be reached from the main stage (or parallel stages) by it's name
 * The service name can be set to a full hostname, like `ci.estafette.io` hiding the actual site and allowing you to run your tests like you run them against your production environment
-* You can set the `when` clause either on the service containers or on the outer stage.
+* You can set the `when` clause both on the service containers or on the outer stage.
 * Service containers can be used in combination with `parallelStages`
 * To wait for the service container to be ready before starting the main stage specify the `readiness` property with at least the `path` and `port`. The default timeout is 60 seconds.
 
