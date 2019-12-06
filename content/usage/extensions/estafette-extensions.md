@@ -196,7 +196,9 @@ deploy:
   - type: < string | openresty | cloudsqlproxy >
     image: < string | estafette/openresty-sidecar:1.13.6.2-alpine | gcr.io/cloudsql-docker/gce-proxy:1.13 >
     ...
+  replicas: < integer | 0 >
   autoscale:
+    enabled: < bool | true >
     min: < integer | 3 >
     max: < integer | 100 >
     cpu: < integer | 80 >
