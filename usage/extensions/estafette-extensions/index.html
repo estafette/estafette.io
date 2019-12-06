@@ -113,11 +113,13 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
   - type: &lt; string | openresty | cloudsqlproxy <span style=color:#5a2>&gt;
 </span><span style=color:#5a2>    image: &lt; string | estafette/openresty-sidecar:1.13.6.2-alpine | gcr.io/cloudsql-docker/gce-proxy:1.13 &gt;</span>
     ...
-  autoscale:
-    min: &lt; integer | <span style=color:#3af>3</span> <span style=color:#5a2>&gt;
-</span><span style=color:#5a2>    max: &lt; integer | 100 &gt;</span>
-    cpu: &lt; integer | <span style=color:#3af>80</span> <span style=color:#5a2>&gt;
-</span><span style=color:#5a2>    safety:</span>
+  replicas: &lt; integer | <span style=color:#3af>0</span> <span style=color:#5a2>&gt;
+</span><span style=color:#5a2>  autoscale:</span>
+    enabled: &lt; bool | <span style=color:#00f>true</span> <span style=color:#5a2>&gt;
+</span><span style=color:#5a2>    min: &lt; integer | 3 &gt;</span>
+    max: &lt; integer | <span style=color:#3af>100</span> <span style=color:#5a2>&gt;
+</span><span style=color:#5a2>    cpu: &lt; integer | 80 &gt;</span>
+    safety:
       enabled: &lt; bool | <span style=color:#00f>false</span> <span style=color:#5a2>&gt;
 </span><span style=color:#5a2>      promquery: &lt; string | sum(rate(nginx_http_requests_total{app=&#39;app&#39;}[5m])) by (app) &gt;</span>
       ratio: &lt; float | <span style=color:#3af>1.0</span> <span style=color:#5a2>&gt;
