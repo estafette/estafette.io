@@ -1,6 +1,6 @@
 {{- $currentPage := .currentPage -}}
 <li class="section-item"><a href="{{ .section.RelPermalink }}" class="section-item-link{{ if .section.IsAncestor $currentPage }} ancestor{{ end }}{{ if eq .section $currentPage }} active{{ end }}">{{ .section.Name }}</a>
-  {{- $pagesAndSections := .section.Data.Pages | append .section.Sections -}}
+  {{- $pagesAndSections := .section.Data.Pages -}}
   {{- if and (.section.IsAncestor $currentPage) (gt (len $pagesAndSections) 0) -}}
   <ul>
   {{- range sort $pagesAndSections "Weight" "asc" -}}
