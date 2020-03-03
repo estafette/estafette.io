@@ -17,8 +17,11 @@ stages:
       GIT_USER_EMAIL: estafette.secret(0ZJRd1ti_4HlsYz6.ie7ynUsbOMTuDEkvBdvDAmB1UL9Hu0YmxTpEve2ARAE_wTonhpe65Ek=)
       GIT_USER_NAME: estafette.secret(nbg9Avv8R7CoZ1O4.GDU-1JwnPpzaBsDcjJhX4CyRhspe4amlBflh3OQoPQ==)
       TEST_SECRET: estafette.secret(wka6KgNWLulNnlxj.7YiTBPDKghZ5IGwEk7dYj1GZ-vJ-HsUCnWw=._oSUGOzGy0Qkftj7PiAe2mZdIyVBnQ-enigKkqesVMNB-_V_lp_PODEl4MYUnmcoVg==)
+      TEST_SECRET_2: estafette.secret(FhPkOXxi-DQuG9NU.PlEeQv8o6aiZ0pEoyW7wzhWTtYJh6MbUSSg=.LV0ZXuMkoPjEjsBOk4ikk9wxNg2gfmzgyoDMUWuEUs8QlXiPtZHREysiXEIyxXAM2gBvHYI=)
     commands:
     - echo "${TEST_SECRET}"
+    - echo "${TEST_SECRET_2}"
+
     - git config --global user.email "${GIT_USER_EMAIL}"
     - git config --global user.name "${GIT_USER_NAME}"
 
