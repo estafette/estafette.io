@@ -138,3 +138,29 @@ builder:
 Or drop the `builder` section alltogether, it defaults to the stable track.
 
 {{% /do %}}
+
+### Use pipeline restricted secrets instead of global secrets
+
+In Estafette you can create _global_ secrets which can be decrypted by any pipeline and _restricted_ secrets which can only be used in a single pipeline. In your `.estafette.yaml` manifest it's best to only use pipeline _restricted_ secrets.
+
+You can distinguish between the two types by the number of dots in the `estafette.secret(...)` envelope. A _global_ secret use one dot to separate the nonce from the encrypted value; a _restricted_ secret has two dots separating the nonce, the encrypted value and the pipeline regex.
+
+{{% dont %}}
+
+```yaml
+env:
+  MY_GLOBAL_SECRET: estafette.secret(deFTz5Bdjg6SUe29.oPIkXbze5G9PNEWS2-ZnArl8BCqHnx4MdTdxHg37th9u)
+```
+
+Global secrets were originally the only type of secret, but now they should only be used in Estafette's centrally stored credentials, which can then be reused by any pipeline using trusted images that get those credentials injected.
+
+{{% /dont %}}
+
+{{% do %}}
+
+```yaml
+env:
+  MY_PIPELINE_RESTRICTED_SECRET: estafette.secret(7pB-Znp16my5l-Gz.l--UakUaK5N8KYFt-sVNUaOY5uobSpWabJNVXYDEyDWT.hO6JcRARdtB-PY577NJeUrKMVOx-sjg617wTd8IkAh-PvIm9exuATeDeFiYaEr9eQtfreBQ=)
+```
+
+{{% /do %}}
