@@ -184,6 +184,31 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
         repository: estafette
       hosts:
       - ci.estafette.io
+</code></pre></div><p>Default visibility is set to private, which creates an internal ingress and it makes the service accessible from within same network. Other supported visibilities are <code>public-whitelist</code>, <code>iap</code>, <code>apigee</code> and <code>esp</code>.</p><p>For visibility <code>esp</code>, <code>useGoogleCloudCredentials</code> and <code>disableServiceAccountKeyRotation</code> should be set to <code>true</code>, <code>espOpenapiYamlPath</code> must be set and exactly one <code>host</code> must be provided.
+e.g.:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>production:
+  stages:
+    deploy:
+      image: extensions/gke:stable
+      visibility: esp
+      useGoogleCloudCredentials: <span style=color:#00f>true</span>
+      disableServiceAccountKeyRotation: <span style=color:#00f>true</span>
+      espOpenapiYamlPath: openapi.dev.yaml
+</code></pre></div><p>For visibility <code>iap</code>, base64 encoded values of <code>iapOauthClientID</code> and <code>iapOauthClientSecret</code> must be provided.
+e.g.:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>production:
+  stages:
+    deploy:
+      image: extensions/gke:stable
+      visibility: iap
+      iapOauthClientID: aSBhbSBzb21lIGNsaWVudAo= <span style=color:#888;font-style:italic># base64 encoded client ID</span>
+      iapOauthClientSecret: estafette.secret(...) <span style=color:#888;font-style:italic># base64 encoded client secret</span>
+</code></pre></div><p>For visibility <code>apigee</code>, <code>authsecret</code> under <code>request</code> must refer to a Secret containing certificate for client authentication.
+e.g.:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>production:
+  stages:
+    deploy:
+      image: extensions/gke:stable
+      visibility: apigee
+      request:
+        authsecret: nginx-open/org-ca-cert
 </code></pre></div><h3 id=extensionsgithub-status>extensions/github-status</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>set-build-status:
   image: extensions/github-status:stable
   status: &lt; string | ESTAFETTE_BUILD_STATUS &gt;
