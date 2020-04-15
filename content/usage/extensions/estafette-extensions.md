@@ -144,8 +144,6 @@ The `gke` extension is used to deploy an application to Kubernetes Engine. It ge
 By default it includes an [OpenResty](https://openresty.org/en/) sidecar handling incoming traffic and forwarding requests. ([This](https://github.com/estafette/openresty-sidecar) is the custom openresty image injected by default.) The sidecar configuration can be adjusted, and additional sidecars can be included by customizing the `sidecars` field. (The only other type currently supported is the `cloudsqlproxy`, which adds the proxy implementing secure communication with Google Cloud SQL databases.)  
 If you don't want to use the default sidecar, you should add the `injecthttpproxysidecar: false` field to the deployment, then it will not be injected during the development.
 
-Default visibility is set to private, which creates an internal ingress and it makes the service accessible from within same network. Other supported visibilities are `public-whitelist`, `iap`, `apigee` and `esp`. For visibility `esp`, `useGoogleCloudCredentials` and `disableServiceAccountKeyRotation` should be set to `true`, `espOpenapiYamlPath` must be set and exactly one `host` must be provided. For visibility `iap`, base64 encoded values of `iapOauthClientID` and `iapOauthClientSecret` must be provided. For visibility `apigee`, `authsecret` under `request` must refer to a Secret containing certificate for client authentication.
-
 ```yaml
 deploy:
   image: extensions/gke:stable
@@ -266,6 +264,48 @@ production:
       hosts:
       - ci.estafette.io
 ```
+
+Default visibility is set to private, which creates an internal ingress and it makes the service accessible from within same network. Other supported visibilities are `public-whitelist`, `iap`, `apigee` and `esp`.
+
+For visibility `esp`, `useGoogleCloudCredentials` and `disableServiceAccountKeyRotation` should be set to `true`, `espOpenapiYamlPath` must be set and exactly one `host` must be provided.
+  e.g.:
+
+  ```yaml
+  production:
+    stages:
+      deploy:
+        image: extensions/gke:stable
+        visibility: esp
+        useGoogleCloudCredentials: true
+        disableServiceAccountKeyRotation: true
+        espOpenapiYamlPath: openapi.dev.yaml
+  ```
+
+For visibility `iap`, base64 encoded values of `iapOauthClientID` and `iapOauthClientSecret` must be provided.
+  e.g.:
+
+  ```yaml
+  production:
+    stages:
+      deploy:
+        image: extensions/gke:stable
+        visibility: iap
+        iapOauthClientID: aSBhbSBzb21lIGNsaWVudAo= # base64 encoded client ID
+        iapOauthClientSecret: estafette.secret(...) # base64 encoded client secret
+  ```
+
+For visibility `apigee`, `authsecret` under `request` must refer to a Secret containing certificate for client authentication.
+  e.g.:
+
+  ```yaml
+  production:
+    stages:
+      deploy:
+        image: extensions/gke:stable
+        visibility: apigee
+        request:
+          authsecret: nginx-open/org-ca-cert
+  ```
 
 ### extensions/github-status
 
