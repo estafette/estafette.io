@@ -265,6 +265,48 @@ production:
       - ci.estafette.io
 ```
 
+Default visibility is set to private, which creates an internal ingress and it makes the service accessible from within same network. Other supported visibilities are `public-whitelist`, `iap`, `apigee` and `esp`.
+
+For visibility `esp`, `useGoogleCloudCredentials` and `disableServiceAccountKeyRotation` should be set to `true`, `espOpenapiYamlPath` must be set and exactly one `host` must be provided.
+  e.g.:
+
+  ```yaml
+  production:
+    stages:
+      deploy:
+        image: extensions/gke:stable
+        visibility: esp
+        useGoogleCloudCredentials: true
+        disableServiceAccountKeyRotation: true
+        espOpenapiYamlPath: openapi.dev.yaml
+  ```
+
+For visibility `iap`, base64 encoded values of `iapOauthClientID` and `iapOauthClientSecret` must be provided.
+  e.g.:
+
+  ```yaml
+  production:
+    stages:
+      deploy:
+        image: extensions/gke:stable
+        visibility: iap
+        iapOauthClientID: aSBhbSBzb21lIGNsaWVudAo= # base64 encoded client ID
+        iapOauthClientSecret: estafette.secret(...) # base64 encoded client secret
+  ```
+
+For visibility `apigee`, `authsecret` under `request` must refer to a Secret containing certificate for client authentication.
+  e.g.:
+
+  ```yaml
+  production:
+    stages:
+      deploy:
+        image: extensions/gke:stable
+        visibility: apigee
+        request:
+          authsecret: nginx-open/org-ca-cert
+  ```
+
 ### extensions/github-status
 
 ```yaml
