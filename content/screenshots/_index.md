@@ -4,60 +4,26 @@ description: "See what Estafette's web interface looks like"
 weight: 6
 ---
 
-### Pipelines
+### Home
 
-#### Pipeline overview
+![Home](/screenshots/20200525-estafette-home.png)
 
-![Pipeline overview](/screenshots/201903-screenshot-pipelines.png)
+### Builds & releases
 
-#### Pipeline builds
+![Pipelines](/screenshots/20200525-estafette-pipelines.png)
 
-![Pipeline builds](/screenshots/201903-screenshot-pipeline-builds.png)
+![Pipeline overview](/screenshots/20200525-estafette-pipeline-overview.png)
 
-#### Pipeline releases
+![Pipeline build logs](/screenshots/20200525-estafette-build-logs.png)
 
-![Pipeline releases](/screenshots/201903-screenshot-pipeline-releases.png)
+### Catalog
 
-#### Pipeline statistics
+![Catalog](/screenshots/20200525-estafette-catalog.png)
 
-![Pipeline statistics](/screenshots/201903-screenshot-pipeline-stats.png)
+### Insights
 
-#### Pipeline build logs
+![Insights](/screenshots/20200525-estafette-insights.png)
 
-![Pipeline build logs](/screenshots/201903-screenshot-pipeline-build-logs.png)
+### Create
 
-#### Pipeline build manifest
-
-![Pipeline build manifest](/screenshots/201903-screenshot-pipeline-build-manifest.png)
-
-#### Pipeline release logs
-
-![Pipeline release logs](/screenshots/201903-screenshot-pipeline-release-logs.png)
-
-### Manifest
-
-#### Manifest generator
-
-![Manifest generator](/screenshots/201903-screenshot-manifest-generator.png)
-
-#### Manifest validator
-
-![Manifest validator](/screenshots/201903-screenshot-manifest-validator.png)
-
-#### Manifest secret encrypter
-
-![Manifest secret encrypter](/screenshots/201903-screenshot-manifest-secret-encrypter.png)
-
-### Statistics
-
-#### Statistics counters
-
-![Statistics counters](/screenshots/201903-screenshot-stats-counters.png)
-
-#### Statistics rankings
-
-![Statistics rankings](/screenshots/201903-screenshot-stats-rankings.png)
-
-#### Statistics trends
-
-![Statistics trends](/screenshots/201903-screenshot-stats-trends.png)
+![Create](/screenshots/20200525-estafette-create.png)
