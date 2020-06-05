@@ -4,6 +4,10 @@ description: "See what Estafette's web interface looks like"
 weight: 6
 ---
 
+### Login
+
+![Login](/screenshots/20200605-estafette-login.png)
+
 ### Home
 
 ![Home](/screenshots/20200525-estafette-home.png)
