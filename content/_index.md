@@ -7,6 +7,8 @@ _Estafette_ is the open source cloud-native CI/CD system built to practice what 
 
 {{< cta href="/getting-started" text="Get started">}}
 
+{{< cta href="https://demo.estafette.io" target="_blank" text="See demo">}}
+
 ### Key features
 
 - Define your build time dependencies in a manifest
