@@ -152,6 +152,9 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
     - name: deploy-canary
     - name: deploy-stable
     - name: rollback-canary
+      hideBadge: <span style=color:#00f>true</span>
+    - name: restart-stable
+      hideBadge: <span style=color:#00f>true</span>
     stages:
       deploy:
         image: extensions/gke:stable
