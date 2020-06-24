@@ -247,6 +247,9 @@ releases:
     - name: deploy-canary
     - name: deploy-stable
     - name: rollback-canary
+      hideBadge: true
+    - name: restart-stable
+      hideBadge: true
     stages:
       deploy:
         image: extensions/gke:stable
