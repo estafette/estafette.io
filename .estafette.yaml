@@ -21,8 +21,8 @@ stages:
     - git config --global user.email "${GIT_USER_EMAIL}"
     - git config --global user.name "${GIT_USER_NAME}"
 
-    - echo "Initializing ${ESTAFETTE_BUILD_VERSION} branch from origin/master"
-    - git checkout -b ${ESTAFETTE_BUILD_VERSION} origin/master
+    - echo "Initializing ${ESTAFETTE_BUILD_VERSION} branch from origin/main"
+    - git checkout -b ${ESTAFETTE_BUILD_VERSION} origin/main
     - git push origin ${ESTAFETTE_BUILD_VERSION}
     - git checkout ${ESTAFETTE_GIT_BRANCH}
     - git checkout ${ESTAFETTE_GIT_REVISION}
@@ -52,7 +52,7 @@ stages:
     - echo "Creating pull request for ${ESTAFETTE_BUILD_VERSION} branch"
     - ESTAFETTE_GIT_URL=$(git remote get-url origin)
     - PR_TITLE=$(echo "${ESTAFETTE_BUILD_VERSION} - ${LOG_MESSAGE}" | tr '\n' ' ')
-    - 'curl --fail -u ${ESTAFETTE_GIT_URL:8:58} -XPOST https://api.github.com/repos/estafette/estafette.io/pulls -d "{\"title\": \"${PR_TITLE}\", \"head\": \"${ESTAFETTE_BUILD_VERSION}\", \"base\": \"master\"}"'
+    - 'curl --fail -u ${ESTAFETTE_GIT_URL:8:58} -XPOST https://api.github.com/repos/estafette/estafette.io/pulls -d "{\"title\": \"${PR_TITLE}\", \"head\": \"${ESTAFETTE_BUILD_VERSION}\", \"base\": \"main\"}"'
     when:
       status == 'succeeded' &&
       branch == 'source'
