@@ -161,7 +161,7 @@ Notes:
 
 In order to gain access to the centrally stored credentials and optionally gain additional elevated permissions _trusted images_ can be configured. For a trusted image the `path` provides the full container name except for it's tag. To automatically get access all credentials of one or multiple types each type of those credentials can be listed in the `injectedCredentialTypes` array.
 
-Those injected credentials are then automatically set as an environment variable in the stage container using the trusted image. It sets the credentials as `ESTAFETTE_CREDENTIALS_<credential type in upper snake case>` variable name (for example `ESTAFETTE_CREDENTIALS_KUBERNETES_ENGINE`) in JSON format.
+Those injected credentials are then automatically mounted into the stage container(s) that use the trusted image. It mounts credentials at `/credentials/<credential type in lower snake case>.json` (for example `/credentials/kubernetes_engine.json`) in JSON format.
 
 A typical configuration looks like:
 
