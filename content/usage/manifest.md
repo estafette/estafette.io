@@ -540,6 +540,31 @@ And on all projects that have topics to subscribe to it estafette-ci-api's servi
 - pubsub.editor
 ```
 
+### Named triggers
+
+Although not required you can set a name for each trigger, which makes some of the triggers properties available as environment variables at all times when your pipeline runs, regardless of whether the build has been triggered by a commit or the configured trigger.
+
+```yaml
+triggers:
+- name: manifest
+  pipeline:
+    name: github.com/estafette/estafette-ci-manifest
+```
+
+The properties are available in the `ESTAFETTE_<uppersnakecase trigger name>_<uppersnakecase property name>`, which results in the following environment variables as an example:
+
+```
+ESTAFETTE_MANIFEST_BRANCH: master
+ESTAFETTE_MANIFEST_BUILD_VERSION: 0.0.65
+ESTAFETTE_MANIFEST_EVENT: finished
+ESTAFETTE_MANIFEST_REPO_NAME: estafette-ci-manifest
+ESTAFETTE_MANIFEST_REPO_OWNER: estafette
+ESTAFETTE_MANIFEST_REPO_SOURCE: github.com
+ESTAFETTE_MANIFEST_STATUS: succeeded
+```
+
+It works for `pipeline` and `release` triggers and effectively allows you to link pipelines and get access to the last successful build or release details of the pipeline configured in the trigger.
+
 ## Versioning
 
 By default Estafette uses semantic versioning with the following values:
