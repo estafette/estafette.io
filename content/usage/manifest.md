@@ -551,16 +551,16 @@ triggers:
     name: github.com/estafette/estafette-ci-manifest
 ```
 
-The properties are available in the `ESTAFETTE_<uppersnakecase trigger name>_<uppersnakecase property name>`, which results in the following environment variables as an example:
+The properties are available in the `ESTAFETTE_TRIGGER_<uppersnakecase trigger name>_<uppersnakecase property name>`, which results in the following environment variables as an example:
 
 ```
-ESTAFETTE_MANIFEST_BRANCH: master
-ESTAFETTE_MANIFEST_BUILD_VERSION: 0.0.65
-ESTAFETTE_MANIFEST_EVENT: finished
-ESTAFETTE_MANIFEST_REPO_NAME: estafette-ci-manifest
-ESTAFETTE_MANIFEST_REPO_OWNER: estafette
-ESTAFETTE_MANIFEST_REPO_SOURCE: github.com
-ESTAFETTE_MANIFEST_STATUS: succeeded
+ESTAFETTE_TRIGGER_MANIFEST_BRANCH: master
+ESTAFETTE_TRIGGER_MANIFEST_BUILD_VERSION: 0.0.65
+ESTAFETTE_TRIGGER_MANIFEST_EVENT: finished
+ESTAFETTE_TRIGGER_MANIFEST_REPO_NAME: estafette-ci-manifest
+ESTAFETTE_TRIGGER_MANIFEST_REPO_OWNER: estafette
+ESTAFETTE_TRIGGER_MANIFEST_REPO_SOURCE: github.com
+ESTAFETTE_TRIGGER_MANIFEST_STATUS: succeeded
 ```
 
 It works for `pipeline` and `release` triggers and effectively allows you to link pipelines and get access to the last successful build or release details of the pipeline configured in the trigger.
