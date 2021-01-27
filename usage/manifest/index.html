@@ -263,13 +263,13 @@ build:
 - name: manifest
   pipeline:
     name: github.com/estafette/estafette-ci-manifest
-</code></pre></div><p>The properties are available in the <code>ESTAFETTE_&lt;uppersnakecase trigger name>_&lt;uppersnakecase property name></code>, which results in the following environment variables as an example:</p><pre><code>ESTAFETTE_MANIFEST_BRANCH: master
-ESTAFETTE_MANIFEST_BUILD_VERSION: 0.0.65
-ESTAFETTE_MANIFEST_EVENT: finished
-ESTAFETTE_MANIFEST_REPO_NAME: estafette-ci-manifest
-ESTAFETTE_MANIFEST_REPO_OWNER: estafette
-ESTAFETTE_MANIFEST_REPO_SOURCE: github.com
-ESTAFETTE_MANIFEST_STATUS: succeeded
+</code></pre></div><p>The properties are available in the <code>ESTAFETTE_TRIGGER_&lt;uppersnakecase trigger name>_&lt;uppersnakecase property name></code>, which results in the following environment variables as an example:</p><pre><code>ESTAFETTE_TRIGGER_MANIFEST_BRANCH: master
+ESTAFETTE_TRIGGER_MANIFEST_BUILD_VERSION: 0.0.65
+ESTAFETTE_TRIGGER_MANIFEST_EVENT: finished
+ESTAFETTE_TRIGGER_MANIFEST_REPO_NAME: estafette-ci-manifest
+ESTAFETTE_TRIGGER_MANIFEST_REPO_OWNER: estafette
+ESTAFETTE_TRIGGER_MANIFEST_REPO_SOURCE: github.com
+ESTAFETTE_TRIGGER_MANIFEST_STATUS: succeeded
 </code></pre><p>It works for <code>pipeline</code> and <code>release</code> triggers and effectively allows you to link pipelines and get access to the last successful build or release details of the pipeline configured in the trigger.</p><h2 id=versioning>Versioning</h2><p>By default Estafette uses semantic versioning with the following values:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>version:
   semver:
     major: <span style=color:#3af>0</span>
