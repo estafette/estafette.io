@@ -336,7 +336,9 @@ releases:
     template: default
 ```
 
-It's not possible yet to override anything set in the release template, but it would be a good future improvement to have to allow for tiny differences between releases, but extracting the majority of parameters into a release template.
+Notes:
+
+* It's not possible yet to override anything set in the release template, but it would be a good future improvement to have to allow for tiny differences between releases, but extracting the majority of parameters into a release template.
 
 
 ## A stage in detail
