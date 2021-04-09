@@ -277,6 +277,68 @@ releases:
         - ci.estafette.io
 ```
 
+## Release templates
+
+If you have many identical release targets it make sense to use _release templates_ to avoid duplication.
+
+Let's say you deploy to 3 different environments using exactly the same stages you can extract those into a release template, and reference the template in the release targets:
+
+
+```yaml
+releaseTemplates:
+  default:
+    actions:
+    - name: deploy-canary
+    - name: deploy-stable
+    - name: rollback-canary
+      hideBadge: true
+    - name: restart-stable
+      hideBadge: true
+    stages:
+      deploy:
+        image: extensions/gke:stable
+        ...
+
+releases:
+  development:
+    template: default
+
+  staging:
+    template: default
+
+  production:
+    template: default
+```
+
+In the release templates you can include `actions`, `triggers`, `clone`, `builder` and `stages` sections, just like it would be used in the release target itself. In the release target you can then include all these section by using the `template` parameter combined with the name of the template.
+
+If you happen to use the release name in your releases you can still use a release template combined with the `${ESTAFETTE_RELEASE_NAME}` variable:
+
+
+```yaml
+releaseTemplates:
+  default:
+    stages:
+      tag-container-image:
+        image: extensions/docker:stable
+        action: tag
+        container: gke
+        repositories:
+        - extensions
+        tags:
+        - ${ESTAFETTE_RELEASE_NAME}
+
+releases:
+  beta:
+    template: default
+
+  stable:
+    template: default
+```
+
+It's not possible yet to override anything set in the release template, but it would be a good future improvement to have to allow for tiny differences between releases, but extracting the majority of parameters into a release template.
+
+
 ## A stage in detail
 
 The individual stages of a build or release share nothing except for the cloned repository mounted into each stage container. Passing on information can be done via this working directory.
