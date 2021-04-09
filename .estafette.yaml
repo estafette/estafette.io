@@ -52,7 +52,8 @@ stages:
     - echo "Creating pull request for ${ESTAFETTE_BUILD_VERSION} branch"
     - ESTAFETTE_GIT_URL=$(git remote get-url origin)
     - PR_TITLE=$(echo "${ESTAFETTE_BUILD_VERSION} - ${LOG_MESSAGE}" | tr '\n' ' ')
-    - 'curl --fail -u ${ESTAFETTE_GIT_URL:8:58} -XPOST https://api.github.com/repos/estafette/estafette.io/pulls -d "{\"title\": \"${PR_TITLE}\", \"head\": \"${ESTAFETTE_BUILD_VERSION}\", \"base\": \"main\"}"'
+
+    - 'curl --fail -H "Accept: application/vnd.github.v3+json" -u ${ESTAFETTE_GIT_URL:8:55} -XPOST https://api.github.com/repos/estafette/estafette.io/pulls -d "{\"title\": \"${PR_TITLE}\", \"head\": \"${ESTAFETTE_BUILD_VERSION}\", \"base\": \"main\"}"'
     when:
       status == 'succeeded' &&
       branch == 'source'
