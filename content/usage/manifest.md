@@ -625,6 +625,42 @@ And on all projects that have topics to subscribe to it estafette-ci-api's servi
 - pubsub.editor
 ```
 
+### On Github event
+
+If you want your pipeline, or a bot, to react to any type of Gitbub event you can specify with the following structure one or more events to react to:
+
+```yaml
+triggers:
+- github:
+    events:
+    - pull_request
+```
+
+Notes:
+
+* The Github app installation used to send events to an Estafette CI installation needs the events you want to act on checked for them to work.
+
+### On Bitbucket event
+
+If you want your pipeline, or a bot, to react to any type of Bitbucket event you can specify with the following structure one or more events to react to:
+
+```yaml
+triggers:
+- bitbucket:
+    events:
+    - pullrequest:created
+    - pullrequest:updated
+    - pullrequest:approved
+    - pullrequest:unapproved
+    - pullrequest:fulfilled
+    - pullrequest:rejected
+    - pullrequest:comment_created
+```
+
+Notes:
+
+* The Bitbucket global webhook used to send events to an Estafette CI installation needs the events you want to act on included for them to work.
+
 ### Named triggers
 
 Although not required you can set a name for each trigger, which makes some of the triggers properties available as environment variables at all times when your pipeline runs, regardless of whether the build has been triggered by a commit or the configured trigger.
