@@ -340,6 +340,27 @@ Notes:
 
 * It's not possible yet to override anything set in the release template, but it would be a good future improvement to have to allow for tiny differences between releases, but extracting the majority of parameters into a release template.
 
+## Bots
+
+Bots are similar to builds and releases in that they can execute one or more stages, and if needed clone the repository. However their execution doesn't result in releasable artifacts; instead bots are targetted at automating actions in response to any type of trigger. This means you can create a bot to respond to pull request comments, close stale issues, process pub/sub messages, and so forth.
+
+You can define one or multiple bots by using the `bots` section. Each bot is named - just like stages - and allows `builder`, `triggers`, `clone` and `stages` to be set:
+
+```yaml
+bots:
+  any-event-bot:
+    triggers:
+    - github:
+        events:
+        - pull_request
+    stages:
+      bot:
+        image: extensions/bot-github:dev
+```
+
+Notes:
+
+* Without a trigger a bot will never run, since you cannot start them manually and they do not automatically fire on a `push` event like builds do.
 
 ## A stage in detail
 
