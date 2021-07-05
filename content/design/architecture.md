@@ -34,9 +34,13 @@ It also makes it possible to upgrade the database itself without any downtime, w
 
 Currently the most important data stored in the database are the autoincrementing build number per pipeline and all the build and release logs.
 
+#### Queue
+
+In order to decouple parts of the logic cloud-native queue [NATS](https://nats.io/) is used. It's a very performant system to route messages between various parts of Estafette CI. It's currently used as queue - while it also supports _publish-subscribe_ and other concepts - to handle various triggers for Estafette pipelines.
+
 #### Cron timer
 
-This component uses a Kubernetes CronJob to fire a _tick_ event to the API layer every minute, which allows cron triggers to function without the API layer having to run timed events in the background itself.
+This component uses a Kubernetes CronJob to send a _cron event_ message through the queue towards the the API in order to handle _cron triggers_ while keeping the API layer stateless.
 
 ## Languages
 
