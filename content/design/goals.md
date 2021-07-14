@@ -1,7 +1,7 @@
 ---
 title: "Goals"
 description: "Overarching goals of the Estafette system"
-weight: 1
+weight: 2
 ---
 
 The goals of _Estafette_ are to...

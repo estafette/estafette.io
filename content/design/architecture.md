@@ -1,7 +1,7 @@
 ---
 title: "Architecture"
 description: "Of what parts does the Estafette system consist"
-weight: 2
+weight: 3
 ---
 
 The high-level architecture of Estafette CI looks as follows:
