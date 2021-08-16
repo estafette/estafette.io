@@ -1,7 +1,7 @@
 ---
 title: Configuration
 description: Configure Estafette to tune it to your needs
-weight: 3
+weight: 4
 ---
 
 ## Config.yaml

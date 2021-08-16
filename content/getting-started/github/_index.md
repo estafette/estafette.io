@@ -15,7 +15,7 @@ Set the following values while registering the Github App:
 * _Github App Name_ - Set to the hostname you're planning to host Estafette CI at. 
 * _Homepage Url_ - The same hostname, but ensure it's prefixed by `https://`. 
 * _Webhook URL_ - Has to be set to `https://<webhook host>/api/integrations/github/events`. This separate hostname is open to the world for receiving webhooks, while your regular host is preferably behind an identity-aware access solutino.
-* _Webhook secret_ - Ensure it's set following these [instructions](https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks). Store it's value in a secure location like a password manager. You'll need it to configure Estafette.
+* _Webhook secret_ - Create a secret following these [instructions](https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks). Store it's value in a secure location like a password manager. You'll need it to configure Estafette.
 * _Where can this GitHub App be installed?_ - Only on this account
 
 ### Repository permissions
@@ -51,9 +51,6 @@ Update the Helm installation with the following `estafette-ci.yaml` values file 
 api:
   secret:
     files:
-      # the aes-256 key to encrypt/decrypt estafette secrets
-      secretDecryptionKey: <random 32 character string>
-
       private-key.pem: |
         -----BEGIN RSA PRIVATE KEY-----
         <the github private key downloaded before>
@@ -69,7 +66,4 @@ api:
             clientID: <Client ID>
             clientSecret: <Client secret recorded before>
             webhookSecret: <Webhook secret recorded before>
-
-        apiServer:
-          baseURL: https://<host>
 ```
