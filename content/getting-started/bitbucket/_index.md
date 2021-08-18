@@ -17,9 +17,9 @@ api:
       config.yaml: |
         integrations:
           bitbucket:
-            enable: true
-            key: <unique text string to identify the app>
-            name: <text string with the name of the app for display>
+            enable: false
+            key: <unique text string to identify the app; defaults to estafette-ci>
+            name: <text string with the name of the app for display; defaults to Estafette CI>
 
         apiServer:
           integrationsURL: https://<integrations host>
@@ -37,7 +37,7 @@ First go to the `Installed apps` page and check the `Enable development mode` ch
 
 ## Configure Estafette for registered App
 
-Now that the App has been registered with Bitbucket update the Estafette config by setting `appClientID` and `appClientSecret` from the values shown in Bitbucket.
+Now that the App has been registered with Bitbucket update the Estafette config by setting `enable`, `appClientID` and `appClientSecret` from the values shown in Bitbucket.
 
 ```yaml
 api:
