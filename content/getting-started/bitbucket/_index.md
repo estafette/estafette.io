@@ -33,12 +33,11 @@ Navigate to `Develop Apps` within your Bitbucket workspace at https://bitbucket.
 
 ## Installing the App
 
-Click the _installation url_ as shown in the registered app and select the workspace you want to authorize it for.
+First go to the `Installed apps` page and check the `Enable development mode` checkbox. Then go back to `Develop apps` and click the _installation url_ as shown in the previously registered app and select the workspace you want to authorize it for.
 
 ## Configure Estafette for registered App
 
 Now that the App has been registered with Bitbucket update the Estafette config by setting `appClientID` and `appClientSecret` from the values shown in Bitbucket.
-
 
 ```yaml
 api:
@@ -56,3 +55,5 @@ api:
         apiServer:
           integrationsURL: https://<integrations host>
 ```
+
+Now update the Helm release again with `helm upgrade --install estafette-ci estafette/estafette-ci -n estafette-ci --timeout 600s --values estafette.ci-yaml`. Then you're set to go and any push to Bitbucket will send a webhook event request to your Estafette CI installation.
