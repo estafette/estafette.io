@@ -15,23 +15,24 @@ First add the `estafette` helm repository with
 helm repo add estafette https://helm.estafette.io
 ```
 
+Although Estafette aims to have as little configuration as possible by using sane defaults the Helm chart still needs a couple of values to be set. To do so create a `values.yaml` file with the following content:
+
+```yaml
+api:
+  baseHost: <(private) host for the web gui>
+  integrationsHost: <public host to receive webhooks>
+```
+
 Then install the `estafette-ci` chart with
 
 ```
-helm upgrade --install estafette-ci estafette/estafette-ci -n estafette-ci --timeout 600s
+helm upgrade --install estafette-ci estafette/estafette-ci -n estafette-ci --values values.yaml --timeout 600s
 ```
 
-With Estafette CI making use of CockroachDB in **secure mode** you need to approve one or more _certificate signing requests_ by doing the following while the installation runs (and before it times out):
+This should get all parts up and running, you can check with:
 
 ```
-kubectl get csr
+watch kubectl get svc,ing,deploy,sts,po -n estafette-ci
 ```
 
-You will see one or more csr's and will have to approve this with (for example):
-
-```
-kubectl certificate approve estafette-ci.client.root
-kubectl certificate approve estafette-ci.node.estafette-ci-db-0
-kubectl certificate approve estafette-ci.node.estafette-ci-db-1
-kubectl certificate approve estafette-ci.node.estafette-ci-db-2
-```
+From here on you need to [configure]({{< relref "configuration" >}}) Estafette for logins, credentials. And to have it build your code link it to either [Github]({{< relref "github" >}}) and/or [Bitbucket]({{< relref "bitbucket" >}}).
