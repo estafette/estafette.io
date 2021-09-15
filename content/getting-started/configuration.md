@@ -1,7 +1,7 @@
 ---
-title: Configuration
+title: Other configuration
 description: Configure Estafette to tune it to your needs
-weight: 2
+weight: 7
 ---
 
 ## Config.yaml
@@ -14,29 +14,11 @@ For integrations with 3rd party services the `integrations` section provides a p
 
 #### Github
 
-In order to receive Github push events _Estafette_ is configured as a Github App and registered to receive push events for all repositories of a specific owner. _Estafette_ needs a couple of values in order to validate the push event and to communicate with Github's API. The configuration section looks like follows:
-
-```yaml
-integrations:
-  github:
-    privateKeyPath: /secrets/private-key.pem
-    appID: <app id>
-    clientID: <client id>
-    clientSecret: estafette.secret(***)
-    webhookSecret: estafette.secret(***)
-```
+See [Github integration]({{< relref "github-integration" >}}).
 
 #### Bitbucket
 
-Bitbucket integration is configured as a global webhook at account level, so any repository push event is forwarded to _Estafette_. In order to communicate with the Bitbucket API the following configuration values are required:
-
-```yaml
-integrations:
-  bitbucket:
-    apiKey: estafette.secret(***)
-    appOAuthKey: <oauth key>
-    appOAuthSecret: estafette.secret(***)
-```
+See [Bitbucket integration]({{< relref "bitbucket-integration" >}}).
 
 #### Slack
 
@@ -45,6 +27,7 @@ The Slack integration allows a Slash command to be configured in order to provid
 ```yaml
 integrations:
   slack:
+    enable: true
     clientID: <client id>
     clientSecret: estafette.secret(***)
     appVerificationToken: estafette.secret(***)
@@ -59,6 +42,7 @@ In order for the Estafette CI api to create subscriptions to topics used in _pub
 integrations:
   ...
   pubsub:
+    enable: true
     defaultProject: <project id where estafette-ci-api runs>
     endpoint: https://<public hostname for integrations>/api/integrations/pubsub/events
     audience: somerandomaudiencekey
@@ -80,9 +64,22 @@ In order to set correct links for build status integration and provide correct c
 
 ```yaml
 apiServer:
-  baseURL: https://ci.estafette.io/
-  serviceURL: http://estafette-ci-api.estafette.svc.cluster.local/
+  baseURL: https://<(private) host for the web gui>
+  integrationsURL: https://<public host to receive webhooks>
+  serviceURL: http://estafette-ci-api.<namespace>.svc.cluster.local/
 ```
+
+With the helm chart this config is set from the following Helm values:
+
+```yaml
+# (private) host at which to access the web interface and api
+baseHost: estafette.mydomain.com
+
+# host to receive webhooks from 3rd party integrations like github, bitbucket
+integrationsHost: estafette-integrations.mydomain.com
+```
+
+You'll only need to set it when passing a custom config file.
 
 ### Authentication
 
@@ -104,13 +101,16 @@ _Estafette_ supports Postgresql; this allows it to use CockroachDB as it's datab
 
 ```yaml
 database:
-  databaseName: <db name>
-  host: <db host>
-  insecure: <true|false>
-  certificateDir: <directory with client-side certificates to secure communication with db>
+  databaseName: defaultdb
+  host: estafette-ci-db-public
+  insecure: false
+  sslMode: verify-full
+  certificateAuthorityPath: /cockroach-certs/ca.crt
+  certificatePath: /cockroach-certs/tls.crt
+  certificateKeyPath: /cockroach-certs/tls.key
   port: 26257
-  user: <db user>
-  password: estafette.secret(***)
+  user: root
+  password: ''
 ```
 
 ### Credentials
@@ -194,11 +194,3 @@ trustedImages:
 Notes:
 
 * The `bitbucket-api-token` or `github-api-token` credential types are set on the fly when a build/release job is started for either a Bitbucket or Github repository. This allows a repository to be cloned without needing to set up deploy keys or other forms of ssh authentication.
-
-### Docker registry mirror
-
-In order to improve availability of the containers used in each stage a Docker Registry mirror can be configured with:
-
-```yaml
-registryMirror: https://mirror.gcr.io
-```

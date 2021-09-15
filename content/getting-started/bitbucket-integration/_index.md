@@ -1,7 +1,7 @@
 ---
 title: "Bitbucket integration"
 description: "Setting up Estafette CI to build Bitbucket repositories"
-weight: 4
+weight: 6
 ---
 
 In order to receive Bitbucket events in your Estafette CI installation you need to create Bitbucket app and install it in your workspace.

@@ -1,7 +1,7 @@
 ---
 title: "Github integration"
 description: "Setting up Estafette CI to build Github repositories"
-weight: 3
+weight: 5
 ---
 
 In order to receive Github events in your Estafette CI installation you need enable the Github integration in Estafette, then you can create a Github app and install it.

@@ -35,4 +35,4 @@ This should get all parts up and running, you can check with:
 watch kubectl get svc,ing,deploy,sts,po -n estafette-ci
 ```
 
-From here on you need to [configure]({{< relref "configuration" >}}) Estafette for logins, credentials. And to have it build your code link it to either [Github]({{< relref "github" >}}) and/or [Bitbucket]({{< relref "bitbucket" >}}).
+From here you need to set up either [Github login]({{< relref "github-login" >}}) or [Google login]({{< relref "google-login" >}}). And in order to receive webhooks for git pushes set up [Github integration]({{< relref "github-integration" >}}) and/or [Bitbucket integration]({{< relref "bitbucket-integration" >}}).
