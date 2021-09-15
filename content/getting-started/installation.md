@@ -19,8 +19,14 @@ Although Estafette aims to have as little configuration as possible by using san
 
 ```yaml
 api:
-  baseHost: <(private) host for the web gui>
-  integrationsHost: <public host to receive webhooks>
+  baseHost: '<(private) host for the web gui>'
+  integrationsHost: '<public host to receive webhooks>'
+```
+
+Create a namespace with
+
+```
+kubectl create namespace estafette-ci
 ```
 
 Then install the `estafette-ci` chart with
