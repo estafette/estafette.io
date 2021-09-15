@@ -37,11 +37,15 @@ api:
       value: 'true'
 ```
 
-With this in place run `helm upgrade --install estafette-ci estafette/estafette-ci -n estafette-ci --timeout 600s --values values.yaml`.
+With this in place run
+
+```
+helm upgrade --install estafette-ci estafette/estafette-ci -n estafette-ci --create-namespace --timeout 600s --values values.yaml
+```
 
 ## Register App
 
-Navigate to `Develop Apps` within your Bitbucket workspace at https://bitbucket.org/<account>/workspace/settings/applications. Once there click `Register app` and enter `https://<integrations host>/api/integrations/bitbucket/descriptor` for the _Descriptor URL`. This registers the application with Bitbucket.
+Navigate to `Develop Apps` within your Bitbucket workspace at `https://bitbucket.org/<account>/workspace/settings/applications`. Once there click `Register app` and enter `https://<integrations host>/api/integrations/bitbucket/descriptor` for the _Descriptor URL`. This registers the application with Bitbucket.
 
 ## Installing the App
 

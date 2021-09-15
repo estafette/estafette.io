@@ -1,7 +1,7 @@
 ---
 title: "Github login"
 description: "Setting up Estafette CI to login with a Github account"
-weight: 3
+weight: 4
 ---
 In order to be able to take manual actions in Estafette you need to protect it with a login.
 
@@ -46,6 +46,10 @@ api:
       value: '<regex to restrict domain for the email address of the user; for example .+@estafette\.io>'
 ```
 
-With this in place run `helm upgrade --install estafette-ci estafette/estafette-ci -n estafette-ci --timeout 600s --values values.yaml`.
+With this in place run
+
+```
+helm upgrade --install estafette-ci estafette/estafette-ci -n estafette-ci --create-namespace --timeout 600s --values values.yaml
+```
 
 Now when navigating to your base host you should be able to see a Github login button and use it to log in to your Estafette setup.

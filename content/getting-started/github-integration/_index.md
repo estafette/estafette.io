@@ -1,7 +1,7 @@
 ---
 title: "Github integration"
 description: "Setting up Estafette CI to build Github repositories"
-weight: 5
+weight: 7
 ---
 
 In order to receive Github events in your Estafette CI installation you need enable the Github integration in Estafette, then you can create a Github app and install it.
@@ -37,7 +37,11 @@ api:
       value: 'true'
 ```
 
-With this in place run `helm upgrade --install estafette-ci estafette/estafette-ci -n estafette-ci --timeout 600s --values values.yaml`.
+With this in place run
+
+```
+helm upgrade --install estafette-ci estafette/estafette-ci -n estafette-ci --create-namespace --timeout 600s --values values.yaml
+```
 
 ## Register App
 
