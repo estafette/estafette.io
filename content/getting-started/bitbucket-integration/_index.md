@@ -47,7 +47,7 @@ helm upgrade --install estafette-ci estafette/estafette-ci -n estafette-ci --cre
 
 ## Register App
 
-Navigate to `Develop Apps` within your Bitbucket workspace at `https://bitbucket.org/<account>/workspace/settings/applications`. Once there click `Register app` and enter `https://<integrations host>/api/integrations/bitbucket/descriptor` for the _Descriptor URL`. This registers the application with Bitbucket.
+Navigate to `Develop Apps` within your Bitbucket workspace at `https://bitbucket.org/<account>/workspace/settings/applications`. Once there click `Register app` and enter `https://<integrations host>/api/integrations/bitbucket/descriptor?key=<(private) host for the web gui>` for the _Descriptor URL`. This registers the application with Bitbucket.
 
 ## Installing the App
 
