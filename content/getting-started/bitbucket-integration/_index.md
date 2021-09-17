@@ -6,7 +6,7 @@ weight: 6
 
 In order to receive Bitbucket events in your Estafette CI installation you need to create Bitbucket app and install it in your workspace.
 
-Ensure you have either [Github login]({{< relref "github-login" >}}) or [Google login]({{< relref "google-login" >}}) configured and set yourself as administrator.
+Ensure you have either [Github login]({{< relref "../github-login" >}}) or [Google login]({{< relref "../google-login" >}}) configured and set yourself as administrator.
 
 ## Configure Estafette for App Descriptor
 

@@ -6,7 +6,7 @@ weight: 7
 
 In order to receive Github events in your Estafette CI installation you need enable the Github integration in Estafette, then you can create a Github app and install it.
 
-Ensure you have either [Github login]({{< relref "github-login" >}}) or [Google login]({{< relref "google-login" >}}) configured and set yourself as administrator.
+Ensure you have either [Github login]({{< relref "../github-login" >}}) or [Google login]({{< relref "../google-login" >}}) configured and set yourself as administrator.
 
 NOTE: Github login and Github integration aren't the same thing. They use different types of Github apps behind the scenes. You can mix and match Github login with other types of integration and vice versa.
 
