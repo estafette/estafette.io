@@ -13,7 +13,7 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
   pubsub:
     enable: <span style=color:#00f>true</span>
     defaultProject: <span style=color:#5a2>&#39;&lt;project id where estafette-ci-api runs&gt;&#39;</span>
-    endpoint: https://&lt;public hostname for integrations&gt;/api/integrations/pubsub/events
+    endpoint: <span style=color:#5a2>&#39;https://&lt;public hostname for integrations&gt;/api/integrations/pubsub/events&#39;</span>
     audience: somerandomaudiencekey
     serviceAccountEmail: <span style=color:#5a2>&#39;&lt;email address for service account used by estafette-ci-api&gt;&#39;</span>
     subscriptionNameSuffix: ~estafette-ci-pubsub-trigger
@@ -21,9 +21,9 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
 </code></pre></div><p>For all projects used in <em>pubsub</em> triggers the <em>estafette-ci-api</em> service account needs the following roles:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>- pubsub.subscriber
 - pubsub.editor
 </code></pre></div><h3 id=api-server>API Server</h3><p>In order to set correct links for build status integration and provide correct communication between the builder jobs and the api there's some minimal configuration for the API itself:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>apiServer:
-  baseURL: https://&lt;(private) host for the web gui<span style=color:#5a2>&gt;
-</span><span style=color:#5a2> </span><span style=color:#5a2> </span><span style=color:#5a2>integrationsURL: https://&lt;public host to receive webhooks&gt;</span>
-  serviceURL: http://estafette-ci-api.&lt;namespace&gt;.svc.cluster.local/
+  baseURL: <span style=color:#5a2>&#39;https://&lt;(private) host for the web gui&gt;&#39;</span>
+  integrationsURL: <span style=color:#5a2>&#39;https://&lt;public host to receive webhooks&gt;&#39;</span>
+  serviceURL: <span style=color:#5a2>&#39;http://estafette-ci-api.&lt;namespace&gt;.svc.cluster.local/&#39;</span>
 </code></pre></div><p>With the helm chart this config is set from the following Helm values:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#888;font-style:italic># (private) host at which to access the web interface and api</span>
 baseHost: estafette.mydomain.com
 
