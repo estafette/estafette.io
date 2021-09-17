@@ -31,6 +31,9 @@ api:
             clientID: <google oauth client id>
             clientSecret: <google oauth client secret>
             allowedIdentitiesRegex: <regex to restrict domain for the email address of the user; for example .+@estafette\.io>
+          administrators:
+          - admin1@estafette.io
+          - admin2@estafette.io
 ```
 
 or override the default config with environment variables like:
@@ -47,6 +50,8 @@ api:
       value: '<google oauth client secret>'
     - name: ESCI_AUTH_GOOGLE_ALLOWEDIDENTITIESREGEX
       value: '<regex to restrict domain for the email address of the user; for example .+@estafette\.io>'
+    - name: ESCI_AUTH_ADMINISTRATORS
+      value: '<comma separate list of admin email addresses, for example admin1@estafette.io,admin2@estafette.io>'
 ```
 
 With this in place run

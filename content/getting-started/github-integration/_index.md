@@ -6,6 +6,8 @@ weight: 7
 
 In order to receive Github events in your Estafette CI installation you need enable the Github integration in Estafette, then you can create a Github app and install it.
 
+Ensure you have either [Github login]({{< relref "github-login" >}}) or [Google login]({{< relref "google-login" >}}) configured and set yourself as administrator.
+
 ## Configure Estafette
 
 In order for Estafette's Github integration to work ensure the Helm installation has the following `values.yaml` values file:
