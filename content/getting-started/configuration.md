@@ -28,7 +28,7 @@ The Slack integration allows a Slash command to be configured in order to provid
 integrations:
   slack:
     enable: true
-    clientID: <client id>
+    clientID: '<client id>'
     clientSecret: estafette.secret(***)
     appVerificationToken: estafette.secret(***)
     appOAuthAccessToken: estafette.secret(***)
@@ -43,10 +43,10 @@ integrations:
   ...
   pubsub:
     enable: true
-    defaultProject: <project id where estafette-ci-api runs>
+    defaultProject: '<project id where estafette-ci-api runs>'
     endpoint: https://<public hostname for integrations>/api/integrations/pubsub/events
     audience: somerandomaudiencekey
-    serviceAccountEmail: <email address for service account used by estafette-ci-api>
+    serviceAccountEmail: '<email address for service account used by estafette-ci-api>'
     subscriptionNameSuffix: ~estafette-ci-pubsub-trigger
     subscriptionIdleExpirationDays: 365
 ```
@@ -91,7 +91,7 @@ The API key is used to secure communication from the builder jobs to the API.
 auth:
   iap:
     enable: true
-    audience: <identity aware proxy>
+    audience: '<identity aware proxy>'
   apiKey: estafette.secret(***)
 ```
 

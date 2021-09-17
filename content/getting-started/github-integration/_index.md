@@ -33,8 +33,8 @@ or override the default config with environment variables like:
 
 ```yaml
 api:
-  baseHost: <(private) host for the web gui>
-  integrationsHost: <public host to receive webhooks>
+  baseHost: '<(private) host for the web gui>'
+  integrationsHost: '<public host to receive webhooks>'
   deployment:
     extraEnv:
     - name: ESCI_INTEGRATIONS_GITHUB_ENABLE

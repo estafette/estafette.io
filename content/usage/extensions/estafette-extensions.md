@@ -9,7 +9,7 @@ weight: 1
 ```yaml
 git-clone:
   image: extensions/git-clone:stable
-  shallow: < boolean | true >
+  shallow: '< boolean | true >'
 ```
 
 The `git-clone` stage is automatically injected if not present in your manifest for the build stages; in the release stages it's not injected. In case you don't need anything from your repository to release this speeds things up.
@@ -23,10 +23,10 @@ You can use the `git-clone` extension to clone another repository as well, as lo
 ```yaml
 clone-another-repo:
   image: extensions/git-clone:stable
-  shallow: < boolean | true >
-  repo: < string >
-  branch: < string | master >
-  subdir: < string | repo >
+  shallow: '< boolean | true >'
+  repo: '< string >'
+  branch: '< string | master >'
+  subdir: '< string | repo >'
 ```
 
 Notes:
@@ -43,13 +43,13 @@ The `docker` extension supports the following actions: *build*, *push*, *tag*. F
 bake:
   image: extensions/docker:stable
   action: build
-  no-cache: < bool | false >
-  expand-variables: < bool | true >
-  container: < string | ESTAFETTE_GIT_NAME >
+  no-cache: '< bool | false >'
+  expand-variables: '< bool | true >'
+  container: '< string | ESTAFETTE_GIT_NAME >'
   repositories:
   - estafette
-  path: < string | . >
-  dockerfile: < string | Dockerfile >
+  path: '< string | . >'
+  dockerfile: '< string | Dockerfile >'
   copy:
   - < string | copies Dockerfile by default >
   - /etc/ssl/certs/ca-certificates.crt
@@ -93,7 +93,7 @@ If you'd like to avoid having a separate Dockerfile you can inline it as well.
 push:
   image: extensions/docker:stable
   action: push
-  container: < string | ESTAFETTE_GIT_NAME >
+  container: '< string | ESTAFETTE_GIT_NAME >'
   repositories:
   - estafette
   tags:
@@ -119,7 +119,7 @@ To later on tag a specific version with another tag - for example to promote a d
 tag:
   image: extensions/docker:dev
   action: tag
-  container: < string | ESTAFETTE_GIT_NAME >
+  container: '< string | ESTAFETTE_GIT_NAME >'
   repositories:
   - estafette
   tags:
@@ -147,67 +147,67 @@ If you don't want to use the default sidecar, you should add the `injecthttpprox
 ```yaml
 deploy:
   image: extensions/gke:stable
-  credentials: < string | gke-ESTAFETTE_RELEASE_NAME >
-  app: < string | ESTAFETTE_GIT_NAME >
-  namespace: < string | default namespace from credentials config >
-  visibility: < string | private >
+  credentials: '< string | gke-ESTAFETTE_RELEASE_NAME >'
+  app: '< string | ESTAFETTE_GIT_NAME >'
+  namespace: '< string | default namespace from credentials config >'
+  visibility: '< string | private >'
   container:
-    repository: < string >
-    name: < string | app >
-    tag: < string | ESTAFETTE_BUILD_VERSION >
-    port: < integer | 5000 >
+    repository: '< string >'
+    name: '< string | app >'
+    tag: '< string | ESTAFETTE_BUILD_VERSION >'
+    port: '< integer | 5000 >'
     env:
       MY_CUSTOM_ENV: value1
       MY_OTHER_CUSTOM_ENV: value2
     cpu:
-      request: < string | 100m >
-      limit: < string | 125m >
+      request: '< string | 100m >'
+      limit: '< string | 125m >'
     memory:
-      request: < string | 128Mi >
-      limit: < string | 128Mi >
+      request: '< string | 128Mi >'
+      limit: '< string | 128Mi >'
     liveness:
-      path: < string | /liveness >
-      delay: < integer | 30 >
-      timeout: < integer | 1 >
+      path: '< string | /liveness >'
+      delay: '< integer | 30 >'
+      timeout: '< integer | 1 >'
     readiness:
-      path: < string | /readiness >
-      delay: < integer | 0 >
-      timeout: < integer | 1 >
+      path: '< string | /readiness >'
+      delay: '< integer | 0 >'
+      timeout: '< integer | 1 >'
     metrics:
-      scrape: < boolean | true >
-      path: < string | /metrics >
-      port: < integer | .container.port >
+      scrape: '< boolean | true >'
+      path: '< string | /metrics >'
+      port: '< integer | .container.port >'
   sidecars:
-  - type: < string | openresty | cloudsqlproxy >
-    image: < string | estafette/openresty-sidecar:1.13.6.2-alpine | gcr.io/cloudsql-docker/gce-proxy:1.13 >
+  - type: '< string | openresty | cloudsqlproxy >'
+    image: '< string | estafette/openresty-sidecar:1.13.6.2-alpine | gcr.io/cloudsql-docker/gce-proxy:1.13 >'
     env:
       CORS_ALLOWED_ORIGINS: "*"
       CORS_MAX_AGE: "86400"
     cpu:
-      request: < string | 10m >
-      limit: < string | 50m >
+      request: '< string | 10m >'
+      limit: '< string | 50m >'
     memory:
-      request: < string | 10Mi >
-      limit: < string | 50Mi >
+      request: '< string | 10Mi >'
+      limit: '< string | 50Mi >'
     # Only relevant for cloudsqlproxy
     dbinstanceconnectionname: my-gcloud-project:europe-west1:my-database
     sqlproxyport: 5043
   # Additional sidecars can be listed here.
-  - type: < string | openresty | cloudsqlproxy >
-    image: < string | estafette/openresty-sidecar:1.13.6.2-alpine | gcr.io/cloudsql-docker/gce-proxy:1.13 >
+  - type: '< string | openresty | cloudsqlproxy >'
+    image: '< string | estafette/openresty-sidecar:1.13.6.2-alpine | gcr.io/cloudsql-docker/gce-proxy:1.13 >'
     ...
-  replicas: < integer | 0 >
+  replicas: '< integer | 0 >'
   autoscale:
-    enabled: < bool | true >
-    min: < integer | 3 >
-    max: < integer | 100 >
-    cpu: < integer | 80 >
+    enabled: '< bool | true >'
+    min: '< integer | 3 >'
+    max: '< integer | 100 >'
+    cpu: '< integer | 80 >'
     safety:
-      enabled: < bool | false >
-      promquery: < string | sum(rate(nginx_http_requests_total{app='app'}[5m])) by (app) >
-      ratio: < float | 1.0 >
-      delta: < float | 0.0 >
-      scaledownratio: < float | 1.0 >
+      enabled: '< bool | false >'
+      promquery: '< string | sum(rate(nginx_http_requests_total{app='app'}[5m])) by (app) >'
+      ratio: '< float | 1.0 >'
+      delta: '< float | 0.0 >'
+      scaledownratio: '< float | 1.0 >'
   secrets:
     keys:
       secret-file-1.json: c29tZSBzZWNyZXQgdmFsdWU=
@@ -237,18 +237,18 @@ deploy:
   hosts:
   - gke.estafette.io
   - gke-deploy.estafette.io
-  basepath: < string | / >
-  enablePayloadLogging: < boolean | false >
-  chaosproof: < boolean | false >
+  basepath: '< string | / >'
+  enablePayloadLogging: '< boolean | false >'
+  chaosproof: '< boolean | false >'
   rollingupdate:
-    maxsurge: < string | 25% >
-    maxunavailable: < string | 25% >
-    timeout: < string | 5m >
+    maxsurge: '< string | 25% >'
+    maxunavailable: '< string | 25% >'
+    timeout: '< string | 5m >'
   trustedips:
   - 103.21.244.0/22
   - 103.22.200.0/22
   - 103.31.4.0/22
-  dryrun: < boolean | false >
+  dryrun: '< boolean | false >'
 ```
 
 A very minimal version when using all the defaults looks like:
@@ -312,7 +312,7 @@ For visibility `apigee`, `authsecret` under `request` must refer to a Secret con
 ```yaml
 set-build-status:
   image: extensions/github-status:stable
-  status: < string | ESTAFETTE_BUILD_STATUS >
+  status: '< string | ESTAFETTE_BUILD_STATUS >'
 ```
 
 The `github-status` extension takes the build status from the `ESTAFETTE_BUILD_STATUS` environment variable, but this can be overridden with the `status` tag. Depending on the source of the git push - github or bitbucket - this extension is automatically injected at the beginning of the build stages and at the end in order to set the build status in the respective source code hosting system:
@@ -336,7 +336,7 @@ set-build-status:
 ```yaml
 set-build-status:
   image: extensions/bitbucket-status:stable
-  status: < string | ESTAFETTE_BUILD_STATUS >
+  status: '< string | ESTAFETTE_BUILD_STATUS >'
 ```
 
 The `bitbucket-status` extension takes the build status from the `ESTAFETTE_BUILD_STATUS` environment variable, but this can be overridden with the `status` tag. Depending on the source of the git push - github or bitbucket - this extension is automatically injected at the beginning of the build stages and at the end in order to set the build status in the respective source code hosting system:

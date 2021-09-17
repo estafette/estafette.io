@@ -22,7 +22,7 @@ metadata:
   name: cloudflare-api-key-secret
   namespace: cert-manager
 data:
-  api-key: <base64 encoded cloudflare api key>
+  api-key: '<base64 encoded cloudflare api key>'
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -34,7 +34,7 @@ spec:
     # You must replace this email address with your own.
     # Let's Encrypt will use this to contact you about expiring
     # certificates, and issues related to your account.
-    email: <an email address you own to use as a letsencrypt account>
+    email: '<an email address you own to use as a letsencrypt account>'
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       # Secret resource that will be used to store the account's private key.
@@ -43,7 +43,7 @@ spec:
     solvers:
     - dns01:
         cloudflare:
-          email: <an email address for a cloudflare account to create an api key>
+          email: '<an email address for a cloudflare account to create an api key>'
           # !! Remember to create a k8s secret before
           # kubectl create secret generic cloudflare-api-key-secret
           apiKeySecretRef:

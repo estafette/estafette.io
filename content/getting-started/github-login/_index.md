@@ -28,9 +28,9 @@ api:
         
         auth:
           github:
-            clientID: <github oauth app client id>
-            clientSecret: <github oauth app client secret>
-            allowedIdentitiesRegex: <regex to restrict domain for the email address of the user; for example .+@estafette\.io>
+            clientID: '<github oauth app client id>'
+            clientSecret: '<github oauth app client secret>'
+            allowedIdentitiesRegex: '<regex to restrict domain for the email address of the user; for example .+@estafette\.io>'
           administrators:
           - admin1@estafette.io
           - admin2@estafette.io
@@ -40,8 +40,8 @@ or override the default config with environment variables like:
 
 ```yaml
 api:
-  baseHost: <(private) host for the web gui>
-  integrationsHost: <public host to receive webhooks>
+  baseHost: '<(private) host for the web gui>'
+  integrationsHost: '<public host to receive webhooks>'
   deployment:
     extraEnv:
     - name: ESCI_AUTH_GITHUB_CLIENTID
