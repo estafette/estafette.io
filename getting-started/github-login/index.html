@@ -12,15 +12,15 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
         
         auth:
           github:
-            clientID: &lt;github oauth app client id<span style=color:#5a2>&gt;
-</span><span style=color:#5a2>           </span><span style=color:#5a2> </span><span style=color:#5a2>clientSecret: &lt;github oauth app client secret&gt;</span>
-            allowedIdentitiesRegex: &lt;regex to restrict domain for the email address of the user; for example .+@estafette\.io<span style=color:#5a2>&gt;
-</span><span style=color:#5a2>         </span><span style=color:#5a2> </span><span style=color:#5a2>administrators:</span>
+            clientID: <span style=color:#5a2>&#39;&lt;github oauth app client id&gt;&#39;</span>
+            clientSecret: <span style=color:#5a2>&#39;&lt;github oauth app client secret&gt;&#39;</span>
+            allowedIdentitiesRegex: <span style=color:#5a2>&#39;&lt;regex to restrict domain for the email address of the user; for example .+@estafette\.io&gt;&#39;</span>
+          administrators:
           - admin1@estafette.io
           - admin2@estafette.io
 </code></pre></div><p>or override the default config with environment variables like:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>api:
-  baseHost: &lt;(private) host for the web gui<span style=color:#5a2>&gt;
-</span><span style=color:#5a2> </span><span style=color:#5a2> </span><span style=color:#5a2>integrationsHost: &lt;public host to receive webhooks&gt;</span>
+  baseHost: <span style=color:#5a2>&#39;&lt;(private) host for the web gui&gt;&#39;</span>
+  integrationsHost: <span style=color:#5a2>&#39;&lt;public host to receive webhooks&gt;&#39;</span>
   deployment:
     extraEnv:
     - name: ESCI_AUTH_GITHUB_CLIENTID

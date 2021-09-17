@@ -9,7 +9,7 @@ metadata:
   name: cloudflare-api-key-secret
   namespace: cert-manager
 data:
-  api-key: &lt;base64 encoded cloudflare api key&gt;
+  api-key: <span style=color:#5a2>&#39;&lt;base64 encoded cloudflare api key&gt;&#39;</span>
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -21,8 +21,8 @@ spec:
     <span style=color:#888;font-style:italic># You must replace this email address with your own.</span>
     <span style=color:#888;font-style:italic># Let&#39;s Encrypt will use this to contact you about expiring</span>
     <span style=color:#888;font-style:italic># certificates, and issues related to your account.</span>
-    email: &lt;an email address you own to use as a letsencrypt account<span style=color:#5a2>&gt;
-</span><span style=color:#5a2>   </span><span style=color:#5a2> </span><span style=color:#5a2>server: https://acme-staging-v02.api.letsencrypt.org/directory</span>
+    email: <span style=color:#5a2>&#39;&lt;an email address you own to use as a letsencrypt account&gt;&#39;</span>
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       <span style=color:#888;font-style:italic># Secret resource that will be used to store the account&#39;s private key.</span>
       name: letsencrypt-issuer-account-key
@@ -30,8 +30,8 @@ spec:
     solvers:
     - dns01:
         cloudflare:
-          email: &lt;an email address for a cloudflare account to create an api key<span style=color:#5a2>&gt;
-</span><span style=color:#5a2>         </span><span style=color:#5a2> </span><span style=color:#5a2># !! Remember to create a k8s secret before</span>
+          email: <span style=color:#5a2>&#39;&lt;an email address for a cloudflare account to create an api key&gt;&#39;</span>
+          <span style=color:#888;font-style:italic># !! Remember to create a k8s secret before</span>
           <span style=color:#888;font-style:italic># kubectl create secret generic cloudflare-api-key-secret</span>
           apiKeySecretRef:
             name: cloudflare-api-key-secret
