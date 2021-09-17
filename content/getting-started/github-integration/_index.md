@@ -8,6 +8,8 @@ In order to receive Github events in your Estafette CI installation you need ena
 
 Ensure you have either [Github login]({{< relref "github-login" >}}) or [Google login]({{< relref "google-login" >}}) configured and set yourself as administrator.
 
+NOTE: Github login and Github integration aren't the same thing. They use different types of Github apps behind the scenes. You can mix and match Github login with other types of integration and vice versa.
+
 ## Configure Estafette
 
 In order for Estafette's Github integration to work ensure the Helm installation has the following `values.yaml` values file:

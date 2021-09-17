@@ -3,7 +3,10 @@ title: "Github login"
 description: "Setting up Estafette CI to login with a Github account"
 weight: 4
 ---
+
 In order to be able to take manual actions in Estafette you need to protect it with a login.
+
+NOTE: Github login and Github integration aren't the same thing. They use different types of Github apps behind the scenes. You can mix and match Github login with other types of integration and vice versa.
 
 ## Configure Estafette
 
