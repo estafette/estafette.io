@@ -44,7 +44,7 @@ integrations:
   pubsub:
     enable: true
     defaultProject: '<project id where estafette-ci-api runs>'
-    endpoint: https://<public hostname for integrations>/api/integrations/pubsub/events
+    endpoint: 'https://<public hostname for integrations>/api/integrations/pubsub/events'
     audience: somerandomaudiencekey
     serviceAccountEmail: '<email address for service account used by estafette-ci-api>'
     subscriptionNameSuffix: ~estafette-ci-pubsub-trigger
@@ -64,9 +64,9 @@ In order to set correct links for build status integration and provide correct c
 
 ```yaml
 apiServer:
-  baseURL: https://<(private) host for the web gui>
-  integrationsURL: https://<public host to receive webhooks>
-  serviceURL: http://estafette-ci-api.<namespace>.svc.cluster.local/
+  baseURL: 'https://<(private) host for the web gui>'
+  integrationsURL: 'https://<public host to receive webhooks>'
+  serviceURL: 'http://estafette-ci-api.<namespace>.svc.cluster.local/'
 ```
 
 With the helm chart this config is set from the following Helm values:

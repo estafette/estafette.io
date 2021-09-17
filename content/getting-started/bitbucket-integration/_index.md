@@ -23,8 +23,8 @@ api:
             enable: true
 
         apiServer:
-          baseURL: https://<(private) host for the web gui>
-          integrationsHost: https://<public host to receive webhooks>
+          baseURL: 'https://<(private) host for the web gui>'
+          integrationsHost: 'https://<public host to receive webhooks>'
 ```
 
 or override the default config with environment variables like:

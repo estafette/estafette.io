@@ -23,8 +23,8 @@ api:
     files: |
       config.yaml: |
         apiServer:
-          baseURL: https://<(private) host for the web gui>
-          integrationsHost: https://<public host to receive webhooks>
+          baseURL: 'https://<(private) host for the web gui>'
+          integrationsHost: 'https://<public host to receive webhooks>'
         
         auth:
           github:
