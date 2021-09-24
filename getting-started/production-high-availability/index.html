@@ -80,4 +80,47 @@ queue:
         memory: 128Mi
       limits:
         memory: 128Mi
-</code></pre></div><p>Do not these are just example values and you should tune resources over time and monitor them closely to see when you're either overprovisioning or underprovisiong each of the components.</p></article></div><div class=row style=max-width:1024px></div></div><div class="col d-none d-xl-flex border-left toc sticky-top"><ul><li class=section-item><a class="section-item-link ancestor">Table of contents</a><li class=page-item><a href=/getting-started/production-high-availability/#defaults title=Defaults class=page-item-link>Defaults</a><li class=page-item><a href=/getting-started/production-high-availability/#high-availability title="High Availability" class=page-item-link>High Availability</a><li class=page-item><a href=/getting-started/production-high-availability/#resources title=Resources class=page-item-link>Resources</a></li></ul></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav><script src=https://code.jquery.com/jquery-3.3.1.slim.min.js integrity=sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo crossorigin=anonymous></script><script src=https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js integrity=sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM crossorigin=anonymous></script></body></html>
+</code></pre></div><p>Do not these are just example values and you should tune resources over time and monitor them closely to see when you're either overprovisioning or underprovisiong each of the components.</p><h1 id=avoid-docker-hub-rate-limits>Avoid Docker Hub rate limits</h1><p>Since Docker Hub introduced lowered rate limits for anonymous pulls - see <a href=https://www.docker.com/increase-rate-limits>https://www.docker.com/increase-rate-limits</a> - it's good practice to use <em>image pull secrets</em> for all of the containers pulled from Docker Hub. You can do so by creating a Docker Hub account and generate a token. Once you have those apply the following values:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>api:
+  image:
+    credentials:
+      registry: docker.io
+      username: <span style=color:#5a2>&#39;&lt;docker hub user&gt;&#39;</span>
+      password: <span style=color:#5a2>&#39;&lt;docker hub token&gt;&#39;</span>
+web:
+  image:
+    credentials:
+      registry: docker.io
+      username: <span style=color:#5a2>&#39;&lt;docker hub user&gt;&#39;</span>
+      password: <span style=color:#5a2>&#39;&lt;docker hub token&gt;&#39;</span>
+db:
+  image:
+    credentials:
+      registry: docker.io
+      username: <span style=color:#5a2>&#39;&lt;docker hub user&gt;&#39;</span>
+      password: <span style=color:#5a2>&#39;&lt;docker hub token&gt;&#39;</span>
+cron-event-sender:
+  image:
+    credentials:
+      registry: docker.io
+      username: <span style=color:#5a2>&#39;&lt;docker hub user&gt;&#39;</span>
+      password: <span style=color:#5a2>&#39;&lt;docker hub token&gt;&#39;</span>
+hanging-job-cleaner:
+  image:
+    credentials:
+      registry: docker.io
+      username: <span style=color:#5a2>&#39;&lt;docker hub user&gt;&#39;</span>
+      password: <span style=color:#5a2>&#39;&lt;docker hub token&gt;&#39;</span>
+db-migrator:
+  image:
+    credentials:
+      registry: docker.io
+      username: <span style=color:#5a2>&#39;&lt;docker hub user&gt;&#39;</span>
+      password: <span style=color:#5a2>&#39;&lt;docker hub token&gt;&#39;</span>
+metrics:
+  imagePullSecrets:
+  - name: estafette-ci-api.registry
+queue:
+  imagePullSecrets:
+  - name: estafette-ci-api.registry
+</code></pre></div><h1 id=cockroachdb-backup>CockroachDB backup</h1><p>The most critical part of <em>Estafette CI</em> to safeguard for disaster discovery is the data stored in the database. The default database used by Estafette is CockroachDB. You'll have to set up a <em>backup schedule</em> as documented at <a href=https://www.cockroachlabs.com/docs/stable/manage-a-backup-schedule.html>https://www.cockroachlabs.com/docs/stable/manage-a-backup-schedule.html</a> in order to have daily backups of the database.</p><h1 id=safely-back-up-encryptiondecryption-key>Safely back up encryption/decryption key</h1><p>In case you're already using <em>Estafette secrets</em> in build manifests and centrally configured <em>credentials</em> you'll need a backup of the encryption/decryption key. You can get it's value with</p><pre><code>kubectl get secret --namespace estafette-ci estafette-ci-api -o jsonpath=&quot;{.data.secretDecryptionKey}&quot; | base64 --decode ; echo
+</code></pre><p>Best store this securely in a password manager. This is the most sensitive piece of data used by Estafette. Once it leaks everyone can decrypt any of the <em>Estafette secrets</em> used by the system.</p></article></div><div class=row style=max-width:1024px></div></div><div class="col d-none d-xl-flex border-left toc sticky-top"><ul><li class=section-item><a class="section-item-link ancestor">Table of contents</a><li class=page-item><a href=/getting-started/production-high-availability/#defaults title=Defaults class=page-item-link>Defaults</a><li class=page-item><a href=/getting-started/production-high-availability/#high-availability title="High Availability" class=page-item-link>High Availability</a><li class=page-item><a href=/getting-started/production-high-availability/#resources title=Resources class=page-item-link>Resources</a><li class=page-item><a href=/getting-started/production-high-availability/#avoid-docker-hub-rate-limits title="Avoid Docker Hub rate limits" class=page-item-link>Avoid Docker Hub rate limits</a><li class=page-item><a href=/getting-started/production-high-availability/#cockroachdb-backup title="CockroachDB backup" class=page-item-link>CockroachDB backup</a><li class=page-item><a href=/getting-started/production-high-availability/#safely-back-up-encryptiondecryption-key title="Safely back up encryption/decryption key" class=page-item-link>Safely back up encryption/decryption key</a></li></ul></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav><script src=https://code.jquery.com/jquery-3.3.1.slim.min.js integrity=sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo crossorigin=anonymous></script><script src=https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js integrity=sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM crossorigin=anonymous></script></body></html>
