@@ -107,3 +107,66 @@ queue:
 ```
 
 Do not these are just example values and you should tune resources over time and monitor them closely to see when you're either overprovisioning or underprovisiong each of the components.
+
+# Avoid Docker Hub rate limits
+
+Since Docker Hub introduced lowered rate limits for anonymous pulls - see https://www.docker.com/increase-rate-limits - it's good practice to use _image pull secrets_ for all of the containers pulled from Docker Hub. You can do so by creating a Docker Hub account and generate a token. Once you have those apply the following values:
+
+```yaml
+api:
+  image:
+    credentials:
+      registry: docker.io
+      username: '<docker hub user>'
+      password: '<docker hub token>'
+web:
+  image:
+    credentials:
+      registry: docker.io
+      username: '<docker hub user>'
+      password: '<docker hub token>'
+db:
+  image:
+    credentials:
+      registry: docker.io
+      username: '<docker hub user>'
+      password: '<docker hub token>'
+cron-event-sender:
+  image:
+    credentials:
+      registry: docker.io
+      username: '<docker hub user>'
+      password: '<docker hub token>'
+hanging-job-cleaner:
+  image:
+    credentials:
+      registry: docker.io
+      username: '<docker hub user>'
+      password: '<docker hub token>'
+db-migrator:
+  image:
+    credentials:
+      registry: docker.io
+      username: '<docker hub user>'
+      password: '<docker hub token>'
+metrics:
+  imagePullSecrets:
+  - name: estafette-ci-api.registry
+queue:
+  imagePullSecrets:
+  - name: estafette-ci-api.registry
+```
+
+# CockroachDB backup
+
+The most critical part of _Estafette CI_ to safeguard for disaster discovery is the data stored in the database. The default database used by Estafette is CockroachDB. You'll have to set up a _backup schedule_ as documented at https://www.cockroachlabs.com/docs/stable/manage-a-backup-schedule.html in order to have daily backups of the database.
+
+# Safely back up encryption/decryption key
+
+In case you're already using _Estafette secrets_ in build manifests and centrally configured _credentials_ you'll need a backup of the encryption/decryption key. You can get it's value with
+
+```
+kubectl get secret --namespace estafette-ci estafette-ci-api -o jsonpath="{.data.secretDecryptionKey}" | base64 --decode ; echo
+```
+
+Best store this securely in a password manager. This is the most sensitive piece of data used by Estafette. Once it leaks everyone can decrypt any of the _Estafette secrets_ used by the system.
