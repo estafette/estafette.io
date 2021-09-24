@@ -161,6 +161,31 @@ queue:
 
 The most critical part of _Estafette CI_ to safeguard for disaster discovery is the data stored in the database. The default database used by Estafette is CockroachDB. You'll have to set up a _backup schedule_ as documented at https://www.cockroachlabs.com/docs/stable/manage-a-backup-schedule.html in order to have daily backups of the database.
 
+In order to connect to the Cockroachdb database to perform queries, the Helm chart has a `db-client` subchart, that's disabled by default. You can enabled it by setting values:
+
+```yaml
+db-client:
+  enabled: true
+```
+
+This will spin up a pod named `estafette-ci-db-client` which you can 'log in to' with the following command:
+
+```
+kubectl exec -it estafette-ci-db-client -n estafette-ci \
+-- ./cockroach sql \
+--certs-dir=/cockroach-certs \
+--host=estafette-ci-db-public
+```
+
+From here on you can follow the instructions as listed by the documentation of Cockroachdb.
+
+Once you're done best to disable the _db-client_ again by updating the values to
+
+```yaml
+db-client:
+  enabled: false
+```
+
 ## Safely back up encryption/decryption key
 
 In case you're already using _Estafette secrets_ in build manifests and centrally configured _credentials_ you'll need a backup of the encryption/decryption key. You can get it's value with
