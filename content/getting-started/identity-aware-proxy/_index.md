@@ -1,7 +1,7 @@
 ---
 title: "Identity Aware Proxy (IAP)"
 description: "Configure the web interface to run behind IAP"
-weight: 8
+weight: 9
 ---
 
 For using _Estafette CI_ at your company you probably want to keep the web interface to be private and only accessible to your employees. One way to do that is to run it behind _Identity Aware Proxy_ (IAP) if you're on Google Cloud. This makes it accessible based on the user's identity, instead of relying on a less secure or less friendly option like VPN.
