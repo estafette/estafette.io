@@ -6,7 +6,7 @@ weight: 8
 
 By default this Helm chart sets up _Estafette CI_ so that you can have a look at it, try it out, without requiring too much resources. However in order to run it in production you do want to tune some settings in order for all components to run in High Availability (HA) mode.
 
-# Defaults
+## Default values
 
 Having a look at the default values reveals how many replicas of each component is installed. It is notable that _Cockroachdb_ is the only component already running in HA mode. This is because it's much harder to change it into HA once it's initialized. For other components it's no problem to do the change at a later stage.
 
@@ -32,7 +32,7 @@ queue:
     enabled: false
 ```
 
-# High Availability
+## High Availability
 
 In order to have all the components that are there to handle browser requests, web hooks, storage or internal communication run in _High Availability_ mode use the following values:
 
@@ -59,7 +59,7 @@ queue:
     replicas: 3
 ```
 
-# Resources
+## Resources
 
 It also make sense to set resource requests and limits for each component so it gets the cpu and memory it needs:
 
@@ -108,7 +108,7 @@ queue:
 
 Do not these are just example values and you should tune resources over time and monitor them closely to see when you're either overprovisioning or underprovisiong each of the components.
 
-# Avoid Docker Hub rate limits
+## Avoid Docker Hub rate limits
 
 Since Docker Hub introduced lowered rate limits for anonymous pulls - see https://www.docker.com/increase-rate-limits - it's good practice to use _image pull secrets_ for all of the containers pulled from Docker Hub. You can do so by creating a Docker Hub account and generate a token. Once you have those apply the following values:
 
@@ -157,11 +157,11 @@ queue:
   - name: estafette-ci-api.registry
 ```
 
-# CockroachDB backup
+## CockroachDB backup
 
 The most critical part of _Estafette CI_ to safeguard for disaster discovery is the data stored in the database. The default database used by Estafette is CockroachDB. You'll have to set up a _backup schedule_ as documented at https://www.cockroachlabs.com/docs/stable/manage-a-backup-schedule.html in order to have daily backups of the database.
 
-# Safely back up encryption/decryption key
+## Safely back up encryption/decryption key
 
 In case you're already using _Estafette secrets_ in build manifests and centrally configured _credentials_ you'll need a backup of the encryption/decryption key. You can get it's value with
 
