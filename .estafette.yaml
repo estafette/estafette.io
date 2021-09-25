@@ -41,7 +41,7 @@ stages:
 
     - echo "Generating site"
     - hugo version
-    - hugo --minify --cleanDestinationDir --destination gh-pages
+    - hugo --minify --cleanDestinationDir --destination branch-gh-pages
 
     - echo "Updating gh-pages branch"
     - cp CNAME branch-gh-pages/CNAME
