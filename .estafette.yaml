@@ -41,9 +41,12 @@ stages:
     - rm -rf public
     - git worktree add -B gh-pages public origin/gh-pages
 
+    - echo "Removing existing files from public dir"
+    - rm -rf public/*
+
     - echo "Generating site"
     - hugo version
-    - hugo --minify --cleanDestinationDir --destination public
+    - hugo --minify
     - cp CNAME public/
     - cp .nojekyll public/
 
