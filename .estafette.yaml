@@ -37,18 +37,20 @@ stages:
     - git config --global user.name "${GIT_USER_NAME}"
 
     - echo "Checking out gh-pages branch into branch-gh-pages"
+    - git worktree prune
+    - rm -rf branch-gh-pages
+    - rm -rf .git/worktrees/branch-gh-pages
     - git worktree add -B gh-pages branch-gh-pages origin/gh-pages
 
     - echo "Generating site"
     - hugo version
     - hugo --minify --cleanDestinationDir --destination branch-gh-pages
+    - cp {CNAME,.nojekyll} branch-gh-pages/
 
     - echo "Updating gh-pages branch"
-    - cp CNAME branch-gh-pages/CNAME
-    - cp .nojekyll branch-gh-pages/.nojekyll
     - LOG_MESSAGE=$(git log --format=%B -n 1)
     - cd branch-gh-pages
-    - git add --all
+    - git add --all .
     - git commit --allow-empty -m "${ESTAFETTE_BUILD_VERSION} - ${LOG_MESSAGE}"
     - git push origin gh-pages --force
     when:
