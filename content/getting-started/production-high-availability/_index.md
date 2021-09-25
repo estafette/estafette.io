@@ -179,6 +179,22 @@ kubectl exec -it estafette-ci-db-client -n estafette-ci \
 
 From here on you can follow the instructions as listed by the documentation of Cockroachdb.
 
+For example in order to create a scheduled backup to Google Cloud Storage
+
+1. Create a cloud storage bucket
+2. Create a service account
+3. Give the service account read/write permissions on the storage bucket
+4. Get a keyfile for the service account
+5. Execute the following query in the `estafette-ci-db-client`:
+
+```sql
+CREATE SCHEDULE schedule_label
+  FOR BACKUP INTO 'gs://{bucket name}/backups/daily?AUTH=specified&CREDENTIALS={base64 encoded key}'
+    WITH revision_history
+    RECURRING '@daily'
+    WITH SCHEDULE OPTIONS first_run = 'now';
+```
+
 Once you're done best to disable the _db-client_ again by updating the values to
 
 ```yaml
