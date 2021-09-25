@@ -149,6 +149,12 @@ db-migrator:
       registry: docker.io
       username: '<docker hub user>'
       password: '<docker hub token>'
+db-client:
+  image:
+    credentials:
+      registry: docker.io
+      username: '<docker hub user>'
+      password: '<docker hub token>'
 metrics:
   imagePullSecrets:
   - name: estafette-ci-api.registry
@@ -156,6 +162,21 @@ queue:
   imagePullSecrets:
   - name: estafette-ci-api.registry
 ```
+
+In order to ensure builds also use credentials in order to elevate _docker pull_ quota add a credentials of type `container-registry-pull` in the following way:
+
+```yaml
+config:
+  files:
+    credentials.yaml: |
+      credentials:
+      - name: 'docker-hub-pull'
+        type: 'container-registry-pull'
+        username: '<docker hub user>'
+        password: '<docker hub token>'
+```
+
+These will be used both as an _image pull secret_ for the build/release jobs itself and for pulling stage container images inside of each build/release.
 
 ## CockroachDB backup
 
