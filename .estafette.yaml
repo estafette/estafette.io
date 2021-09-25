@@ -55,7 +55,7 @@ stages:
     - cd public
     - git add --all
     - git commit --allow-empty -m "${ESTAFETTE_BUILD_VERSION} - ${LOG_MESSAGE}"
-    - git push origin gh-pages
+    - git push origin gh-pages --force
     when:
       status == 'succeeded' &&
       branch == 'main'
