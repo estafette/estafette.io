@@ -166,17 +166,51 @@ queue:
 In order to ensure builds also use credentials in order to elevate _docker pull_ quota add a credentials of type `container-registry-pull` in the following way:
 
 ```yaml
-config:
-  files:
-    credentials.yaml: |
-      credentials:
-      - name: 'docker-hub-pull'
-        type: 'container-registry-pull'
-        username: '<docker hub user>'
-        password: '<docker hub token>'
+api:
+  config:
+    files:
+      credentials.yaml: |
+        credentials:
+        - name: 'docker-hub-pull'
+          type: 'container-registry-pull'
+          username: '<docker hub user>'
+          password: '<docker hub token>'
 ```
 
 These will be used both as an _image pull secret_ for the build/release jobs itself and for pulling stage container images inside of each build/release.
+
+## Store logs in cloud storage instead of database
+
+By default full build and release logs are stored in the database. With large numbers of builds this can put a lot of stress on the database and it's also more costly than storing logs in Cloud Storage instead.
+
+First go through the following steps
+
+1. Create a cloud storage bucket
+2. Create a service account
+3. Give the service account read/write permissions on the storage bucket
+4. Get a keyfile for the service account
+
+Then update the values by adding the following:
+
+```yaml
+api:
+  deployment:
+    extraEnv:
+      - name: GOOGLE_APPLICATION_CREDENTIALS
+        value: /iam/service-account-key.json
+      - name: ESCI_APISERVER_LOGWRITERS
+        value: cloudstorage
+      - name: ESCI_APISERVER_LOGREADER
+        value: cloudstorage
+  extraSecrets:
+    - key: iam
+      mountPath: /iam
+      b64encoded: true
+      data:
+        service-account-key.json: '{base64 encoded key file}'
+```
+
+This will ensure the _api_ component has a service account keyfile that allows it to read and write logs from and to a cloud storage bucket.
 
 ## CockroachDB backup
 
