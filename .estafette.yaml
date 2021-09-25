@@ -45,7 +45,8 @@ stages:
     - echo "Generating site"
     - hugo version
     - hugo --minify --cleanDestinationDir --destination branch-gh-pages
-    - cp {CNAME,.nojekyll} branch-gh-pages/
+    - cp CNAME branch-gh-pages/
+    - cp .nojekyll branch-gh-pages/
 
     - echo "Updating gh-pages branch"
     - LOG_MESSAGE=$(git log --format=%B -n 1)
