@@ -36,24 +36,23 @@ stages:
     - git config --global user.email "${GIT_USER_EMAIL}"
     - git config --global user.name "${GIT_USER_NAME}"
 
-    - echo "Checking out publish branch into publish dir"
+    - echo "Checking out gh-pages branch into public dir"
     - git worktree prune
-    - rm -rf publish
-    - rm -rf .git/worktrees/publish
-    - git worktree add -B publish publish origin/publish
+    - rm -rf public
+    - git worktree add -B gh-pages public origin/gh-pages
 
     - echo "Generating site"
     - hugo version
-    - hugo --minify --cleanDestinationDir --destination publish
-    - cp CNAME publish/
-    - cp .nojekyll publish/
+    - hugo --minify --cleanDestinationDir --destination public
+    - cp CNAME public/
+    - cp .nojekyll public/
 
-    - echo "Updating publish branch"
+    - echo "Updating gh-pages branch"
     - LOG_MESSAGE=$(git log --format=%B -n 1)
-    - cd publish
-    - git add --all .
+    - cd public
+    - git add --all
     - git commit --allow-empty -m "${ESTAFETTE_BUILD_VERSION} - ${LOG_MESSAGE}"
-    - git push origin publish --force
+    - git push origin gh-pages
     when:
       status == 'succeeded' &&
       branch == 'main'
