@@ -116,13 +116,27 @@ db-migrator:
       registry: docker.io
       username: <span style=color:#5a2>&#39;&lt;docker hub user&gt;&#39;</span>
       password: <span style=color:#5a2>&#39;&lt;docker hub token&gt;&#39;</span>
+db-client:
+  image:
+    credentials:
+      registry: docker.io
+      username: <span style=color:#5a2>&#39;&lt;docker hub user&gt;&#39;</span>
+      password: <span style=color:#5a2>&#39;&lt;docker hub token&gt;&#39;</span>
 metrics:
   imagePullSecrets:
   - name: estafette-ci-api.registry
 queue:
   imagePullSecrets:
   - name: estafette-ci-api.registry
-</code></pre></div><h2 id=cockroachdb-backup>CockroachDB backup</h2><p>The most critical part of <em>Estafette CI</em> to safeguard for disaster discovery is the data stored in the database. The default database used by Estafette is CockroachDB. You'll have to set up a <em>backup schedule</em> as documented at <a href=https://www.cockroachlabs.com/docs/stable/manage-a-backup-schedule.html>https://www.cockroachlabs.com/docs/stable/manage-a-backup-schedule.html</a> in order to have daily backups of the database.</p><p>In order to connect to the Cockroachdb database to perform queries, the Helm chart has a <code>db-client</code> subchart, that's disabled by default. You can enabled it by setting values:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>db-client:
+</code></pre></div><p>In order to ensure builds also use credentials in order to elevate <em>docker pull</em> quota add a credentials of type <code>container-registry-pull</code> in the following way:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>config:
+  files:
+    credentials.yaml: <span style=color:#5a2>|
+</span><span style=color:#5a2>     </span><span style=color:#5a2> </span><span style=color:#5a2>credentials:</span>
+      - name: <span style=color:#5a2>&#39;docker-hub-pull&#39;</span>
+        type: <span style=color:#5a2>&#39;container-registry-pull&#39;</span>
+        username: <span style=color:#5a2>&#39;&lt;docker hub user&gt;&#39;</span>
+        password: <span style=color:#5a2>&#39;&lt;docker hub token&gt;&#39;</span>
+</code></pre></div><p>These will be used both as an <em>image pull secret</em> for the build/release jobs itself and for pulling stage container images inside of each build/release.</p><h2 id=cockroachdb-backup>CockroachDB backup</h2><p>The most critical part of <em>Estafette CI</em> to safeguard for disaster discovery is the data stored in the database. The default database used by Estafette is CockroachDB. You'll have to set up a <em>backup schedule</em> as documented at <a href=https://www.cockroachlabs.com/docs/stable/manage-a-backup-schedule.html>https://www.cockroachlabs.com/docs/stable/manage-a-backup-schedule.html</a> in order to have daily backups of the database.</p><p>In order to connect to the Cockroachdb database to perform queries, the Helm chart has a <code>db-client</code> subchart, that's disabled by default. You can enabled it by setting values:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>db-client:
   enabled: <span style=color:#00f>true</span>
 </code></pre></div><p>This will spin up a pod named <code>estafette-ci-db-client</code> which you can &lsquo;log in to&rsquo; with the following command:</p><pre><code>kubectl exec -it estafette-ci-db-client -n estafette-ci \
 -- ./cockroach sql \
