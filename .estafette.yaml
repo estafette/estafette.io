@@ -47,7 +47,9 @@ stages:
     - cp CNAME branch-gh-pages/CNAME
     - cp .nojekyll branch-gh-pages/.nojekyll
     - LOG_MESSAGE=$(git log --format=%B -n 1)
-    - cd branch-gh-pages && git add --all && git commit --allow-empty -m "${ESTAFETTE_BUILD_VERSION} - ${LOG_MESSAGE}"
+    - cd branch-gh-pages
+    - git add --all
+    - git commit --allow-empty -m "${ESTAFETTE_BUILD_VERSION} - ${LOG_MESSAGE}"
     - git push origin gh-pages --force
     when:
       status == 'succeeded' &&
