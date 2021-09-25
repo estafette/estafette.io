@@ -179,7 +179,7 @@ api:
 
 These will be used both as an _image pull secret_ for the build/release jobs itself and for pulling stage container images inside of each build/release.
 
-## Store logs in cloud storage instead of database
+## Store logs in Cloud Storage
 
 By default full build and release logs are stored in the database. With large numbers of builds this can put a lot of stress on the database and it's also more costly than storing logs in Cloud Storage instead.
 
@@ -257,7 +257,7 @@ db-client:
   enabled: false
 ```
 
-## Safely back up encryption/decryption key
+## Back up decryption key
 
 In case you're already using _Estafette secrets_ in build manifests and centrally configured _credentials_ you'll need a backup of the encryption/decryption key. You can get it's value with
 
