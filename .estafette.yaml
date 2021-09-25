@@ -38,12 +38,10 @@ stages:
 
     - echo "Checking out gh-pages branch into branch-gh-pages"
     - git worktree add -B gh-pages branch-gh-pages origin/gh-pages
-    - echo "Removing existing files"
-    - rm -rf branch-gh-pages/*
 
     - echo "Generating site"
     - hugo version
-    - hugo --minify
+    - hugo --minify --cleanDestinationDir --destination gh-pages
 
     - echo "Updating gh-pages branch"
     - cp CNAME branch-gh-pages/CNAME
