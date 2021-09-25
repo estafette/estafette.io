@@ -1,0 +1,2 @@
+{{- $currentPage := .currentPage -}}
+<li class="page-item"><a href="{{ .page.RelPermalink }}" class="page-item-link{{ if eq .page $currentPage }} active{{ end }}">{{ .page.Name }}</a></li>

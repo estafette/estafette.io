@@ -1,0 +1,39 @@
+{{ define "title" }}
+  {{ .Title }} &ndash; {{ .Site.Title }}
+{{ end }}
+{{ define "main" }}
+    <div class="container-fluid">
+        <div class="row mt-4 mb-4">
+            <div class="col d-none d-md-flex border-right sidebar sticky-top">
+                {{ partial "sidebar" . }}
+            </div>
+            <div class="col pl-5 pt-4 content-block">
+                <div class="row">
+                    <article class="col section-intro">
+                        <header>
+                            <h1 class="mb-4">{{ .Title }}</h1>
+                        </header>
+                        {{ .Content }}
+                    </article>
+                </div>
+                <div class="row" style="max-width: 1024px">
+                    {{- $pagesAndSections := .Data.Pages -}}
+                    {{- range sort $pagesAndSections "Weight" "asc" -}}
+                    <div class="col-12 col-lg-6">
+                        <div class="card mb-3" style="min-height: 210px;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{.Title}}</h5>
+                                <p class="card-text">{{.Description}}</p>
+                                <a href="{{.RelPermalink}}" class="btn btn-primary">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                    {{- end }}
+                </div>
+            </div>
+            <div class="col d-none d-xl-flex border-left toc sticky-top">
+                {{ partial "toc" . }}
+            </div>
+        </div>
+    </div>
+{{ end }}
