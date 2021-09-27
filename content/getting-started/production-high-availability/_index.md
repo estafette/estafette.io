@@ -1,7 +1,7 @@
 ---
 title: "Production / High Availability"
 description: "Set up Estafette CI in High Availability mode for production"
-weight: 8
+weight: 9
 ---
 
 By default this Helm chart sets up _Estafette CI_ so that you can have a look at it, try it out, without requiring too much resources. However in order to run it in production you do want to tune some settings in order for all components to run in High Availability (HA) mode.
@@ -202,9 +202,9 @@ api:
         value: cloudstorage
       - name: ESCI_APISERVER_LOGREADER
         value: cloudstorage
-      - name: ESCI_INTEGRATIONS_CLOUDSTORAGE_ENABLE
+      - name: ESCI_INTEGRATIONS_GCS_ENABLE
         value: 'true'
-      - name: ESCI_INTEGRATIONS_CLOUDSTORAGE_BUCKET
+      - name: ESCI_INTEGRATIONS_GCS_BUCKET
         value: '<bucket name>'
   extraSecrets:
     - key: iam
