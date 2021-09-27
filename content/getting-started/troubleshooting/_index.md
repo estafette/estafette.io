@@ -1,7 +1,7 @@
 ---
 title: "Troubleshooting"
 description: "Deal with some possible issues you can run into"
-weight: 10
+weight: 11
 ---
 
 ## CockroachDB underprovisioning

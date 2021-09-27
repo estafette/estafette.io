@@ -1,7 +1,7 @@
 ---
 title: "Disaster recovery"
 description: "Recover Estafette CI and its database after the unimaginable happened"
-weight: 11
+weight: 12
 ---
 
 Estafette CI is a pretty resilient system, but of course an incident can happen. Like wiping out a complete namespace by accident. This will not only loose you all of the pipeline build version numbers and references to the logs, but also the master encryption/decryption key.
