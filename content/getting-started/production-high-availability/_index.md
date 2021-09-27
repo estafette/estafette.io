@@ -212,6 +212,8 @@ api:
 
 This will ensure the _api_ component has a service account keyfile that allows it to read and write logs from and to a cloud storage bucket.
 
+Note: logs already stored in the database won't be moved over and won't be shown either when navigating to the respective log pages, so best to configured before you run any pipelines in a new installation.
+
 ## Store your helm values
 
 For _disaster recovery_ it makes sense to keep your values file stored somewhere and have the unencrypted secrets used in those safed somewhere secure as well. You want this in order to be able to manually install the Helm release at any time, if any of the pipelines you usually use to upgrade Estafette CI are broken themselves.
