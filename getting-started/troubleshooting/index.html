@@ -12,7 +12,7 @@ kubectl scale statefulset estafette-ci-db -n estafette-ci --replicas=3 # or what
         memory: 12Gi
       limits:
         memory: 42Gi
-</code></pre></div><p>Best to keep memory request and limit the same for <em>guaranteed quality of service (QoS)</em>.</p><p>For more <em>CockroachDB</em> related troubleshooting tips check <a href=https://www.cockroachlabs.com/docs/stable/troubleshooting-overview.html>https://www.cockroachlabs.com/docs/stable/troubleshooting-overview.html</a>.</p><h2 id=stage-has-trouble-with-connectivity-to-external-systems>Stage has trouble with connectivity to external systems</h2><p>When running on Google Cloud or within a <em>software defined network (SDN)</em> with a smaller than default <em>MTU</em> of 1500 you can run into trouble connecting to external systems from your build/release stages, due to the way stages are executed using <em>Docker inside Docker</em>. <em>Estafette CI</em> defaults the MTU to 1460 so it works for Google Cloud, but you might have an SDN that uses an even smaller MTU. In that case you have to update the <code>config.yaml</code> with the following Helm values:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>api:
+</code></pre></div><p>Best to keep memory request and limit the same for <em>guaranteed quality of service (QoS)</em>.</p><p>For more <em>CockroachDB</em> related troubleshooting tips check <a href=https://www.cockroachlabs.com/docs/stable/troubleshooting-overview.html>https://www.cockroachlabs.com/docs/stable/troubleshooting-overview.html</a>.</p><h2 id=connectivity-failure-to-external-systems>Connectivity failure to external systems</h2><p>When running on Google Cloud or within a <em>software defined network (SDN)</em> with a smaller than default <em>MTU</em> of 1500 you can run into trouble connecting to external systems from your build/release stages, due to the way stages are executed using <em>Docker inside Docker</em>. <em>Estafette CI</em> defaults the MTU to 1460 so it works for Google Cloud, but you might have an SDN that uses an even smaller MTU. In that case you have to update the <code>config.yaml</code> with the following Helm values:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>api:
   config:
     files:
       config.yaml: <span style=color:#5a2>|
@@ -31,4 +31,77 @@ kubectl scale statefulset estafette-ci-db -n estafette-ci --replicas=3 # or what
         auth:
           jwt:
             domain: {{ $.Values.baseHost }}
-</code></pre></div><p>Most of this <code>config.yaml</code>'s content is the default values used in the Helm chart and needs to be repeated here in order to make sure your Estafette CI installation is configured correctly. See <a href=https://github.com/estafette/estafette-ci/blob/main/helm/estafette-ci/charts/estafette-ci-api/values.yaml#L270-L281>https://github.com/estafette/estafette-ci/blob/main/helm/estafette-ci/charts/estafette-ci-api/values.yaml#L270-L281</a> for the defaults.</p></article></div><div class=row style=max-width:1024px></div></div><div class="col d-none d-xl-flex border-left toc sticky-top"><ul><li class=section-item><a class="section-item-link ancestor">Table of contents</a><ul><li class=page-item><a href=/getting-started/troubleshooting/#cockroachdb-underprovisioning title="CockroachDB underprovisioning" class=page-item-link>CockroachDB underprovisioning</a><li class=page-item><a href=/getting-started/troubleshooting/#stage-has-trouble-with-connectivity-to-external-systems title="Stage has trouble with connectivity to external systems" class=page-item-link>Stage has trouble with connectivity to external systems</a></ul></li></ul></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav><script src=https://code.jquery.com/jquery-3.3.1.slim.min.js integrity=sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo crossorigin=anonymous></script><script src=https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js integrity=sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM crossorigin=anonymous></script></body></html>
+</code></pre></div><p>Most of this <code>config.yaml</code>'s content is the default values used in the Helm chart and needs to be repeated here in order to make sure your Estafette CI installation is configured correctly. See <a href=https://github.com/estafette/estafette-ci/blob/main/helm/estafette-ci/charts/estafette-ci-api/values.yaml#L270-L281>https://github.com/estafette/estafette-ci/blob/main/helm/estafette-ci/charts/estafette-ci-api/values.yaml#L270-L281</a> for the defaults.</p><h2 id=config-too-large-for-configmap>Config too large for configmap</h2><p>When you continue to add <em>credentials</em> to your config eventually you'll hit the maximum size of configmaps. What you can do then is store the config in a git repository and use a git-sync sidecar to fetch the config, instead of using a configmap for this.</p><p>The values you need for this is pretty big but will resolve this issue for you:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>api:
+  config:
+    enabled: <span style=color:#00f>false</span>
+  deployment:
+    extraEnv:
+      - name: CONFIG_FILES_PATH
+        value: /configs/git
+    extraContainers: <span style=color:#5a2>|
+</span><span style=color:#5a2>     </span><span style=color:#5a2> </span><span style=color:#5a2>- name: estafette-ci-api-git-sync</span>
+        image: k8s.gcr.io/git-sync:v3<span style=color:#3af>.1</span><span style=color:#3af>.5</span>
+        env:
+        - name: GIT_SYNC_REPO
+          value: <span style=color:#5a2>&#34;&lt;git repository url (ssh not https)&gt;&#34;</span>
+        - name: GIT_SYNC_BRANCH
+          value: <span style=color:#5a2>&#34;&lt;branch that has your config.yaml&gt;&#34;</span>
+        - name: GIT_SYNC_DEPTH
+          value: <span style=color:#5a2>&#34;1&#34;</span>
+        - name: GIT_SYNC_ROOT
+          value: <span style=color:#5a2>&#34;/configs&#34;</span>
+        - name: GIT_SYNC_DEST
+          value: <span style=color:#5a2>&#34;git&#34;</span>
+        - name: GIT_SYNC_SSH
+          value: <span style=color:#5a2>&#34;true&#34;</span>
+        - name: GIT_SSH_KEY_FILE
+          value: <span style=color:#5a2>&#34;/ssh/git-sync-rsa&#34;</span>
+        - name: GIT_KNOWN_HOSTS
+          value: <span style=color:#5a2>&#34;false&#34;</span>
+        - name: GIT_SYNC_MAX_SYNC_FAILURES
+          value: <span style=color:#5a2>&#34;10&#34;</span>
+        - name: GIT_SYNC_WAIT
+          value: <span style=color:#5a2>&#34;60&#34;</span>
+        securityContext:
+          runAsUser: <span style=color:#3af>65534</span> <span style=color:#888;font-style:italic># git-sync user</span>
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
+          limits:
+            memory: 100Mi
+        volumeMounts:
+        - name: configs
+          mountPath: /configs
+        - name: secrets-ssh
+          mountPath: /ssh
+    extraVolumes: <span style=color:#5a2>|
+</span><span style=color:#5a2>     </span><span style=color:#5a2> </span><span style=color:#5a2>- name: client-certificate</span>
+        projected:
+          sources:
+          - secret:
+              name: estafette-ci-db-client-secret
+              items:
+              - key: ca.crt
+                path: ca.crt
+                mode: <span style=color:#3af>256</span>
+              - key: tls.crt
+                path: tls.crt
+                mode: <span style=color:#3af>256</span>
+              - key: tls.key
+                path: tls.key
+                mode: <span style=color:#3af>256</span>
+      - name: configs
+        emptyDir: {}
+    extraVolumeMounts: <span style=color:#5a2>|
+</span><span style=color:#5a2>     </span><span style=color:#5a2> </span><span style=color:#5a2>- name: client-certificate</span>
+        mountPath: /cockroach-certs
+      - name: configs
+        mountPath: /configs
+  extraSecrets:
+    - key: ssh
+      mountPath: /ssh
+      b64encoded: <span style=color:#00f>true</span>
+      data:
+        git-sync-rsa: <span style=color:#5a2>&#39;&lt;base64 encoded ssh key with read access to the git repository with config.yaml file&gt;&#39;</span>
+</code></pre></div><p>Do not that the <code>extraVolumes</code> and <code>extraVolumeMounts</code> for <code>client-certificate</code> aren't needed for this trick, but are default values already used in the Helm chart, but won't be included if you do not specify them again.</p></article></div><div class=row style=max-width:1024px></div></div><div class="col d-none d-xl-flex border-left toc sticky-top"><ul><li class=section-item><a class="section-item-link ancestor">Table of contents</a><ul><li class=page-item><a href=/getting-started/troubleshooting/#cockroachdb-underprovisioning title="CockroachDB underprovisioning" class=page-item-link>CockroachDB underprovisioning</a><li class=page-item><a href=/getting-started/troubleshooting/#connectivity-failure-to-external-systems title="Connectivity failure to external systems" class=page-item-link>Connectivity failure to external systems</a><li class=page-item><a href=/getting-started/troubleshooting/#config-too-large-for-configmap title="Config too large for configmap" class=page-item-link>Config too large for configmap</a></ul></li></ul></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav><script src=https://code.jquery.com/jquery-3.3.1.slim.min.js integrity=sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo crossorigin=anonymous></script><script src=https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js integrity=sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM crossorigin=anonymous></script></body></html>
