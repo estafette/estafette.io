@@ -455,6 +455,40 @@ api:
         value: '0'
 ```
 
+## Queue
+
+Estafette uses [nats](https://nats.io) as a queue / routing mechanism to loosely couple actions triggered by an event.
+
+It uses the following defaults in `config.yaml`
+
+```yaml
+queue:
+	hosts:
+  - estafette-ci-queue-0.estafette-ci-queue
+	subjectCron: event.cron
+	subjectGit: event.git
+	subjectGithub: event.github
+	subjectBitbucket: event.bitbucket
+```
+
+Or via Helm `values.yaml`:
+
+```yaml
+api:
+  deployment:
+    extraEnv:
+      - name: ESCI_QUEUE_HOSTS
+        value: 'estafette-ci-queue-0.estafette-ci-queue'
+      - name: ESCI_QUEUE_SUBJECTCRON
+        value: 'event.cron'
+      - name: ESCI_QUEUE_SUBJECTGIT
+        value: 'event.git'
+      - name: ESCI_QUEUE_SUBJECTGITHUB
+        value: 'event.github'
+      - name: ESCI_QUEUE_SUBJECTBITBUCKET
+        value: 'event.bitbucket'
+```
+
 ## Credentials
 
 In order to centrally manage credentials used by various _Estafette_ extensions or your own custom extensions. The only required fields are `name` and `type`, other fields are fully up to the consumer of the credentials. This allows _Estafette_ to be easily extended with new types of credentials used by _trusted images_ (see section below).
@@ -505,33 +539,44 @@ In order to gain access to the centrally stored credentials and optionally gain 
 
 Those injected credentials are then automatically mounted into the stage container(s) that use the trusted image. It mounts credentials at `/credentials/<credential type in lower snake case>.json` (for example `/credentials/kubernetes_engine.json`) in JSON format.
 
-A typical configuration looks like:
+
+In not configuring anything the following default _trusted images_ are set:
 
 ```yaml
 trustedImages:
-- path: extensions/git-clone
-  injectedCredentialTypes:
-  - bitbucket-api-token
-  - github-api-token
-- path: extensions/docker
-  runDocker: true
-  injectedCredentialTypes:
-  - container-registry
-- path: extensions/gke
-  injectedCredentialTypes:
-  - kubernetes-engine
-- path: extensions/bitbucket-status
-  injectedCredentialTypes:
-  - bitbucket-api-token
-- path: extensions/github-status
-  injectedCredentialTypes:
-  - github-api-token
-- path: extensions/slack-build-status
-  injectedCredentialTypes:
-  - slack-webhook
-- path: estafette/estafette-ci-builder
-  runPrivileged: true
+  - path: extensions/git-clone
+    injectedCredentialTypes:
+      - bitbucket-api-token
+      - github-api-token
+      - cloudsource-api-token
+  - path: extensions/github-status",
+    injectedCredentialTypes:
+      - github-api-token
+  - path: extensions/github-release",
+    injectedCredentialTypes:
+      - github-api-token
+  - path: extensions/bitbucket-status",
+    injectedCredentialTypes:
+      - bitbucket-api-token
+  - path: extensions/docker",
+    runDocker: true
+    injectedCredentialTypes:
+      - container-registry
+      - github-api-token
+  - path: extensions/gke",
+    injectedCredentialTypes:
+      - kubernetes-engine
+  - path: extensions/helm",
+    injectedCredentialTypes:
+      - kubernetes-engine
+  - path: extensions/cloud-function",
+    injectedCredentialTypes:
+      - kubernetes-engine
+  - path: bsycorp/kind",
+    runPrivileged: true
 ```
+
+You can add extra trusted images by specifying those using the `trustedImages` section. If you want to clear all of the default images shown above use `clearDefaultTrustedImages: true`. Only the images specified in the `trustedImages` section will be trusted in that case.
 
 Notes:
 
