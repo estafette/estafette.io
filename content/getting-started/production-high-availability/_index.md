@@ -204,6 +204,8 @@ api:
         value: cloudstorage
       - name: ESCI_INTEGRATIONS_CLOUDSTORAGE_ENABLE
         value: 'true'
+      - name: ESCI_INTEGRATIONS_CLOUDSTORAGE_PROJECTID
+        value: '<google cloud project id with bucket>'
       - name: ESCI_INTEGRATIONS_CLOUDSTORAGE_BUCKET
         value: '<bucket name>'
   extraSecrets:
