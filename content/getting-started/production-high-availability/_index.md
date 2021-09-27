@@ -216,7 +216,7 @@ This will ensure the _api_ component has a service account keyfile that allows i
 
 For _disaster recovery_ it makes sense to keep your values file stored somewhere and have the unencrypted secrets used in those safed somewhere secure as well. You want this in order to be able to manually install the Helm release at any time, if any of the pipelines you usually use to upgrade Estafette CI are broken themselves.
 
-See the [Disaster recovery]({{< relref "../disaster recovery" >}}) section for more detail on how to restore functionality.
+See the [Disaster recovery]({{< relref "../disaster-recovery" >}}) section for more detail on how to restore functionality.
 
 ## CockroachDB backup
 
