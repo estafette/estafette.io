@@ -36,3 +36,11 @@ watch kubectl get svc,ing,deploy,sts,po -n estafette-ci
 ```
 
 From here you need to set up either [Github login]({{< relref "github-login" >}}) or [Google login]({{< relref "google-login" >}}). And in order to receive webhooks for git pushes set up [Github integration]({{< relref "github-integration" >}}) and/or [Bitbucket integration]({{< relref "bitbucket-integration" >}}).
+
+### Automatically generated secret keys
+
+During the first install a secret named `estafette-ci-api` is created containing the `secretDecryptionKey` and `jwtKey`; they're initialized to random strings of 32 character, in order to use AES-256 for encrypting and decrypting _Estafette secrets_ and for encrypting the JSON Web Token used in the _Authorization_ header in communication between the various parts of the Estafette system.
+
+You can see this mechanism at https://github.com/estafette/estafette-ci/blob/main/helm/estafette-ci/charts/estafette-ci-api/templates/secret.yaml. Through its use of the `lookup` function it's possible to leave those keys blank in your values file. However a `helm diff` doesn't always render this correctly, it sometimes misleads you into thinking that it will change those keys, while in reality it doesn't.
+
+See these [instructions]({{< relref "production-high-availability/#back-up-decryption-key" >}}) on making sure you securely backup your `secretDecryptionKey` for [disaster recovery]({{< relref "disaster-recovery" >}}) purposes.
