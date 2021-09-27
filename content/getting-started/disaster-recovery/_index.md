@@ -18,10 +18,12 @@ helm repo update
 helm diff upgrade estafette-ci estafette/estafette-ci -n estafette-ci --values local-values.yaml --set api.secret.secretDecryptionKey=<base64 encoded secret decryption key>
 
 # apply changes
-helm upgrade --install estafette-ci estafette/estafette-ci -n estafette-ci --create-namespace --values local-values.yaml --timeout 600s --set api.secret.secretDecryptionKey=<base64 encoded secret decryption key>
+helm upgrade --install estafette-ci estafette/estafette-ci -n estafette-ci --create-namespace --values local-values.yaml --timeout 600s --set api.secret.secretDecryptionKey=<base64 encoded secret decryption key> --set db-migrator.enable=false
 ```
 
 Any of the secret values you might use can be passed with the `--set` argument. Make sure you've stored these commands somewhere secure, like in a password manager, so you don't have to figure out all of the secrets when trying to restore functionality.
+
+Note: the `db-migrator` component needs to be disabled if the database needs to be restored from a backup, otherwise it already creates database tables which makes it impossible for a backup to be restored.
 
 ## CockroachDB restore backup
 
@@ -63,3 +65,5 @@ Once you're done best to disable the _db-client_ again by updating the values to
 db-client:
   enabled: false
 ```
+
+and making sure to either pass `--set db-migrator.enable=true` to `helm upgrade` or skip overriding this value completely. This will let the `db-migrator` perform any schema changes that still need to happen, although with a daily backup the schema should be up to date.
