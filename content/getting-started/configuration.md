@@ -367,6 +367,10 @@ api:
 
 ### Administrators
 
+To gain access to the _Admin_ sections in the Estafette web ui and be allowed to perform any actions there you need to be set up as administrator. You can do so in the following manner.
+
+Through `config.yaml`:
+
 ```yaml
 auth:
   administrators:
@@ -384,6 +388,7 @@ api:
         value: '<email admin 1>,<email admin 2>'
 ```
 
+Once applied log out and log in again and you should be able to see the _Admin_ section.
 
 ### Google login
 
@@ -397,6 +402,8 @@ See [Github login]({{< relref "github-login" >}}).
 
 _Estafette_ supports Postgresql; this allows it to use CockroachDB as it's database. Below is the required configuration to connect to the database.
 
+Through `config.yaml`:
+
 ```yaml
 database:
   databaseName: defaultdb
@@ -409,6 +416,43 @@ database:
   port: 26257
   user: root
   password: ''
+	maxOpenConnections: 0
+  maxIdleConnections: 2
+  connectionMaxLifetimeMinutes: 0
+```
+
+Or via Helm `values.yaml`:
+
+```yaml
+api:
+  deployment:
+    extraEnv:
+      - name: ESCI_DATABASE_DATABASENAME
+        value: defaultdb
+      - name: ESCI_DATABASE_HOST
+        value: estafette-ci-db-public
+      - name: ESCI_DATABASE_INSECURE
+        value: 'false'
+      - name: ESCI_DATABASE_SSLMODE
+        value: verify-full
+      - name: ESCI_DATABASE_CERTIFICATEAUTHORITYPATH
+        value: /cockroach-certs/ca.crt
+      - name: ESCI_DATABASE_CERTIFICATEPATH
+        value: /cockroach-certs/tls.crt
+      - name: ESCI_DATABASE_CERTIFICATEKEYPATH
+        value: /cockroach-certs/tls.key
+      - name: ESCI_DATABASE_PORT
+        value: '26257'
+      - name: ESCI_DATABASE_USER
+        value: root
+      - name: ESCI_DATABASE_PASSWORD
+        value: ''
+      - name: ESCI_DATABASE_MAXOPENCONNS
+        value: '0'
+      - name: ESCI_DATABASE_MAXIDLECONNS
+        value: '2'
+      - name: ESCI_DATABASE_CONNMAXLIFETIMEMINUTES
+        value: '0'
 ```
 
 ### Credentials
