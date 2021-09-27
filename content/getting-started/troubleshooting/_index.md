@@ -4,7 +4,7 @@ description: "Deal with some possible issues you can run into"
 weight: 10
 ---
 
-# CockroachDB underprovisioning
+## CockroachDB underprovisioning
 
 At some point you might run into the database being underprovisioned. Make sure to set resources on all components and follow other [Production / high availability]({{< relref "../production-high-availability" >}}) steps.
 
@@ -35,7 +35,7 @@ Best to keep memory request and limit the same for _guaranteed quality of servic
 
 For more _CockroachDB_ related troubleshooting tips check https://www.cockroachlabs.com/docs/stable/troubleshooting-overview.html.
 
-# Stage has trouble with connectivity to external systems
+## Stage has trouble with connectivity to external systems
 
 When running on Google Cloud or within a _software defined network (SDN)_ with a smaller than default _MTU_ of 1500 you can run into trouble connecting to external systems from your build/release stages, due to the way stages are executed using _Docker inside Docker_. _Estafette CI_ defaults the MTU to 1460 so it works for Google Cloud, but you might have an SDN that uses an even smaller MTU. In that case you have to update the `config.yaml` with the following Helm values:
 
