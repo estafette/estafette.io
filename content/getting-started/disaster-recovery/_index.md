@@ -76,4 +76,4 @@ and making sure to either pass `--set db-migrator.enable=true` to `helm upgrade`
 
 ## What doesn't get restored
 
-When recreating your Estafette installations the Bitbucket and Github integration details will not be recovered. This means you will have to go through the instructions at [Github integration]({{< relref "github-integration" >}}) and/or [Bitbucket integration] again.
+When recreating your Estafette installations the Bitbucket and Github integration details will not be recovered. This means you will have to go through the instructions at [Github integration]({{< relref "../github-integration" >}}) and/or [Bitbucket integration]({{< relref "../bitbucket-integration" >}}) again.
