@@ -212,6 +212,12 @@ api:
 
 This will ensure the _api_ component has a service account keyfile that allows it to read and write logs from and to a cloud storage bucket.
 
+## Store your helm values
+
+For _disaster recovery_ it makes sense to keep your values file stored somewhere and have the unencrypted secrets used in those safed somewhere secure as well. You want this in order to be able to manually install the Helm release at any time, if any of the pipelines you usually use to upgrade Estafette CI are broken themselves.
+
+See the [Disaster recovery]({{< relref "../disaster recovery" >}}) section for more detail on how to restore functionality.
+
 ## CockroachDB backup
 
 The most critical part of _Estafette CI_ to safeguard for disaster discovery is the data stored in the database. The default database used by Estafette is CockroachDB. You'll have to set up a _backup schedule_ as documented at https://www.cockroachlabs.com/docs/stable/manage-a-backup-schedule.html in order to have daily backups of the database.
