@@ -1,7 +1,7 @@
 ---
-title: "Vulnerabilities"
+title: "Fixing vulnerabilities"
 description: "Fixing vulnerabilities in your applications"
-weight: 1
+weight: 3
 ---
 
 ## Detect vulnerabilities at build time
