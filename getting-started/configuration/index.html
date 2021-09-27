@@ -1,40 +1,193 @@
 <!doctype html><html><head><script async src="https://www.googletagmanager.com/gtag/js?id=UA-464018-9"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
 gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=apple-touch-icon sizes=180x180 href="/apple-touch-icon.png?v=xQdjvJ8Lmw"><link rel=icon type=image/png sizes=32x32 href="/favicon-32x32.png?v=xQdjvJ8Lmw"><link rel=icon type=image/png sizes=16x16 href="/favicon-16x16.png?v=xQdjvJ8Lmw"><link rel=manifest href="/site.webmanifest?v=xQdjvJ8Lmw"><link rel=mask-icon href="/safari-pinned-tab.svg?v=xQdjvJ8Lmw" color=#28a745><link rel="shortcut icon" href="/favicon.ico?v=xQdjvJ8Lmw"><meta name=msapplication-TileColor content="#ffffff"><meta name=theme-color content="#ffffff"><title>Other configuration &ndash; Estafette CI/CD</title><link rel=stylesheet href=https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css integrity=sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T crossorigin=anonymous><link rel=stylesheet href=https://estafette.io/sass/estafette.min.7f9f3ad31f44302446582e482cb18d648864a1d57e5e96611384029e40696adb.css integrity="sha256-f5860x9EMCRGWC5ILLGNZIhkodV+XpZhE4QCnkBpats="></head><body><div id=header-and-main><nav class="navbar navbar-dark bg-dark navbar-expand-md"><a href=/ class="navbar-brand text-white mr-3 router-link-exact-active active" target=_self><svg style="width:1.25em;overflow:visible;vertical-align:-2.5px" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="shipping-fast" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="m-0 ml-2 mr-2 h5 svg-inline--fa fa-shipping-fast fa-w-20"><path fill="currentcolor" d="M624 352h-16V243.9c0-12.7-5.1-24.9-14.1-33.9L494 110.1c-9-9-21.2-14.1-33.9-14.1H416V48c0-26.5-21.5-48-48-48H112C85.5.0 64 21.5 64 48v48H8c-4.4.0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h272c4.4.0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H40c-4.4.0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h208c4.4.0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H8c-4.4.0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h208c4.4.0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H64v128c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h48c8.8.0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM160 464c-26.5.0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm320 0c-26.5.0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm80-208H416V144h44.1l99.9 99.9V256z"/></svg><em class=align-top>Estafette</em></a>
 <button class=navbar-toggler type=button data-toggle=collapse data-target=#navbarNavAltMarkup aria-controls=navbarNavAltMarkup aria-expanded=false aria-label="Toggle navigation">
-<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse" id=navbarNavAltMarkup><div class=navbar-nav><a class="nav-item nav-link active" href=/getting-started/>Getting started</a><a class="nav-item nav-link" href=/usage/>Usage</a><a class="nav-item nav-link" href=/security/>Security</a><a class="nav-item nav-link" href=/design/>Design</a><a class="nav-item nav-link" href=/screenshots/>Screenshots</a></div></div></nav><div id=main><div class=container-fluid><div class="row mt-4 mb-4"><div class="col d-none d-md-flex border-right sidebar sticky-top"><ul><li class=section-item><a href=/getting-started/ class="section-item-link ancestor">Getting started</a><ul><li class=page-item><a href=/getting-started/installation/ class=page-item-link>Installation</a></li><li class=section-item><a href=/getting-started/tls-certmanager/ class=section-item-link>TLS with certmanager</a></li><li class=section-item><a href=/getting-started/tls-estafette-letsencrypt/ class=section-item-link>TLS with estafette controller</a></li><li class=section-item><a href=/getting-started/github-login/ class=section-item-link>Github login</a></li><li class=section-item><a href=/getting-started/google-login/ class=section-item-link>Google login</a></li><li class=section-item><a href=/getting-started/bitbucket-integration/ class=section-item-link>Bitbucket integration</a></li><li class=section-item><a href=/getting-started/github-integration/ class=section-item-link>Github integration</a></li><li class=section-item><a href=/getting-started/identity-aware-proxy/ class=section-item-link>Identity Aware Proxy (IAP)</a></li><li class=section-item><a href=/getting-started/production-high-availability/ class=section-item-link>Production / High Availability</a></li><li class=section-item><a href=/getting-started/security-considerations/ class=section-item-link>Security considerations</a></li><li class=section-item><a href=/getting-started/troubleshooting/ class=section-item-link>Troubleshooting</a></li><li class=section-item><a href=/getting-started/disaster-recovery/ class=section-item-link>Disaster recovery</a></li><li class=page-item><a href=/getting-started/configuration/ class="page-item-link active">Other configuration</a></li></ul></li><li class=section-item><a href=/usage/ class=section-item-link>Usage</a></li><li class=section-item><a href=/security/ class=section-item-link>Security</a></li><li class=section-item><a href=/design/ class=section-item-link>Design</a></li><li class=section-item><a href=/screenshots/ class=section-item-link>Screenshots</a></li></ul></div><div class="col pl-5 pr-5 pt-4 content-block"><h1 class=mb-4>Other configuration</h1><h2 id=configyaml>Config.yaml</h2><p>While <em>Estafette</em>&lsquo;s goal is to keep as much control as possible with the individual application in the <code>.estafette.yaml</code> manifest, unavoidably there's some configuration that needs to be done centrally. This configuration is stored in the <code>config.yaml</code> file. Below is a description of the various configuration sections.</p><h3 id=integrations>Integrations</h3><p>For integrations with 3rd party services the <code>integrations</code> section provides a place for configuration for each individual service.</p><h4 id=github>Github</h4><p>See <a href=/getting-started/github-integration/>Github integration</a>.</p><h4 id=bitbucket>Bitbucket</h4><p>See <a href=/getting-started/bitbucket-integration/>Bitbucket integration</a>.</p><h4 id=slack>Slack</h4><p>The Slack integration allows a Slash command to be configured in order to provide functionalities like encrypting a secret or triggering a release directly from Slack. For the Slash command to integrate with <em>Estafette</em> the following configuration section is needed:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>integrations:
+<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse" id=navbarNavAltMarkup><div class=navbar-nav><a class="nav-item nav-link active" href=/getting-started/>Getting started</a><a class="nav-item nav-link" href=/usage/>Usage</a><a class="nav-item nav-link" href=/security/>Security</a><a class="nav-item nav-link" href=/design/>Design</a><a class="nav-item nav-link" href=/screenshots/>Screenshots</a></div></div></nav><div id=main><div class=container-fluid><div class="row mt-4 mb-4"><div class="col d-none d-md-flex border-right sidebar sticky-top"><ul><li class=section-item><a href=/getting-started/ class="section-item-link ancestor">Getting started</a><ul><li class=page-item><a href=/getting-started/installation/ class=page-item-link>Installation</a></li><li class=section-item><a href=/getting-started/tls-certmanager/ class=section-item-link>TLS with certmanager</a></li><li class=section-item><a href=/getting-started/tls-estafette-letsencrypt/ class=section-item-link>TLS with estafette controller</a></li><li class=section-item><a href=/getting-started/github-login/ class=section-item-link>Github login</a></li><li class=section-item><a href=/getting-started/google-login/ class=section-item-link>Google login</a></li><li class=section-item><a href=/getting-started/bitbucket-integration/ class=section-item-link>Bitbucket integration</a></li><li class=section-item><a href=/getting-started/github-integration/ class=section-item-link>Github integration</a></li><li class=section-item><a href=/getting-started/identity-aware-proxy/ class=section-item-link>Identity Aware Proxy (IAP)</a></li><li class=section-item><a href=/getting-started/production-high-availability/ class=section-item-link>Production / High Availability</a></li><li class=section-item><a href=/getting-started/security-considerations/ class=section-item-link>Security considerations</a></li><li class=section-item><a href=/getting-started/troubleshooting/ class=section-item-link>Troubleshooting</a></li><li class=section-item><a href=/getting-started/disaster-recovery/ class=section-item-link>Disaster recovery</a></li><li class=page-item><a href=/getting-started/configuration/ class="page-item-link active">Other configuration</a></li></ul></li><li class=section-item><a href=/usage/ class=section-item-link>Usage</a></li><li class=section-item><a href=/security/ class=section-item-link>Security</a></li><li class=section-item><a href=/design/ class=section-item-link>Design</a></li><li class=section-item><a href=/screenshots/ class=section-item-link>Screenshots</a></li></ul></div><div class="col pl-5 pr-5 pt-4 content-block"><h1 class=mb-4>Other configuration</h1><h2 id=configyaml>Config.yaml</h2><p>While <em>Estafette</em>&lsquo;s goal is to keep as much control as possible with each individual application build pipeline through the <code>.estafette.yaml</code> manifest, unavoidably there's some configuration that needs to be done centrally. This configuration is stored in the <code>config.yaml</code> file. Below is a description of the various configuration sections.</p><h2 id=integrations>Integrations</h2><p>For integrations with 3rd party services the <code>integrations</code> section provides a place for configuration for each individual service.</p><h3 id=integrations--github>Integrations > Github</h3><p>See <a href=/getting-started/github-integration/>Github integration</a>.</p><p>Through <code>config.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>integrations:
+  github:
+    enable: <span style=color:#00f>true</span>
+</code></pre></div><p>Or via Helm <code>values.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>api:
+  deployment:
+    extraEnv:
+      - name: ESCI_INTEGRATIONS_GITHUB_ENABLE
+        value: <span style=color:#5a2>&#39;true&#39;</span>
+</code></pre></div><h3 id=integrations--bitbucket>Integrations > Bitbucket</h3><p>See <a href=/getting-started/bitbucket-integration/>Bitbucket integration</a>.</p><p>Through <code>config.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>integrations:
+  bitbucket:
+    enable: <span style=color:#00f>true</span>
+</code></pre></div><p>Or via Helm <code>values.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>api:
+  deployment:
+    extraEnv:
+      - name: ESCI_INTEGRATIONS_BITBUCKET_ENABLE
+        value: <span style=color:#5a2>&#39;true&#39;</span>
+</code></pre></div><h3 id=integrations--slack>Integrations > Slack</h3><p>The Slack integration allows a Slash command to be configured in order to provide functionalities like encrypting a secret or triggering a release directly from Slack. For the Slash command to integrate with <em>Estafette</em> the following configuration section is needed.</p><p>Through <code>config.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>integrations:
   slack:
     enable: <span style=color:#00f>true</span>
-    clientID: <span style=color:#5a2>&#39;&lt;client id&gt;&#39;</span>
-    clientSecret: estafette.secret(<span style=color:#888;font-style:italic>***)</span>
-    appVerificationToken: estafette.secret(<span style=color:#888;font-style:italic>***)</span>
-    appOAuthAccessToken: estafette.secret(<span style=color:#888;font-style:italic>***)</span>
-</code></pre></div><h4 id=pubsub>Pub/Sub</h4><p>In order for the Estafette CI api to create subscriptions to topics used in <em>pubsub</em> triggers and validate incoming events the following config section needs to be added:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>integrations:
-  ...
+    clientID: <span style=color:#5a2>&#39;&lt;slack client id&gt;&#39;</span>
+    clientSecret: <span style=color:#5a2>&#39;&lt;slack client secret&gt;&#39;</span>
+    appVerificationToken: <span style=color:#5a2>&#39;&lt;slack app verification token&gt;&#39;</span>
+    appOAuthAccessToken: <span style=color:#5a2>&#39;&lt;slack app oauth access token&gt;&#39;</span>
+</code></pre></div><p>Or via Helm <code>values.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>api:
+  deployment:
+    extraEnv:
+      - name: ESCI_INTEGRATIONS_SLACK_ENABLE
+        value: <span style=color:#5a2>&#39;true&#39;</span>
+      - name: ESCI_INTEGRATIONS_SLACK_CLIENTID
+        value: <span style=color:#5a2>&#39;&lt;slack client id&gt;&#39;</span>
+      - name: ESCI_INTEGRATIONS_SLACK_CLIENTSECRET
+        value: <span style=color:#5a2>&#39;&lt;slack client secret&gt;&#39;</span>
+      - name: ESCI_INTEGRATIONS_SLACK_APPVERIFICATIONTOKEN
+        value: <span style=color:#5a2>&#39;&lt;slack app verification token&gt;&#39;</span>
+      - name: ESCI_INTEGRATIONS_SLACK_APPOAUTHACCESSTOKEN
+        value: <span style=color:#5a2>&#39;&lt;slack app oauth access token&gt;&#39;</span>
+</code></pre></div><h3 id=integrations--pubsub>Integrations > Pub/sub</h3><p>In order for the Estafette CI api to create subscriptions to topics used in <em>pubsub</em> triggers and validate incoming events the following config section needs to be added.</p><p>Through <code>config.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>integrations:
   pubsub:
     enable: <span style=color:#00f>true</span>
-    defaultProject: <span style=color:#5a2>&#39;&lt;project id where estafette-ci-api runs&gt;&#39;</span>
-    endpoint: <span style=color:#5a2>&#39;https://&lt;public hostname for integrations&gt;/api/integrations/pubsub/events&#39;</span>
-    audience: somerandomaudiencekey
+    defaultProject: <span style=color:#5a2>&#39;&lt;project that runs estafette&gt;&#39;</span>
+    endpoint: <span style=color:#5a2>&#39;https://&lt;integrations host&gt;/api/integrations/pubsub/events&#39;</span>
+    audience: beautiful-butterfly
     serviceAccountEmail: <span style=color:#5a2>&#39;&lt;email address for service account used by estafette-ci-api&gt;&#39;</span>
-    subscriptionNameSuffix: ~estafette-ci-pubsub-trigger
+    subscriptionNameSuffix: <span style=color:#5a2>&#39;~estafette-ci-pubsub-trigger&#39;</span>
     subscriptionIdleExpirationDays: <span style=color:#3af>365</span>
+</code></pre></div><p>Or via Helm <code>values.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>api:
+  deployment:
+    extraEnv:
+      - name: ESCI_INTEGRATIONS_PUBSUB_ENABLE
+        value: <span style=color:#5a2>&#39;true&#39;</span>
+      - name: ESCI_INTEGRATIONS_PUBSUB_DEFAULTPROJECT
+        value: <span style=color:#5a2>&#39;&lt;project that runs estafette&gt;&#39;</span>
+      - name: ESCI_INTEGRATIONS_PUBSUB_ENDPOINT
+        value: <span style=color:#5a2>&#39;https://&lt;integrations host&gt;/api/integrations/pubsub/events&#39;</span>
+      - name: ESCI_INTEGRATIONS_PUBSUB_AUDIENCE
+        value: <span style=color:#5a2>&#39;beautiful-butterfly&#39;</span>
+      - name: ESCI_INTEGRATIONS_PUBSUB_SERVICEACCOUNTEMAIL
+        value: <span style=color:#5a2>&#39;&lt;email address for service account used by estafette-ci-api&gt;&#39;</span>
+      - name: ESCI_INTEGRATIONS_PUBSUB_SUBSCRIPTIONNAMESUFFIX
+        value: <span style=color:#5a2>&#39;~estafette-ci-pubsub-trigger&#39;</span>
+      - name: ESCI_INTEGRATIONS_PUBSUB_SUBSCRIPTIONIDLEEXPIRATIONDAYS
+        value: <span style=color:#5a2>&#39;365&#39;</span>
 </code></pre></div><p>For all projects used in <em>pubsub</em> triggers the <em>estafette-ci-api</em> service account needs the following roles:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>- pubsub.subscriber
 - pubsub.editor
-</code></pre></div><h3 id=api-server>API Server</h3><p>In order to set correct links for build status integration and provide correct communication between the builder jobs and the api there's some minimal configuration for the API itself:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>apiServer:
+</code></pre></div><h3 id=integrations--prometheus>Integrations > Prometheus</h3><p>Through <code>config.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>integrations:
+  prometheus:
+    enable: <span style=color:#00f>true</span>
+    serverURL: http://estafette-ci-metrics-server
+    scrapeIntervalSeconds: <span style=color:#3af>5</span>
+</code></pre></div><p>Or via Helm <code>values.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>api:
+  deployment:
+    extraEnv:
+      - name: ESCI_INTEGRATIONS_PROMETHEUS_ENABLE
+        value: <span style=color:#5a2>&#39;true&#39;</span>
+      - name: ESCI_INTEGRATIONS_PROMETHEUS_SERVERURL
+        value: <span style=color:#5a2>&#39;http://estafette-ci-metrics-server&#39;</span>
+      - name: ESCI_INTEGRATIONS_PROMETHEUS_SCRAPEINTERVALSECONDS
+        value: <span style=color:#5a2>&#39;5&#39;</span>
+</code></pre></div><h3 id=integrations--bigquery>Integrations > BigQuery</h3><p>Through <code>config.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>integrations:
+  bigquery:
+    enable: <span style=color:#00f>true</span>
+    projectID: <span style=color:#5a2>&#39;&lt;google cloud project id with dataset&gt;&#39;</span>
+    dataset: estafette_ci
+</code></pre></div><p>Or via Helm <code>values.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>api:
+  deployment:
+    extraEnv:
+      - name: ESCI_INTEGRATIONS_BIGQUERY_ENABLE
+        value: <span style=color:#5a2>&#39;true&#39;</span>
+      - name: ESCI_INTEGRATIONS_BIGQUERY_PROJECTID
+        value: <span style=color:#5a2>&#39;&lt;google cloud project id with dataset&gt;&#39;</span>
+      - name: ESCI_INTEGRATIONS_BIGQUERY_DATASET
+        value: <span style=color:#5a2>&#39;estafette_ci&#39;</span>
+</code></pre></div><h3 id=integrations--cloudstorage>Integrations > CloudStorage</h3><p>Through <code>config.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>integrations:
+  gcs:
+    enable: <span style=color:#00f>true</span>
+    projectID: <span style=color:#5a2>&#39;&lt;google cloud project id with gcs bucket&gt;&#39;</span>
+    bucket: <span style=color:#5a2>&#39;&lt;google cloud bucket name for logs storage&gt;&#39;</span>
+    logsDir: logs
+</code></pre></div><p>Or via Helm <code>values.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>api:
+  deployment:
+    extraEnv:
+      - name: ESCI_INTEGRATIONS_CLOUDSTORAGE_ENABLE
+        value: <span style=color:#5a2>&#39;true&#39;</span>
+      - name: ESCI_INTEGRATIONS_CLOUDSTORAGE_PROJECTID
+        value: <span style=color:#5a2>&#39;&lt;google cloud project id with gcs bucket&gt;&#39;</span>
+      - name: ESCI_INTEGRATIONS_CLOUDSTORAGE_BUCKET
+        value: <span style=color:#5a2>&#39;&lt;google cloud bucket name for logs storage&gt;&#39;</span>
+      - name: ESCI_INTEGRATIONS_CLOUDSTORAGE_LOGSDIRECTORY
+        value: <span style=color:#5a2>&#39;logs&#39;</span>
+</code></pre></div><h3 id=integrations--cloudsource>Integrations > CloudSource</h3><p>Through <code>config.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>integrations:
+  cloudsource:
+    enable: <span style=color:#00f>true</span>
+</code></pre></div><p>Or via Helm <code>values.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>api:
+  deployment:
+    extraEnv:
+      - name: ESCI_INTEGRATIONS_CLOUDSOURCE_ENABLE
+        value: <span style=color:#5a2>&#39;true&#39;</span>
+</code></pre></div><h2 id=api-server>API Server</h2><h3 id=urls>Urls</h3><p>In order to set correct links for build status integration and provide correct communication between the builder jobs and the api there's some minimal configuration for the API itself:</p><p>Through <code>config.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>apiServer:
   baseURL: <span style=color:#5a2>&#39;https://&lt;(private) host for the web gui&gt;&#39;</span>
   integrationsURL: <span style=color:#5a2>&#39;https://&lt;public host to receive webhooks&gt;&#39;</span>
   serviceURL: <span style=color:#5a2>&#39;http://estafette-ci-api.&lt;namespace&gt;.svc.cluster.local/&#39;</span>
-</code></pre></div><p>With the helm chart this config is set from the following Helm values:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#888;font-style:italic># (private) host at which to access the web interface and api</span>
-baseHost: estafette.mydomain.com
+</code></pre></div><p>Or via Helm <code>values.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>api:
+  <span style=color:#888;font-style:italic># (private) host at which to access the web interface and api</span>
+  baseHost: estafette.mydomain.com
 
-<span style=color:#888;font-style:italic># host to receive webhooks from 3rd party integrations like github, bitbucket</span>
-integrationsHost: estafette-integrations.mydomain.com
-</code></pre></div><p>You'll only need to set it when passing a custom config file.</p><h3 id=authentication>Authentication</h3><p>Currently the only supported user authentication is by using Google's Identity Aware Proxy (IAP); all authenticated users are allowed to use all functions on all repositories until role-based access (RBAC) is implemented. <em>Estafette</em> can operate without IAP, but any manual actions will have to be triggered via Slack integration for now.</p><p>The API key is used to secure communication from the builder jobs to the API.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>auth:
-  iap:
-    enable: <span style=color:#00f>true</span>
-    audience: <span style=color:#5a2>&#39;&lt;identity aware proxy&gt;&#39;</span>
-  apiKey: estafette.secret(<span style=color:#888;font-style:italic>***)</span>
-</code></pre></div><h3 id=database>Database</h3><p><em>Estafette</em> supports Postgresql; this allows it to use CockroachDB as it's database. Below is the required configuration to connect to the database.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>database:
+  <span style=color:#888;font-style:italic># host to receive webhooks from 3rd party integrations like github, bitbucket</span>
+  integrationsHost: estafette-integrations.mydomain.com
+</code></pre></div><p>These values are automatically used in the default <code>config.yaml</code> used in the <code>estafette-ci</code> Helm chart.</p><h3 id=log-readingwriting>Log reading/writing</h3><p>See <a href=/getting-started/production-high-availability/#store-logs-in-cloud-storage>full instructions</a>.</p><p>Through <code>config.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>apiServer:
+  logwriters:
+  - cloudstorage
+  logreader: cloudstorage
+</code></pre></div><p>Or via Helm <code>values.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>api:
+  deployment:
+    extraEnv:
+      - name: ESCI_APISERVER_LOGWRITERS
+        value: cloudstorage
+      - name: ESCI_APISERVER_LOGREADER
+        value: cloudstorage
+</code></pre></div><h3 id=injecting-stages>Injecting stages</h3><p>Estafette allows you to globally inject stages into all pipelines. Both <em>before</em> or <em>after</em> all the stages defined in the <code>.estafette.yaml</code> manifest have been executed.</p><p>Through <code>config.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>apiServer:
+  injectStagesPerOperatingSystem:
+    linux:
+      build:
+        before:
+        - name: envvars
+          image: extensions/envvars:stable
+        after: []
+      release:
+        before:
+        - name: envvars
+          image: extensions/envvars:stable
+        after: []
+      bot:
+        before:
+        - name: envvars
+          image: extensions/envvars:stable
+        after: []
+</code></pre></div><h3 id=docker-config-for-pipeline-jobs>Docker config for pipeline jobs</h3><p>To specify some details on how the <code>estafette-ci-builder</code> runs the Docker daemon and configures one another.</p><p>Through <code>config.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>apiServer:
+  dockerConfigPerOperatingSystem:
+    linux:
+      runType: dind
+      mtu: <span style=color:#3af>1460</span>
+      bip: <span style=color:#3af>192.168</span><span style=color:#3af>.1</span><span style=color:#3af>.1</span>/<span style=color:#3af>24</span>
+      networks:
+      - name: estafette
+        driver: default
+        subnet: <span style=color:#3af>192.168</span><span style=color:#3af>.2</span><span style=color:#3af>.1</span>/<span style=color:#3af>24</span>
+        gateway: <span style=color:#3af>192.168</span><span style=color:#3af>.2</span><span style=color:#3af>.1</span>
+        durable: <span style=color:#00f>false</span>
+      registryMirror: https://mirror.gcr.io
+</code></pre></div><h2 id=authentication>Authentication</h2><h3 id=securing-the-api-through-json-web-tokens-jwt>Securing the API through JSON Web Tokens (JWT)</h3><p>The communication between the different <em>Estafette CI</em> components is secured using JSON Web Tokens. This is configured out of the box in the <code>estafette-ci</code> Helm chart, but for completeness it has the following config properties.</p><p>Through <code>config.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>auth:
+  jwt:
+    domain: &lt;private hostname for estafette&gt;
+</code></pre></div><p>Or via Helm <code>values.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>api:
+  deployment:
+    extraEnv:
+      - name: ESCI_AUTH_JWT_DOMAIN
+        value: <span style=color:#5a2>&#39;&lt;private hostname for estafette&gt;&#39;</span>
+</code></pre></div><h3 id=administrators>Administrators</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>auth:
+  administrators:
+  - &lt;email admin <span style=color:#3af>1</span><span style=color:#5a2>&gt;
+</span><span style=color:#5a2> </span><span style=color:#5a2> </span><span style=color:#5a2>- &lt;email admin 2&gt;</span>
+</code></pre></div><p>Or via Helm <code>values.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>api:
+  deployment:
+    extraEnv:
+      - name: ESCI_AUTH_ADMINISTRATORS
+        value: <span style=color:#5a2>&#39;&lt;email admin 1&gt;,&lt;email admin 2&gt;&#39;</span>
+</code></pre></div><h3 id=google-login>Google login</h3><p>See <a href=/getting-started/google-login/>Google login</a>.</p><h3 id=github-login>Github login</h3><p>See <a href=/getting-started/github-login/>Github login</a>.</p><h3 id=database>Database</h3><p><em>Estafette</em> supports Postgresql; this allows it to use CockroachDB as it's database. Below is the required configuration to connect to the database.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>database:
   databaseName: defaultdb
   host: estafette-ci-db-public
   insecure: <span style=color:#00f>false</span>
@@ -99,4 +252,4 @@ integrationsHost: estafette-integrations.mydomain.com
   - slack-webhook
 - path: estafette/estafette-ci-builder
   runPrivileged: <span style=color:#00f>true</span>
-</code></pre></div><p>Notes:</p><ul><li>The <code>bitbucket-api-token</code> or <code>github-api-token</code> credential types are set on the fly when a build/release job is started for either a Bitbucket or Github repository. This allows a repository to be cloned without needing to set up deploy keys or other forms of ssh authentication.</li></ul></div><div class="col d-none d-xl-flex border-left toc sticky-top"><ul><li class=section-item><a class="section-item-link ancestor">Table of contents</a><ul><li class=page-item><a href=/getting-started/configuration/#configyaml title=Config.yaml class=page-item-link>Config.yaml</a><ul><li class=page-item><a href=/getting-started/configuration/#integrations title=Integrations class=page-item-link>Integrations</a><ul><li class=page-item><a href=/getting-started/configuration/#github title=Github class=page-item-link>Github</a><li class=page-item><a href=/getting-started/configuration/#bitbucket title=Bitbucket class=page-item-link>Bitbucket</a><li class=page-item><a href=/getting-started/configuration/#slack title=Slack class=page-item-link>Slack</a><li class=page-item><a href=/getting-started/configuration/#pubsub title=Pub/Sub class=page-item-link>Pub/Sub</a></ul><li class=page-item><a href=/getting-started/configuration/#api-server title="API Server" class=page-item-link>API Server</a><li class=page-item><a href=/getting-started/configuration/#authentication title=Authentication class=page-item-link>Authentication</a><li class=page-item><a href=/getting-started/configuration/#database title=Database class=page-item-link>Database</a><li class=page-item><a href=/getting-started/configuration/#credentials title=Credentials class=page-item-link>Credentials</a><li class=page-item><a href=/getting-started/configuration/#trusted-images title="Trusted images" class=page-item-link>Trusted images</a></ul></li></ul></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav><script src=https://code.jquery.com/jquery-3.3.1.slim.min.js integrity=sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo crossorigin=anonymous></script><script src=https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js integrity=sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM crossorigin=anonymous></script></body></html>
+</code></pre></div><p>Notes:</p><ul><li>The <code>bitbucket-api-token</code> or <code>github-api-token</code> credential types are set on the fly when a build/release job is started for either a Bitbucket or Github repository. This allows a repository to be cloned without needing to set up deploy keys or other forms of ssh authentication.</li></ul></div><div class="col d-none d-xl-flex border-left toc sticky-top"><ul><li class=section-item><a class="section-item-link ancestor">Table of contents</a><ul><li class=page-item><a href=/getting-started/configuration/#configyaml title=Config.yaml class=page-item-link>Config.yaml</a><li class=page-item><a href=/getting-started/configuration/#integrations title=Integrations class=page-item-link>Integrations</a><ul><li class=page-item><a href=/getting-started/configuration/#integrations--github title="Integrations > Github" class=page-item-link>Integrations > Github</a><li class=page-item><a href=/getting-started/configuration/#integrations--bitbucket title="Integrations > Bitbucket" class=page-item-link>Integrations > Bitbucket</a><li class=page-item><a href=/getting-started/configuration/#integrations--slack title="Integrations > Slack" class=page-item-link>Integrations > Slack</a><li class=page-item><a href=/getting-started/configuration/#integrations--pubsub title="Integrations > Pub/sub" class=page-item-link>Integrations > Pub/sub</a><li class=page-item><a href=/getting-started/configuration/#integrations--prometheus title="Integrations > Prometheus" class=page-item-link>Integrations > Prometheus</a><li class=page-item><a href=/getting-started/configuration/#integrations--bigquery title="Integrations > BigQuery" class=page-item-link>Integrations > BigQuery</a><li class=page-item><a href=/getting-started/configuration/#integrations--cloudstorage title="Integrations > CloudStorage" class=page-item-link>Integrations > CloudStorage</a><li class=page-item><a href=/getting-started/configuration/#integrations--cloudsource title="Integrations > CloudSource" class=page-item-link>Integrations > CloudSource</a></ul><li class=page-item><a href=/getting-started/configuration/#api-server title="API Server" class=page-item-link>API Server</a><ul><li class=page-item><a href=/getting-started/configuration/#urls title=Urls class=page-item-link>Urls</a><li class=page-item><a href=/getting-started/configuration/#log-readingwriting title="Log reading/writing" class=page-item-link>Log reading/writing</a><li class=page-item><a href=/getting-started/configuration/#injecting-stages title="Injecting stages" class=page-item-link>Injecting stages</a><li class=page-item><a href=/getting-started/configuration/#docker-config-for-pipeline-jobs title="Docker config for pipeline jobs" class=page-item-link>Docker config for pipeline jobs</a></ul><li class=page-item><a href=/getting-started/configuration/#authentication title=Authentication class=page-item-link>Authentication</a><ul><li class=page-item><a href=/getting-started/configuration/#securing-the-api-through-json-web-tokens-jwt title="Securing the API through JSON Web Tokens (JWT)" class=page-item-link>Securing the API through JSON Web Tokens (JWT)</a><li class=page-item><a href=/getting-started/configuration/#administrators title=Administrators class=page-item-link>Administrators</a><li class=page-item><a href=/getting-started/configuration/#google-login title="Google login" class=page-item-link>Google login</a><li class=page-item><a href=/getting-started/configuration/#github-login title="Github login" class=page-item-link>Github login</a><li class=page-item><a href=/getting-started/configuration/#database title=Database class=page-item-link>Database</a><li class=page-item><a href=/getting-started/configuration/#credentials title=Credentials class=page-item-link>Credentials</a><li class=page-item><a href=/getting-started/configuration/#trusted-images title="Trusted images" class=page-item-link>Trusted images</a></ul></li></ul></div></div></div></div></div><nav class="footer nav justify-content-end bg-dark p-2"><a href=https://github.com/estafette/estafette-ci-central target=_blank class="nav-link text-light">Github</a></nav><script src=https://code.jquery.com/jquery-3.3.1.slim.min.js integrity=sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo crossorigin=anonymous></script><script src=https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js integrity=sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM crossorigin=anonymous></script></body></html>
