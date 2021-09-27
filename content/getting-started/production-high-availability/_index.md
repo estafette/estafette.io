@@ -202,9 +202,9 @@ api:
         value: cloudstorage
       - name: ESCI_APISERVER_LOGREADER
         value: cloudstorage
-      - name: ESCI_INTEGRATIONS_GCS_ENABLE
+      - name: ESCI_INTEGRATIONS_CLOUDSTORAGE_ENABLE
         value: 'true'
-      - name: ESCI_INTEGRATIONS_GCS_BUCKET
+      - name: ESCI_INTEGRATIONS_CLOUDSTORAGE_BUCKET
         value: '<bucket name>'
   extraSecrets:
     - key: iam
