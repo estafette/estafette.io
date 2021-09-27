@@ -398,7 +398,7 @@ See [Google login]({{< relref "google-login" >}}).
 
 See [Github login]({{< relref "github-login" >}}).
 
-### Database
+## Database
 
 _Estafette_ supports Postgresql; this allows it to use CockroachDB as it's database. Below is the required configuration to connect to the database.
 
@@ -455,7 +455,7 @@ api:
         value: '0'
 ```
 
-### Credentials
+## Credentials
 
 In order to centrally manage credentials used by various _Estafette_ extensions or your own custom extensions. The only required fields are `name` and `type`, other fields are fully up to the consumer of the credentials. This allows _Estafette_ to be easily extended with new types of credentials used by _trusted images_ (see section below).
 
@@ -499,7 +499,7 @@ Notes:
 
 * You can best see how much flexibility the credential type allows in the `kubernetes-engine` example where `defaults` for the `extensions/gke` image are provided. This allows you for example to override some of the extensions defaults for specific environments in case you want to deviate from those.
 
-### Trusted images
+## Trusted images
 
 In order to gain access to the centrally stored credentials and optionally gain additional elevated permissions _trusted images_ can be configured. For a trusted image the `path` provides the full container name except for it's tag. To automatically get access all credentials of one or multiple types each type of those credentials can be listed in the `injectedCredentialTypes` array.
 
