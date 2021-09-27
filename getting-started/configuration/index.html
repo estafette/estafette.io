@@ -178,7 +178,7 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
     extraEnv:
       - name: ESCI_AUTH_JWT_DOMAIN
         value: <span style=color:#5a2>&#39;&lt;private hostname for estafette&gt;&#39;</span>
-</code></pre></div><h3 id=administrators>Administrators</h3><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>auth:
+</code></pre></div><h3 id=administrators>Administrators</h3><p>To gain access to the <em>Admin</em> sections in the Estafette web ui and be allowed to perform any actions there you need to be set up as administrator. You can do so in the following manner.</p><p>Through <code>config.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>auth:
   administrators:
   - &lt;email admin <span style=color:#3af>1</span><span style=color:#5a2>&gt;
 </span><span style=color:#5a2> </span><span style=color:#5a2> </span><span style=color:#5a2>- &lt;email admin 2&gt;</span>
@@ -187,7 +187,7 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
     extraEnv:
       - name: ESCI_AUTH_ADMINISTRATORS
         value: <span style=color:#5a2>&#39;&lt;email admin 1&gt;,&lt;email admin 2&gt;&#39;</span>
-</code></pre></div><h3 id=google-login>Google login</h3><p>See <a href=/getting-started/google-login/>Google login</a>.</p><h3 id=github-login>Github login</h3><p>See <a href=/getting-started/github-login/>Github login</a>.</p><h3 id=database>Database</h3><p><em>Estafette</em> supports Postgresql; this allows it to use CockroachDB as it's database. Below is the required configuration to connect to the database.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>database:
+</code></pre></div><p>Once applied log out and log in again and you should be able to see the <em>Admin</em> section.</p><h3 id=google-login>Google login</h3><p>See <a href=/getting-started/google-login/>Google login</a>.</p><h3 id=github-login>Github login</h3><p>See <a href=/getting-started/github-login/>Github login</a>.</p><h3 id=database>Database</h3><p><em>Estafette</em> supports Postgresql; this allows it to use CockroachDB as it's database. Below is the required configuration to connect to the database.</p><p>Through <code>config.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>database:
   databaseName: defaultdb
   host: estafette-ci-db-public
   insecure: <span style=color:#00f>false</span>
@@ -198,6 +198,38 @@ gtag('js',new Date());gtag('config','UA-464018-9');</script><meta charset=utf-8>
   port: <span style=color:#3af>26257</span>
   user: root
   password: <span style=color:#5a2>&#39;&#39;</span>
+	maxOpenConnections: <span style=color:#3af>0</span>
+  maxIdleConnections: <span style=color:#3af>2</span>
+  connectionMaxLifetimeMinutes: <span style=color:#3af>0</span>
+</code></pre></div><p>Or via Helm <code>values.yaml</code>:</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>api:
+  deployment:
+    extraEnv:
+      - name: ESCI_DATABASE_DATABASENAME
+        value: defaultdb
+      - name: ESCI_DATABASE_HOST
+        value: estafette-ci-db-public
+      - name: ESCI_DATABASE_INSECURE
+        value: <span style=color:#5a2>&#39;false&#39;</span>
+      - name: ESCI_DATABASE_SSLMODE
+        value: verify-full
+      - name: ESCI_DATABASE_CERTIFICATEAUTHORITYPATH
+        value: /cockroach-certs/ca.crt
+      - name: ESCI_DATABASE_CERTIFICATEPATH
+        value: /cockroach-certs/tls.crt
+      - name: ESCI_DATABASE_CERTIFICATEKEYPATH
+        value: /cockroach-certs/tls.key
+      - name: ESCI_DATABASE_PORT
+        value: <span style=color:#5a2>&#39;26257&#39;</span>
+      - name: ESCI_DATABASE_USER
+        value: root
+      - name: ESCI_DATABASE_PASSWORD
+        value: <span style=color:#5a2>&#39;&#39;</span>
+      - name: ESCI_DATABASE_MAXOPENCONNS
+        value: <span style=color:#5a2>&#39;0&#39;</span>
+      - name: ESCI_DATABASE_MAXIDLECONNS
+        value: <span style=color:#5a2>&#39;2&#39;</span>
+      - name: ESCI_DATABASE_CONNMAXLIFETIMEMINUTES
+        value: <span style=color:#5a2>&#39;0&#39;</span>
 </code></pre></div><h3 id=credentials>Credentials</h3><p>In order to centrally manage credentials used by various <em>Estafette</em> extensions or your own custom extensions. The only required fields are <code>name</code> and <code>type</code>, other fields are fully up to the consumer of the credentials. This allows <em>Estafette</em> to be easily extended with new types of credentials used by <em>trusted images</em> (see section below).</p><p>Types supported by <em>Estafette</em>&lsquo;s various official extensions are <code>container-registry</code>, <code>kubernetes-engine</code> and <code>slack-webhook</code> amongst others.</p><div class=highlight><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>credentials:
 - name: <span style=color:#5a2>&#39;container-registry-estafette&#39;</span>
   type: <span style=color:#5a2>&#39;container-registry&#39;</span>
