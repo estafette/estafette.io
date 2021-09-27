@@ -54,7 +54,7 @@ For example in order to create a scheduled backup to Google Cloud Storage
 
 ```sql
 RESTORE
-  FROM 'gs://{bucket name}/backups/daily?AUTH=specified&CREDENTIALS={base64 encoded key}';
+  FROM 'gs://{bucket name}/db-backups?AUTH=specified&CREDENTIALS={base64 encoded key}';
 ```
 
 Once you're done best to disable the _db-client_ again by updating the values to

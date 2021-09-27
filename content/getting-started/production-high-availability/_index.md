@@ -257,8 +257,8 @@ For example in order to create a scheduled backup to Google Cloud Storage
 5. Execute the following query in the `estafette-ci-db-client`:
 
 ```sql
-CREATE SCHEDULE schedule_label
-  FOR BACKUP INTO 'gs://{bucket name}/backups/daily?AUTH=specified&CREDENTIALS={base64 encoded key}'
+CREATE SCHEDULE daily_backup
+  FOR BACKUP INTO 'gs://{bucket name}/db-backups?AUTH=specified&CREDENTIALS={base64 encoded key}'
     WITH revision_history
     RECURRING '@daily'
     WITH SCHEDULE OPTIONS first_run = 'now';

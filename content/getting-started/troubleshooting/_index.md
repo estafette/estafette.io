@@ -35,6 +35,10 @@ Best to keep memory request and limit the same for _guaranteed quality of servic
 
 For more _CockroachDB_ related troubleshooting tips check https://www.cockroachlabs.com/docs/stable/troubleshooting-overview.html.
 
+## Docker daemon failing to start or struggling to execute stages
+
+The `estafette-ci-builder` component running the build/release stages inside a Kubernetes job utilizing _Docker inside Docker_ can put quite a lot of strain on the underlying Kubernetes nodes. On Google Cloud the default 100GB pd-standard boot disks seem to fall short a bit for Estafette CI to run really well. Upgrading those to 200GB pd-ssd boot disks should resolve any issues in this department.
+
 ## Connectivity failure to external systems
 
 When running on Google Cloud or within a _software defined network (SDN)_ with a smaller than default _MTU_ of 1500 you can run into trouble connecting to external systems from your build/release stages, due to the way stages are executed using _Docker inside Docker_. _Estafette CI_ defaults the MTU to 1460 so it works for Google Cloud, but you might have an SDN that uses an even smaller MTU. In that case you have to update the `config.yaml` with the following Helm values:
