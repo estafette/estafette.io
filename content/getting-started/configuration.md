@@ -6,49 +6,128 @@ weight: 20
 
 ## Config.yaml
 
-While _Estafette_'s goal is to keep as much control as possible with the individual application in the `.estafette.yaml` manifest, unavoidably there's some configuration that needs to be done centrally. This configuration is stored in the `config.yaml` file. Below is a description of the various configuration sections.
+While _Estafette_'s goal is to keep as much control as possible with each individual application build pipeline through the `.estafette.yaml` manifest, unavoidably there's some configuration that needs to be done centrally. This configuration is stored in the `config.yaml` file. Below is a description of the various configuration sections.
 
-### Integrations
+## Integrations
 
 For integrations with 3rd party services the `integrations` section provides a place for configuration for each individual service.
 
-#### Github
+### Integrations > Github
 
 See [Github integration]({{< relref "github-integration" >}}).
 
-#### Bitbucket
+Through `config.yaml`:
+
+```yaml
+integrations:
+  github:
+    enable: true
+```
+
+Or via Helm `values.yaml`:
+
+```yaml
+api:
+  deployment:
+    extraEnv:
+      - name: ESCI_INTEGRATIONS_GITHUB_ENABLE
+        value: 'true'
+```
+
+### Integrations > Bitbucket
 
 See [Bitbucket integration]({{< relref "bitbucket-integration" >}}).
 
-#### Slack
+Through `config.yaml`:
 
-The Slack integration allows a Slash command to be configured in order to provide functionalities like encrypting a secret or triggering a release directly from Slack. For the Slash command to integrate with _Estafette_ the following configuration section is needed:
+```yaml
+integrations:
+  bitbucket:
+    enable: true
+```
+
+Or via Helm `values.yaml`:
+
+```yaml
+api:
+  deployment:
+    extraEnv:
+      - name: ESCI_INTEGRATIONS_BITBUCKET_ENABLE
+        value: 'true'
+```
+
+### Integrations > Slack
+
+The Slack integration allows a Slash command to be configured in order to provide functionalities like encrypting a secret or triggering a release directly from Slack. For the Slash command to integrate with _Estafette_ the following configuration section is needed.
+
+Through `config.yaml`:
 
 ```yaml
 integrations:
   slack:
     enable: true
-    clientID: '<client id>'
-    clientSecret: estafette.secret(***)
-    appVerificationToken: estafette.secret(***)
-    appOAuthAccessToken: estafette.secret(***)
+    clientID: '<slack client id>'
+    clientSecret: '<slack client secret>'
+    appVerificationToken: '<slack app verification token>'
+    appOAuthAccessToken: '<slack app oauth access token>'
 ```
 
-#### Pub/Sub
+Or via Helm `values.yaml`:
 
-In order for the Estafette CI api to create subscriptions to topics used in _pubsub_ triggers and validate incoming events the following config section needs to be added:
+```yaml
+api:
+  deployment:
+    extraEnv:
+      - name: ESCI_INTEGRATIONS_SLACK_ENABLE
+        value: 'true'
+      - name: ESCI_INTEGRATIONS_SLACK_CLIENTID
+        value: '<slack client id>'
+      - name: ESCI_INTEGRATIONS_SLACK_CLIENTSECRET
+        value: '<slack client secret>'
+      - name: ESCI_INTEGRATIONS_SLACK_APPVERIFICATIONTOKEN
+        value: '<slack app verification token>'
+      - name: ESCI_INTEGRATIONS_SLACK_APPOAUTHACCESSTOKEN
+        value: '<slack app oauth access token>'
+```
+
+### Integrations > Pub/sub
+
+In order for the Estafette CI api to create subscriptions to topics used in _pubsub_ triggers and validate incoming events the following config section needs to be added.
+
+Through `config.yaml`:
 
 ```yaml
 integrations:
-  ...
   pubsub:
     enable: true
-    defaultProject: '<project id where estafette-ci-api runs>'
-    endpoint: 'https://<public hostname for integrations>/api/integrations/pubsub/events'
-    audience: somerandomaudiencekey
+    defaultProject: '<project that runs estafette>'
+    endpoint: 'https://<integrations host>/api/integrations/pubsub/events'
+    audience: beautiful-butterfly
     serviceAccountEmail: '<email address for service account used by estafette-ci-api>'
-    subscriptionNameSuffix: ~estafette-ci-pubsub-trigger
+    subscriptionNameSuffix: '~estafette-ci-pubsub-trigger'
     subscriptionIdleExpirationDays: 365
+```
+
+Or via Helm `values.yaml`:
+
+```yaml
+api:
+  deployment:
+    extraEnv:
+      - name: ESCI_INTEGRATIONS_PUBSUB_ENABLE
+        value: 'true'
+      - name: ESCI_INTEGRATIONS_PUBSUB_DEFAULTPROJECT
+        value: '<project that runs estafette>'
+      - name: ESCI_INTEGRATIONS_PUBSUB_ENDPOINT
+        value: 'https://<integrations host>/api/integrations/pubsub/events'
+      - name: ESCI_INTEGRATIONS_PUBSUB_AUDIENCE
+        value: 'beautiful-butterfly'
+      - name: ESCI_INTEGRATIONS_PUBSUB_SERVICEACCOUNTEMAIL
+        value: '<email address for service account used by estafette-ci-api>'
+      - name: ESCI_INTEGRATIONS_PUBSUB_SUBSCRIPTIONNAMESUFFIX
+        value: '~estafette-ci-pubsub-trigger'
+      - name: ESCI_INTEGRATIONS_PUBSUB_SUBSCRIPTIONIDLEEXPIRATIONDAYS
+        value: '365'
 ```
 
 For all projects used in _pubsub_ triggers the _estafette-ci-api_ service account needs the following roles:
@@ -58,9 +137,115 @@ For all projects used in _pubsub_ triggers the _estafette-ci-api_ service accoun
 - pubsub.editor
 ```
 
-### API Server
+### Integrations > Prometheus
+
+Through `config.yaml`:
+
+```yaml
+integrations:
+  prometheus:
+    enable: true
+    serverURL: http://estafette-ci-metrics-server
+    scrapeIntervalSeconds: 5
+```
+
+Or via Helm `values.yaml`:
+
+```yaml
+api:
+  deployment:
+    extraEnv:
+      - name: ESCI_INTEGRATIONS_PROMETHEUS_ENABLE
+        value: 'true'
+      - name: ESCI_INTEGRATIONS_PROMETHEUS_SERVERURL
+        value: 'http://estafette-ci-metrics-server'
+      - name: ESCI_INTEGRATIONS_PROMETHEUS_SCRAPEINTERVALSECONDS
+        value: '5'
+```
+
+### Integrations > BigQuery
+
+Through `config.yaml`:
+
+```yaml
+integrations:
+  bigquery:
+    enable: true
+    projectID: '<google cloud project id with dataset>'
+    dataset: estafette_ci
+```
+
+Or via Helm `values.yaml`:
+
+```yaml
+api:
+  deployment:
+    extraEnv:
+      - name: ESCI_INTEGRATIONS_BIGQUERY_ENABLE
+        value: 'true'
+      - name: ESCI_INTEGRATIONS_BIGQUERY_PROJECTID
+        value: '<google cloud project id with dataset>'
+      - name: ESCI_INTEGRATIONS_BIGQUERY_DATASET
+        value: 'estafette_ci'
+```
+
+### Integrations > CloudStorage
+
+Through `config.yaml`:
+
+```yaml
+integrations:
+  gcs:
+    enable: true
+    projectID: '<google cloud project id with gcs bucket>'
+    bucket: '<google cloud bucket name for logs storage>'
+    logsDir: logs
+```
+
+Or via Helm `values.yaml`:
+
+```yaml
+api:
+  deployment:
+    extraEnv:
+      - name: ESCI_INTEGRATIONS_CLOUDSTORAGE_ENABLE
+        value: 'true'
+      - name: ESCI_INTEGRATIONS_CLOUDSTORAGE_PROJECTID
+        value: '<google cloud project id with gcs bucket>'
+      - name: ESCI_INTEGRATIONS_CLOUDSTORAGE_BUCKET
+        value: '<google cloud bucket name for logs storage>'
+      - name: ESCI_INTEGRATIONS_CLOUDSTORAGE_LOGSDIRECTORY
+        value: 'logs'
+```
+
+### Integrations > CloudSource
+
+Through `config.yaml`:
+
+```yaml
+integrations:
+  cloudsource:
+    enable: true
+```
+
+Or via Helm `values.yaml`:
+
+```yaml
+api:
+  deployment:
+    extraEnv:
+      - name: ESCI_INTEGRATIONS_CLOUDSOURCE_ENABLE
+        value: 'true'
+```
+
+
+## API Server
+
+### Urls
 
 In order to set correct links for build status integration and provide correct communication between the builder jobs and the api there's some minimal configuration for the API itself:
+
+Through `config.yaml`:
 
 ```yaml
 apiServer:
@@ -69,31 +254,144 @@ apiServer:
   serviceURL: 'http://estafette-ci-api.<namespace>.svc.cluster.local/'
 ```
 
-With the helm chart this config is set from the following Helm values:
+Or via Helm `values.yaml`:
 
 ```yaml
-# (private) host at which to access the web interface and api
-baseHost: estafette.mydomain.com
+api:
+  # (private) host at which to access the web interface and api
+  baseHost: estafette.mydomain.com
 
-# host to receive webhooks from 3rd party integrations like github, bitbucket
-integrationsHost: estafette-integrations.mydomain.com
+  # host to receive webhooks from 3rd party integrations like github, bitbucket
+  integrationsHost: estafette-integrations.mydomain.com
 ```
 
-You'll only need to set it when passing a custom config file.
+These values are automatically used in the default `config.yaml` used in the `estafette-ci` Helm chart.
 
-### Authentication
+### Log reading/writing
 
-Currently the only supported user authentication is by using Google's Identity Aware Proxy (IAP); all authenticated users are allowed to use all functions on all repositories until role-based access (RBAC) is implemented. _Estafette_ can operate without IAP, but any manual actions will have to be triggered via Slack integration for now.
+See [full instructions]({{< relref "production-high-availability#store-logs-in-cloud-storage" >}}).
 
-The API key is used to secure communication from the builder jobs to the API.
+Through `config.yaml`:
+
+```yaml
+apiServer:
+  logwriters:
+  - cloudstorage
+  logreader: cloudstorage
+```
+
+Or via Helm `values.yaml`:
+
+```yaml
+api:
+  deployment:
+    extraEnv:
+      - name: ESCI_APISERVER_LOGWRITERS
+        value: cloudstorage
+      - name: ESCI_APISERVER_LOGREADER
+        value: cloudstorage
+```
+
+### Injecting stages
+
+Estafette allows you to globally inject stages into all pipelines. Both _before_ or _after_ all the stages defined in the `.estafette.yaml` manifest have been executed.
+
+Through `config.yaml`:
+
+```yaml
+apiServer:
+  injectStagesPerOperatingSystem:
+    linux:
+      build:
+        before:
+        - name: envvars
+          image: extensions/envvars:stable
+        after: []
+      release:
+        before:
+        - name: envvars
+          image: extensions/envvars:stable
+        after: []
+      bot:
+        before:
+        - name: envvars
+          image: extensions/envvars:stable
+        after: []
+```
+
+### Docker config for pipeline jobs
+
+To specify some details on how the `estafette-ci-builder` runs the Docker daemon and configures one another.
+
+Through `config.yaml`:
+
+```yaml
+apiServer:
+  dockerConfigPerOperatingSystem:
+    linux:
+      runType: dind
+      mtu: 1460
+      bip: 192.168.1.1/24
+      networks:
+      - name: estafette
+        driver: default
+        subnet: 192.168.2.1/24
+        gateway: 192.168.2.1
+        durable: false
+      registryMirror: https://mirror.gcr.io
+```
+
+## Authentication
+
+### Securing the API through JSON Web Tokens (JWT)
+
+The communication between the different _Estafette CI_ components is secured using JSON Web Tokens. This is configured out of the box in the `estafette-ci` Helm chart, but for completeness it has the following config properties.
+
+Through `config.yaml`:
 
 ```yaml
 auth:
-  iap:
-    enable: true
-    audience: '<identity aware proxy>'
-  apiKey: estafette.secret(***)
+  jwt:
+    domain: <private hostname for estafette>
 ```
+
+Or via Helm `values.yaml`:
+
+```yaml
+api:
+  deployment:
+    extraEnv:
+      - name: ESCI_AUTH_JWT_DOMAIN
+        value: '<private hostname for estafette>'
+```
+
+### Administrators
+
+```yaml
+auth:
+  administrators:
+  - <email admin 1>
+  - <email admin 2>
+```
+
+Or via Helm `values.yaml`:
+
+```yaml
+api:
+  deployment:
+    extraEnv:
+      - name: ESCI_AUTH_ADMINISTRATORS
+        value: '<email admin 1>,<email admin 2>'
+```
+
+
+### Google login
+
+See [Google login]({{< relref "google-login" >}}).
+
+### Github login
+
+See [Github login]({{< relref "github-login" >}}).
 
 ### Database
 

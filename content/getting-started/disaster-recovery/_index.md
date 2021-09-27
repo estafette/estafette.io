@@ -31,11 +31,15 @@ If you've following the instructions in the [Production / high availability]({{<
 
 After having followed the instructions above you hopefully still have all of your data, but in case you threw away all the _Persistent Volume Claims_ for the database you will have to restore it from your backup.
 
+Note: You can't restore a backup in a database that already has a schema, so this section is only useful for recovering from scratch. If your database somehow got corrupted you will have to shrink the statefulset to 0, delete the pvc's and restore it to it's original number of replicas before continuing with the following steps.
+
 In order to connect to the Cockroachdb database to perform queries, the Helm chart has a `db-client` subchart, that's disabled by default. You can enabled it by setting values:
 
 ```yaml
 db-client:
   enabled: true
+db-migrator:
+  enabled: false
 ```
 
 This will spin up a pod named `estafette-ci-db-client` which you can 'log in to' with the following command:
@@ -64,6 +68,8 @@ Once you're done best to disable the _db-client_ again by updating the values to
 ```yaml
 db-client:
   enabled: false
+db-migrator:
+  enabled: true
 ```
 
 and making sure to either pass `--set db-migrator.enable=true` to `helm upgrade` or skip overriding this value completely. This will let the `db-migrator` perform any schema changes that still need to happen, although with a daily backup the schema should be up to date.
