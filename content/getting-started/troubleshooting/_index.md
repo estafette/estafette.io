@@ -4,6 +4,21 @@ description: "Deal with some possible issues you can run into"
 weight: 11
 ---
 
+## Pipelines not triggered
+
+First check the status of the various source code management systems to see if they have an issue deliverying webhooks:
+
+* https://www.githubstatus.com/
+* https://bitbucket.status.atlassian.com/
+
+If this is the case they'll eventually start delivering those webhooks and pipelines will trigger at that time.
+
+When they have no issues it might be a transient error that isn't automatically retried. You can then try to push a new empty commit just to trigger the pipeline and see if it helps:
+
+```
+git commit --allow-empty -m "trigger build" && git push
+```
+
 ## CockroachDB underprovisioning
 
 At some point you might run into the database being underprovisioned. Make sure to set resources on all components and follow other [Production / high availability]({{< relref "../production-high-availability" >}}) steps.
