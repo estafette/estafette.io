@@ -6,14 +6,21 @@ weight: 11
 
 ## Pipelines not triggered
 
-First check the status of the various source code management systems to see if they have an issue deliverying webhooks:
+First check the status of the various source code management (SCM) systems to see if they have an issue deliverying webhooks:
 
 * https://www.githubstatus.com/
 * https://bitbucket.status.atlassian.com/
 
 If this is the case they'll eventually start delivering those webhooks and pipelines will trigger at that time.
 
-When they have no issues it might be a transient error that isn't automatically retried. You can then try to push a new empty commit just to trigger the pipeline and see if it helps:
+Next thing to check is delivery of webhooks within the respective SCM:
+
+* Github - https://github.com/organizations/<organization>/settings/apps/<estafette app name>/advanced
+* Bitbucket - https://bitbucket.org/<workspace>/workspace/settings/applications, select the estafette app, check delivery
+
+If you can see webhooks getting sent to Estafette but failing there it points you to where things might go wrong. Can be the ingress controller, SCM integration details in Estafette itself or something else. Check the logs for the `estafette-ci-api` component to see if there's any errors.
+
+When nothing can be found it might have been a transient error that isn't automatically retried. You can then try to push a new empty commit just to trigger the pipeline and see if it helps:
 
 ```
 git commit --allow-empty -m "trigger build" && git push
@@ -81,6 +88,10 @@ api:
 ```
 
 Most of this `config.yaml`'s content is the default values used in the Helm chart and needs to be repeated here in order to make sure your Estafette CI installation is configured correctly. See https://github.com/estafette/estafette-ci/blob/main/helm/estafette-ci/charts/estafette-ci-api/values.yaml#L270-L281 for the defaults.
+
+## Configuration errors
+
+When your configuration file is invalid the `estafette-ci-api` component will fail and restart constantly, leading to a failure to upgrade the Helm release. Check the logs of the `estafette-ci-api` pods (with `kubectl logs` since `stern` will be too slow to catch those errors) to see which configuration item is incorrect and fix it accordingly.
 
 ## Config too large for configmap
 
@@ -165,3 +176,5 @@ api:
 ```
 
 Do not that the `extraVolumes` and `extraVolumeMounts` for `client-certificate` aren't needed for this trick, but are default values already used in the Helm chart, but won't be included if you do not specify them again.
+
+Note: drawback of having this 'runtime' configuration update method is that validation errors won't be detected during a rollout, but can happen when you update the configuration file(s) in the synced git repository. Again in this case check the logs of the `estafette-ci-api` pods (with `kubectl logs` since `stern` will be too slow to catch those errors) to see which configuration item is incorrect and fix it accordingly.

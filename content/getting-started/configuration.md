@@ -1,5 +1,5 @@
 ---
-title: Other configuration
+title: Configuration reference
 description: Configure Estafette to tune it to your needs
 weight: 20
 ---

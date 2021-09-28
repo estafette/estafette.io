@@ -56,3 +56,7 @@ First go to the `Installed apps` page and check the `Enable development mode` ch
 ## Viewing integrations
 
 As an Estafette administrator go to the Admin > Integrations page to see all configured integrations.
+
+## Stored details
+
+The details for the integrations are stored in the `estafette-ci-api.bitbucket` configmap. They do not get backed up in any way, so after disaster recovery you will have to reconfigure integrations.

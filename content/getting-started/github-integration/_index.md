@@ -58,3 +58,7 @@ Registering the app will take you back to the Admin > Integrations page. Click _
 ## Viewing integrations
 
 As an Estafette administrator go to the Admin > Integrations page to see all configured integrations.
+
+## Stored details
+
+The details for the integrations are stored in the `estafette-ci-api.github` configmap. They do not get backed up in any way, so after disaster recovery you will have to reconfigure integrations.

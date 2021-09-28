@@ -44,3 +44,7 @@ During the first install a secret named `estafette-ci-api` is created containing
 You can see this mechanism at https://github.com/estafette/estafette-ci/blob/main/helm/estafette-ci/charts/estafette-ci-api/templates/secret.yaml. Through its use of the `lookup` function it's possible to leave those keys blank in your values file. However a `helm diff` doesn't always render this correctly, it sometimes misleads you into thinking that it will change those keys, while in reality it doesn't.
 
 See these [instructions]({{< relref "production-high-availability/#back-up-decryption-key" >}}) on making sure you securely backup your `secretDecryptionKey` for [disaster recovery]({{< relref "disaster-recovery" >}}) purposes.
+
+#### Difference between global and pipeline restricted secrets
+
+Both the _global_ and _pipeline restricted_ form of Estafette secrets use the same `secretDecryptionKey`. The restriction itself is embedded into the secret inside the `estafette.secret(...)` envelope.
