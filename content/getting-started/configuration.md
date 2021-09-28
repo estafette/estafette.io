@@ -581,3 +581,7 @@ You can add extra trusted images by specifying those using the `trustedImages` s
 Notes:
 
 * The `bitbucket-api-token` or `github-api-token` credential types are set on the fly when a build/release job is started for either a Bitbucket or Github repository. This allows a repository to be cloned without needing to set up deploy keys or other forms of ssh authentication.
+
+## Source code
+
+You can find the source code responsible for reading and validating configuration options at https://github.com/estafette/estafette-ci-api/blob/main/pkg/api/config.go
