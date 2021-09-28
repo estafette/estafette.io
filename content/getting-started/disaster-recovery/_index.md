@@ -6,7 +6,7 @@ weight: 12
 
 Estafette CI is a pretty resilient system, but of course an incident can happen. Like wiping out a complete namespace by accident. This will not only loose you all of the pipeline build version numbers and references to the logs, but also the master encryption/decryption key.
 
-# Recreate/repair Helm release
+## Recreate/repair Helm release
 
 If your Estafette CI release somehow managed to become corrupt or deleted you can reinstall it with the instructions below. Do ensure you have the original `values.yaml` file stored somewhere. And also have any of the secrets used during installation at hand.
 
