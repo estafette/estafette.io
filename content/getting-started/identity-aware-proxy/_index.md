@@ -76,7 +76,3 @@ db:
 You'll have to specify the correct annotation depending on which certificate provisioning method you are using.
 
 After applying the changes you'll have to go into the IAP console page and set permissions for backend service `estafette-ci/estafette-ci-db-public`.
-
-*Note*
-
-One outstanding issue with the used CockroachDB helm chart is that uses the wrong `pathType` in the ingress object; it sets it to `Prefix`, while the Google Cloud Ingress controller only understands `pathType: ImplementationSpecific`. This will be resolved by issue https://github.com/cockroachdb/helm-charts/issues/170, once the associated pull request is merged and published.
