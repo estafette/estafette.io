@@ -615,7 +615,7 @@ buildControl:
 - Blocked list are processed first. If any repository/ project is blocked they will not be built on estafette
 - If allowed list is provided repositories outside allowed projects/ repositories are not build
 
-### Only build repos under certain projects
+### Only build repositories under certain projects
 
 Below configuration will only build repositories that are under project1
 
@@ -627,7 +627,7 @@ buildControl:
         - project1
 ```
 
-### Only build certain repos
+### Only build certain repositories
 
 Below configuration will only build repo1 and repo2
 
@@ -640,7 +640,7 @@ buildControl:
         - repo2 
 ```
 
-### Block build for certain project
+### Block builds for certain projects
 
 Below configuration will block any build for repositories under project3
 
@@ -652,7 +652,7 @@ buildControl:
         - project3
 ```
 
-### Block build for certain repositories
+### Block builds for certain repositories
 
 Below configuration will block any build for repo3 and repo4
 
