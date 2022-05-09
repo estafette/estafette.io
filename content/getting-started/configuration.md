@@ -582,6 +582,89 @@ Notes:
 
 * The `bitbucket-api-token` or `github-api-token` credential types are set on the fly when a build/release job is started for either a Bitbucket or Github repository. This allows a repository to be cloned without needing to set up deploy keys or other forms of ssh authentication.
 
+## Build Control
+
+Build Control configuration can block repositories from building on estafette instance. Configuration provides options to allow/ block repositories, projects (only on Bitbucket) from building.
+
+Example configuration
+
+```yaml
+buildControl:
+  bitbucket:
+    allowed:
+      projects:
+        - project1 
+        - project2
+      repos:
+        - repo1
+    blocked:
+      projects:
+        - project3
+        - project4
+      repos:
+        - repo2
+  github:
+    allowed:
+      - repo3
+    blocked:
+      - repo4
+```
+
+**The processing of allow/ blocking happen in following ways**
+
+- Blocked list are processed first. If any repository/ project is blocked they will not be built on estafette
+- If allowed list is provided repositories outside allowed projects/ repositories are not build
+
+### Only build repositories under certain projects
+
+Below configuration will only build repositories that are under project1
+
+```yaml
+buildControl:
+  bitbucket:
+    allowed:
+      projects:
+        - project1
+```
+
+### Only build certain repositories
+
+Below configuration will only build repo1 and repo2
+
+```yaml
+buildControl:
+  bitbucket:
+    allowed:
+      repos:
+        - repo1
+        - repo2 
+```
+
+### Block builds for certain projects
+
+Below configuration will block any build for repositories under project3
+
+```yaml
+buildControl:
+  bitbucket:
+    blocked:
+      projects:
+        - project3
+```
+
+### Block builds for certain repositories
+
+Below configuration will block any build for repo3 and repo4
+
+```yaml
+buildControl:
+  bitbucket:
+    blocked:
+      repos:
+        - repo3
+        - repo4
+```
+
 ## Source code
 
 You can find the source code responsible for reading and validating configuration options at https://github.com/estafette/estafette-ci-api/blob/main/pkg/api/config.go
