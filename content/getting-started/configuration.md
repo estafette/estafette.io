@@ -608,12 +608,25 @@ buildControl:
       - repo3
     blocked:
       - repo4
+  release:
+    repos:
+      "*":
+        allowed:
+          - main
+          - master
+        blocked:
+          - bugfix
+      some-repo:
+        allowed:
+          - main
+    restrictedClusters:
+      - trvx-prd
 ```
 
 **The processing of allow/ blocking happen in following ways**
 
-- Blocked list are processed first. If any repository/ project is blocked they will not be built on estafette
-- If allowed list is provided repositories outside allowed projects/ repositories are not build
+- Blocked list are processed first. If any repository/ project/ branch is blocked they will not be built/ released on estafette
+- If allowed list is provided repositories/ branch outside allowed projects/ repositories/ branches are not build/ released
 
 ### Only build repositories under certain projects
 
@@ -663,6 +676,36 @@ buildControl:
       repos:
         - repo3
         - repo4
+```
+
+### Block Branches from repo to release on certain clusters
+
+Below configuration will block release to `trvx-prd` cluster from feature branches of `some-repo`
+
+```yaml
+buildControl:
+  release:
+      repos:
+        some-repo:
+          blocked:
+            - feature.*
+      restrictedClusters:
+        - trvx-prd
+```
+
+### Block Branches from all repos to release on certain clusters
+
+Below configuration will block any release to `trvx-prd` cluster from non-main branches for all reppositories
+
+```yaml
+buildControl:
+  release:
+      repos:
+        "*":
+          allowed:
+            - main
+      restrictedClusters:
+        - trvx-prd
 ```
 
 ## Source code
