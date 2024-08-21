@@ -50,11 +50,11 @@ helm upgrade --install estafette-ci estafette/estafette-ci -n estafette-ci --cre
 
 As an Estafette administrator go to the Admin > Integrations page and click _Register GitHub App for a personal account_. Ensure you rename the app to something unique - the name is global to GitHub - and meaningful to you.
 
-The _Webhook URL_ must be a public URL that GitHub can reach. For testing purposes, you can use [webhookrelay](https://docs.webhookrelay.com/) to forward requests to internal. Please refer [delivering-webhooks-to-private-systems](https://docs.github.com/en/webhooks/using-webhooks/delivering-webhooks-to-private-systems) for more solutions
+The _Webhook URL_ must be a public URL that GitHub can reach. For testing purposes, you can use [webhookrelay](https://docs.webhookrelay.com/) to forward requests to internal. Please refer [delivering-webhooks-to-private-systems](https://docs.github.com/en/webhooks/using-webhooks/delivering-webhooks-to-private-systems) for more solutions.
 
 ## Installing the App
 
-Registering the app will take you back to the Admin > Integrations page. Click _Install GitHub App to install the app and have events get sent to Estafette.
+Registering the app will take you back to the Admin > Integrations page. Click _Install GitHub App_ to install the app and have events get sent to Estafette.
 
 ## Viewing integrations
 
