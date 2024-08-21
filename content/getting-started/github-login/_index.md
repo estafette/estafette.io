@@ -1,16 +1,16 @@
 ---
-title: "Github login"
-description: "Setting up Estafette CI to login with a Github account"
+title: "GitHub login"
+description: "Setting up Estafette CI to login with a GitHub account"
 weight: 4
 ---
 
 In order to be able to take manual actions in Estafette you need to protect it with a login.
 
-NOTE: Github login and Github integration aren't the same thing. They use different types of Github apps behind the scenes. You can mix and match Github login with other types of integration and vice versa.
+NOTE: GitHub login and GitHub integration aren't the same thing. They use different types of GitHub apps behind the scenes. You can mix and match GitHub login with other types of integration and vice versa.
 
 ## Configure Estafette
 
-To log in to Estafette using Github login first create a new OAuth application in Github at `https://github.com/settings/applications/new` for a personal account or at `https://github.com/organizations/<organization>/settings/applications/new` for an organizational account. Fill in the form with the following values:
+To log in to Estafette using GitHub login first create a new OAuth application in GitHub at `https://github.com/settings/applications/new` for a personal account or at `https://github.com/organizations/<organization>/settings/applications/new` for an organizational account. Fill in the form with the following values:
 
 ![Register OAuth application](/getting-started/github-login/register-github-oauth-application.png)
 
@@ -20,7 +20,7 @@ After creating the application you'll be able to see the _Client ID_; you'll als
 api:
   ...
   config:
-    files: |
+    files:
       config.yaml: |
         apiServer:
           baseURL: 'https://<(private) host for the web gui>'
@@ -32,7 +32,7 @@ api:
             clientSecret: '<github oauth app client secret>'
             allowedIdentitiesRegex: '<regex to restrict domain for the email address of the user; for example .+@estafette\.io>'
           administrators:
-          - admin1@estafette.io
+          - admin1@estafette.io # Add your login email here to be the administrator
           - admin2@estafette.io
 ```
 
@@ -60,4 +60,4 @@ With this in place run
 helm upgrade --install estafette-ci estafette/estafette-ci -n estafette-ci --create-namespace --timeout 600s --values values.yaml
 ```
 
-Now when navigating to your base host you should be able to see a Github login button and use it to log in to your Estafette setup.
+Now when navigating to your base host you should be able to see a GitHub login button and use it to log in to your Estafette setup.
